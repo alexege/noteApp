@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+    <form action="/add_note" method="POST">
+        {% csrf_token %}
+        <input type="text" name="title">
+        <select name="category" id="">
+            <option value="all">All</option>
+            {% for category in list_of_categories %}
+                <option value="cat1"></option>
+            {% endfor %}
+        </select>
+        <input type="text" name="content">
+        <button>Add</button>
+    </form>
+
+    <p>Title Category Description</p>
+    {% for note in all_notes %}
+        <p>{{note.title}} - [{{note.category}}] - {{note.content}}</p>    
+    {% endfor %}
+
+</body>
+</html>
