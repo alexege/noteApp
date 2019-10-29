@@ -1,0 +1,13 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+#edit_form {
+    display: none;
+}
+
+.note {
+    border: 1px solid black;
+    padding: 10px;
+}

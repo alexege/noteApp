@@ -4,27 +4,65 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'note_app/css/style.css' %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="{% static 'note_app/js/script.js' %}"></script>
+    <link href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" rel="stylesheet">
     <title>Document</title>
 </head>
 <body>
+    <div class="wrapper">
 
-    <form action="/add_note" method="POST">
+    <form action="/note/add" method="POST">
         {% csrf_token %}
-        <input type="text" name="title">
-        <select name="category" id="">
+        <input type="text" name="title" placeholder="Title">
+        <select name="category">
             <option value="all">All</option>
             {% for category in list_of_categories %}
                 <option value="cat1"></option>
             {% endfor %}
         </select>
-        <input type="text" name="content">
+        <textarea name="content"></textarea>
         <button>Add</button>
     </form>
 
     <p>Title Category Description</p>
     {% for note in all_notes %}
-        <p>{{note.title}} - [{{note.category}}] - {{note.content}}</p>    
+        <p id="button" class="note"><a href="/note/move_up/{{note.id}}"><i class="fas fa-arrow-up"></i></a> <a href="/note/move_down/{{note.id}}"><i class="fas fa-arrow-down"></i></a> {{note.id}} {{note.title}} - [{{note.category}}] - {{note.content}} <a href="/note/edit/{{note.id}}">edit</a> <a href="/note/delete/{{note.id}}">delete</a><a onClick="edit_note()">ed</a></p>
+        <form action="/note/update" method="POST" id="edit_form">
+            {% csrf_token %}
+            <input type="text" name="title" placeholder="Title" value="{{note.title}}">
+            <select name="category" value="{{note.category}}">
+                <option value="all">All</option>
+                {% for category in list_of_categories %}
+                    <option value="cat1"></option>
+                {% endfor %}
+            </select>
+            <textarea name="content" value="{{note.content}}">{{note.content}}</textarea>
+            <button>Update</button>
+        </form>
     {% endfor %}
+
+
+    <form action="/note/update" method="POST">
+        {% csrf_token %}
+        <input type="text" name="title" placeholder="Title">
+        <select name="category">
+            <option value="all">All</option>
+            {% for category in list_of_categories %}
+                <option value="cat1"></option>
+            {% endfor %}
+        </select>
+        <textarea name="content"></textarea>
+        <!-- <input type="textarea" name="content" placeholder="Content"> -->
+        <button>Update</button>
+    </form>
+
+    <!-- <button>Press me</button> -->
+    <!-- <div id="log"></div> -->
+
+    </div>
 
 </body>
 </html>
