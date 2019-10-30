@@ -14,53 +14,110 @@
 <body>
     <div class="wrapper">
 
+
+
+            <!-- <button class="accordion">Section 1</button>
+            <div class="panel">
+              <p>Lorem ipsum...</p>
+            </div>
+            
+            <button class="accordion">Section 2</button>
+            <div class="panel">
+              <p>Lorem ipsum...</p>
+            </div> -->
+            
+            <!-- <button class="accordion">Section 3</button>
+            <div class="panel">
+              <p>Lorem ipsum...</p>
+            </div> -->
+
+
     <form action="/note/add" method="POST">
         {% csrf_token %}
-        <input type="text" name="title" placeholder="Title">
+        <input type="text" name="title" placeholder="Title" id="title_input">
         <select name="category">
             <option value="all">All</option>
             {% for category in list_of_categories %}
                 <option value="cat1"></option>
             {% endfor %}
         </select>
-        <textarea name="content"></textarea>
+        <textarea name="content" id="content_input"></textarea>
         <button>Add</button>
     </form>
 
     <p>Title Category Description</p>
     {% for note in all_notes %}
-        <p id="button" class="note"><a href="/note/move_up/{{note.id}}"><i class="fas fa-arrow-up"></i></a> <a href="/note/move_down/{{note.id}}"><i class="fas fa-arrow-down"></i></a> {{note.id}} {{note.title}} - [{{note.category}}] - {{note.content}} <a href="/note/edit/{{note.id}}">edit</a> <a href="/note/delete/{{note.id}}">delete</a><a onClick="edit_note()">ed</a></p>
+
+    <button class="accordion">
+
+        <p id="{{note.id}}" title="{{note.title}}" content="{{note.content}}" class="note">
+            <a href="/note/move_up/{{note.id}}">
+                <i class="fas fa-arrow-up"></i>
+            </a> 
+            <a href="/note/move_down/{{note.id}}">
+                <i class="fas fa-arrow-down"></i>
+            </a> 
+            {{note.id}} {{note.title}} - [{{note.category}}] - {{note.content}} 
+            <a href="/note/edit/{{note.id}}">
+                <i class="fas fa-edit"></i>
+            </a> 
+            <a href="/note/delete/{{note.id}}">
+                <i class="fas fa-trash"></i>
+            </a>
+            <a onClick="edit_note(this)">
+                <i class="fas fa-edit"></i>
+            </a>
+
+        </button>
+        <div class="panel">
+          
+            {% for note_comment in list_of_note_comments %}
+                {% if note_comment.parent == note %}
+                <ul>
+                    <li id="note_comment_{{note_comment.id}}">{{note_comment.content}} <a onClick="toggleEdit({{note_comment.id}})"><i class="fas fa-edit"></i></a></li>
+                    <form action="note/edit_note_comment/{{note_comment.id}}" method="POST">
+                        {% csrf_token %}
+                        <textarea name="content" style="width: 100%;">{{note_comment.content}}</textarea>
+                        <!-- <input type="text" name="content" value="{{note_comment.content}}"> -->
+                        <button>Update</button>
+                    </form>
+                </ul>
+                {% endif %}
+            {% endfor %}
+            
+            <form action="/note/new_note_comment/{{note.id}}" method="POST">
+                {% csrf_token %}
+                <input type="text" name="content">
+                <button>Add</button>
+            </form>
+        </div>
+
+        </p>
         <form action="/note/update" method="POST" id="edit_form">
             {% csrf_token %}
             <input type="text" name="title" placeholder="Title" value="{{note.title}}">
             <select name="category" value="{{note.category}}">
                 <option value="all">All</option>
                 {% for category in list_of_categories %}
-                    <option value="cat1"></option>
+                    <option value="{{category}}">{{category}}</option>
                 {% endfor %}
             </select>
             <textarea name="content" value="{{note.content}}">{{note.content}}</textarea>
             <button>Update</button>
         </form>
+
     {% endfor %}
 
-
-    <form action="/note/update" method="POST">
-        {% csrf_token %}
-        <input type="text" name="title" placeholder="Title">
+    <span id="csrf">
         <select name="category">
             <option value="all">All</option>
+            <option value="none">None</option>
             {% for category in list_of_categories %}
-                <option value="cat1"></option>
+                <option value="{{category}}">{{category}}</option>
             {% endfor %}
         </select>
-        <textarea name="content"></textarea>
-        <!-- <input type="textarea" name="content" placeholder="Content"> -->
-        <button>Update</button>
-    </form>
-
-    <!-- <button>Press me</button> -->
-    <!-- <div id="log"></div> -->
+        {% csrf_token %}
+    </span>
 
     </div>
 

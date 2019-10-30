@@ -4,7 +4,8 @@ from .models import *
 def index(request):
     context = {
         'all_notes' : Note.objects.all(),
-        'list_of_categories' : Category.objects.all()
+        'list_of_categories' : Category.objects.all(),
+        'list_of_note_comments': NoteComment.objects.all(),
     }
     return render(request, "note_app/index.html", context)
 
@@ -75,21 +76,6 @@ def move_down(request, note_id):
     current_note.id = temp
     prev_note.save()
     current_note.save()
-
-    # current_note = Note.objects.get(id=note_id)
-
-    # id_of_next_node = int(note_id) + 1
-    # last_node_exist = Note.objects.filter(id=id_of_next_node)
-    # print("LAST NODE EXIST: ", last_node_exist)
-
-    # #If last note exists
-    # if(last_node_exist):
-    #     last_note = Note.objects.get(id=id_of_next_node)
-    #     temp = last_note.id
-    #     last_note.id = current_note.id
-    #     current_note.id = temp
-    #     last_note.save()
-    #     current_note.save()
     
     return redirect('/')
 
@@ -98,9 +84,22 @@ def update_note(request, note_id):
     note_to_edit.title = request.POST['title']
     note_to_edit.category = request.POST['category']
     note_to_edit.content = request.POST['content']
+    note_to_edit.save()
     return redirect('/')
 
 def delete_note(request, note_id):
     note_to_delete = Note.objects.get(id=note_id)
     note_to_delete.delete()
     return redirect('/')
+
+def add_note_comment(request, note_id):
+    parent = Note.objects.get(id=note_id)
+    NoteComment.objects.create(content=request.POST['content'], parent=parent)
+    return redirect('/')
+
+def edit_note_comment(request, note_comment_id):
+    note_comment_to_edit = NoteComment.objects.get(id=note_comment_id)
+    note_comment_to_edit.content = request.POST['content']
+    note_comment_to_edit.save()
+    return redirect('/')
+

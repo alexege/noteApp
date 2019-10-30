@@ -15,7 +15,7 @@ class NoteComment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
-    comments = models.ForeignKey(Note, related_name="comments")
+    # comments = models.ForeignKey(Note, related_name="comments")
 
 class Category(models.Model):
     name = models.CharField(max_length=255)

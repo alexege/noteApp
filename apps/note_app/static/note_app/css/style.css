@@ -3,11 +3,78 @@
     padding: 0;
 }
 
+.wrapper {
+    width: 70vw;
+    margin: 0 auto;
+}
+
 #edit_form {
     display: none;
+}
+
+#title_input {
+    height: 19px;
+}
+
+#content_input {
+    height: 19px;
+    box-sizing: border-box;
 }
 
 .note {
     border: 1px solid black;
     padding: 10px;
+    position: relative;
 }
+
+.fa-edit {
+    position: absolute;
+    right: 20px;
+}
+
+.fa-trash {
+    position: absolute;
+    right: 5px;
+}
+
+
+
+
+/* Style the buttons that are used to open and close the accordion panel */
+.accordion {
+    background-color: #eee;
+    color: #444;
+    cursor: pointer;
+    /* padding: 18px; */
+    width: 100%;
+    text-align: left;
+    border: none;
+    outline: none;
+    transition: 0.4s;
+  }
+  
+  /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+  .active, .accordion:hover {
+    background-color: #ccc;
+  }
+  
+  /* Style the accordion panel. Note: hidden by default */
+  .panel {
+    /* padding: 0 18px; */
+    padding: 10px;  
+    background-color: white;
+    border: 1px solid black;
+    display: none;
+    overflow: hidden;
+  }
+
+  .panel ul form {
+      display: none;
+  }
+
+  .panel ul li {
+      position: relative;
+      white-space: pre-wrap;
+      border-top: 2px solid black;
+      margin-top: 10px;
+  }
