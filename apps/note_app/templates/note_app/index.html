@@ -12,40 +12,50 @@
     <title>Document</title>
 </head>
 <body>
-    <div class="wrapper">
 
-
-
-            <!-- <button class="accordion">Section 1</button>
-            <div class="panel">
-              <p>Lorem ipsum...</p>
-            </div>
-            
-            <button class="accordion">Section 2</button>
-            <div class="panel">
-              <p>Lorem ipsum...</p>
-            </div> -->
-            
-            <!-- <button class="accordion">Section 3</button>
-            <div class="panel">
-              <p>Lorem ipsum...</p>
-            </div> -->
-
-
-    <form action="/note/add" method="POST">
+    <!-- SideNavBar -->
+    <div id="mySidenav" class="sidenav">
+    <h1>Categories</h1>
+    {% for category in list_of_categories %}
+        <p class="accordion">{{category.name}}</p>
+        <div class="panel">
+            <ul>
+        {% for subcategory in list_of_subcategories %}
+            {% if subcategory.parent.id == category.id %}
+            <li><a href="category/view/{{subcategory.name}}">{{subcategory.name}}</a> <a href="/subcategory/delete/{{subcategory.id}}"><i class="fas fa-trash"></i></a></li>    
+            {% endif %}
+        {% endfor %}
+            </ul>
+        <form action="subcategory/add/{{category.id}}" method="POST">
+            {% csrf_token %}
+            <input type="text" name="name">
+            <button>Add</button>
+        </form>
+    </div>
+    {% endfor %}
+    
+    <form action="category/add" method="POST">
         {% csrf_token %}
-        <input type="text" name="title" placeholder="Title" id="title_input">
-        <select name="category">
-            <option value="all">All</option>
-            {% for category in list_of_categories %}
-                <option value="cat1"></option>
-            {% endfor %}
-        </select>
-        <textarea name="content" id="content_input"></textarea>
+        <input type="text" name="name">
         <button>Add</button>
     </form>
+    
+    <a href="master_list" id="master_list">Master List</a>
+    
+    </div>
+    
+    <h1 style="text-align: center;">All Notes</h1>
+<div id="main"> <!--Start of SideNav Main-->
 
-    <p>Title Category Description</p>
+    <!-- Toggle Sidebar -->
+    <a href="#" onclick="openNav()" class="toggle_a_tag">
+        <div id="toggle_button" class="toggle_eye">
+            <i class="fas fa-chevron-right" id="toggle_button"></i>
+        </div>
+    </a>
+
+    <div class="wrapper">
+
     {% for note in all_notes %}
 
     <button class="accordion">
@@ -57,7 +67,8 @@
             <a href="/note/move_down/{{note.id}}">
                 <i class="fas fa-arrow-down"></i>
             </a> 
-            {{note.id}} {{note.title}} - [{{note.category}}] - {{note.content}} 
+            {{note.id}} {{note.title}} - [<a href="/category/view/{{note.category}}">{{note.category}}</a>] - {{note.content}} 
+            {{note.updated_at}}
             <a href="/note/edit/{{note.id}}">
                 <i class="fas fa-edit"></i>
             </a> 
@@ -74,8 +85,8 @@
             {% for note_comment in list_of_note_comments %}
                 {% if note_comment.parent == note %}
                 <ul>
-                    <li id="note_comment_{{note_comment.id}}">{{note_comment.content}} <a onClick="toggleEdit({{note_comment.id}})"><i class="fas fa-edit"></i></a></li>
-                    <form action="note/edit_note_comment/{{note_comment.id}}" method="POST">
+                    <li id="note_comment_{{note_comment.id}}">{{note_comment.content}} <a onClick="toggleEdit({{note_comment.id}})"><i class="fas fa-edit"></i></a>            <a href="/note_comment/delete/{{note_comment.id}}"><i class="fas fa-trash"></i></a></li>
+                    <form action="note/edit_note_comment/{{note_comment.id}}" method="POST" style="display:none">
                         {% csrf_token %}
                         <textarea name="content" style="width: 100%;">{{note_comment.content}}</textarea>
                         <!-- <input type="text" name="content" value="{{note_comment.content}}"> -->
@@ -87,7 +98,8 @@
             
             <form action="/note/new_note_comment/{{note.id}}" method="POST">
                 {% csrf_token %}
-                <input type="text" name="content">
+                <!-- <input type="text" name="content"> -->
+                <textarea name="content" rows="2" cols="25"></textarea>
                 <button>Add</button>
             </form>
         </div>
@@ -99,7 +111,7 @@
             <select name="category" value="{{note.category}}">
                 <option value="all">All</option>
                 {% for category in list_of_categories %}
-                    <option value="{{category}}">{{category}}</option>
+                    <option value="{{category.name}}">{{category.name}}</option>
                 {% endfor %}
             </select>
             <textarea name="content" value="{{note.content}}">{{note.content}}</textarea>
@@ -108,8 +120,23 @@
 
     {% endfor %}
 
-    <span id="csrf">
+    <!-- Add new Note -->
+    <form action="/note/add" method="POST">
+        {% csrf_token %}
+        <input type="text" name="title" placeholder="Title" id="title_input">
         <select name="category">
+            <option value="all">All</option>
+            {% for subcategory in list_of_subcategories %}
+                <option value="{{subcategory.name}}">{{subcategory.name}}</option>
+            {% endfor %}
+        </select>
+        <textarea name="content" id="content_input"></textarea>
+        <button>Add</button>
+    </form>
+
+    <!-- CSRF / Categories -->
+    <span id="csrf">
+        <select name="category" style="display: none;">
             <option value="all">All</option>
             <option value="none">None</option>
             {% for category in list_of_categories %}
@@ -120,6 +147,8 @@
     </span>
 
     </div>
+
+</div> <!--End of SideNav-->
 
 </body>
 </html>

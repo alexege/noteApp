@@ -69,7 +69,6 @@ function toggleEdit(note_comment_id){
 }
 
 $(document).ready(function(){
-
     var acc = document.getElementsByClassName("accordion");
     console.log(acc.length);
     var i;
@@ -107,3 +106,32 @@ $(document).ready(function(){
     }
 
 });
+
+
+
+// // sidenav
+// function openNav() {
+//     document.getElementById("mySidenav").style.width = "25vw";
+//     document.getElementById("main").style.marginLeft = "25vw";
+//   }
+  
+//   function closeNav() {
+//     document.getElementById("mySidenav").style.width = "0";
+//     document.getElementById("main").style.marginLeft= "0";
+//   }
+
+//Side Nav Script
+var toggle = true;
+function openNav() {
+  if (toggle){
+    document.getElementById("toggle_button").innerHTML='<i class="fas fa-chevron-left" id="toggle_button"></i>';
+    document.getElementById("mySidenav").style.width = "250px";
+    document.getElementById("main").style.marginLeft = "250px";
+    toggle = false;
+  } else {
+    document.getElementById("toggle_button").innerHTML='<i class="fas fa-chevron-right" id="toggle_button"></i>';
+    document.getElementById("mySidenav").style.width = "0";
+    document.getElementById("main").style.marginLeft= "0";
+    toggle = true;
+  }
+}

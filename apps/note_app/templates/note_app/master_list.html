@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'note_app/css/style.css' %}">
+    <title>Master List</title>
+</head>
+<body>
+    <div class="master_wrapper">
+    <h1>Master List</h1>
+    <ul>
+        {% for note in all_notes %}
+            <li>
+                <a href="">
+                    {{note.title}}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+    </div>
+</body>
+</html>
