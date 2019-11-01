@@ -14,7 +14,7 @@ class NoteComment(models.Model):
     private = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    
+    isCode = models.BooleanField(default=False)
     # comments = models.ForeignKey(Note, related_name="comments")
 
 class Category(models.Model):

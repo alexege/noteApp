@@ -9,6 +9,10 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="{% static 'note_app/js/script.js' %}"></script>
     <link href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" rel="stylesheet">
+
+    <!-- Code Snippet Link -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.0/themes/prism.min.css"/>
+
     <title>Document</title>
 </head>
 <body>
@@ -68,7 +72,9 @@
                 <i class="fas fa-arrow-down"></i>
             </a> 
             {{note.id}} {{note.title}} - [<a href="/category/view/{{note.category}}">{{note.category}}</a>] - {{note.content}} 
-            {{note.updated_at}}
+            <span class="uploaded_at">
+                {{note.updated_at}}
+            </span>
             <a href="/note/edit/{{note.id}}">
                 <i class="fas fa-edit"></i>
             </a> 
@@ -85,7 +91,11 @@
             {% for note_comment in list_of_note_comments %}
                 {% if note_comment.parent == note %}
                 <ul>
+                    {% if note_comment.isCode == True %}
+                    <li id="note_comment_{{note_comment.id}}" class="code_format">{{note_comment.content}} <a onClick="toggleEdit({{note_comment.id}})"><i class="fas fa-edit"></i></a>            <a href="/note_comment/delete/{{note_comment.id}}"><i class="fas fa-trash"></i></a></li>
+                    {% else %}
                     <li id="note_comment_{{note_comment.id}}">{{note_comment.content}} <a onClick="toggleEdit({{note_comment.id}})"><i class="fas fa-edit"></i></a>            <a href="/note_comment/delete/{{note_comment.id}}"><i class="fas fa-trash"></i></a></li>
+                    {% endif %}
                     <form action="note/edit_note_comment/{{note_comment.id}}" method="POST" style="display:none">
                         {% csrf_token %}
                         <textarea name="content" style="width: 100%;">{{note_comment.content}}</textarea>
@@ -100,6 +110,13 @@
                 {% csrf_token %}
                 <!-- <input type="text" name="content"> -->
                 <textarea name="content" rows="2" cols="25"></textarea>
+                <!-- <pre><code class="language-css"></code> -->
+                <!-- <a onclick="codeSnippet()"><button type="button">Code</button></a> -->
+                <!-- <input type="checkbox" value="True" name="isCode">Iscode -->
+                <select name="isCode" id="">
+                    <option value="False">Text</option>
+                    <option value="True">Code</option>
+                </select>
                 <button>Add</button>
             </form>
         </div>
@@ -149,6 +166,9 @@
     </div>
 
 </div> <!--End of SideNav-->
+
+<!-- Code Snippet Script -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.0/prism.min.js"></script>
 
 </body>
 </html>

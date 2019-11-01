@@ -68,7 +68,52 @@ function toggleEdit(note_comment_id){
     }
 }
 
+function codeSnippet(){
+
+}
+
 $(document).ready(function(){
+
+    console.log(window.find("This is a test of "))
+
+    console.log("Wrapping");
+// element that will be wrapped
+var el = document.querySelectorAll('.code_format');
+console.log(el);
+
+var i;
+for (i = 0; i < el.length; i++) {
+
+// create wrapper container
+var wrapper = document.createElement('code');
+wrapper.setAttribute('class', "language-css");
+
+//   el[i].style.backgroundColor = "red";
+
+  // insert wrapper before el in the DOM tree
+  el[i].parentNode.insertBefore(wrapper, el[i]);
+  
+  // move el into wrapper
+  wrapper.appendChild(el[i]);
+
+}
+
+// var code_elements = document.querySelectorAll('.code_format');
+// var i = 0;
+// for (i = 0; i < el.length; i++){
+//     code_elements[i].parentNode.classList.add("language-css");
+// }
+
+
+
+
+
+
+
+
+
+
+
     var acc = document.getElementsByClassName("accordion");
     console.log(acc.length);
     var i;

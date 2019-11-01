@@ -4,7 +4,8 @@
 }
 
 body {
-    background-color: rgb(163, 162, 162);
+    /* background-color: rgb(163, 162, 162); */
+    background-color: #1e1e1e;
 }
 
 .wrapper {
@@ -51,8 +52,17 @@ body {
     right: 5px;
 }
 
+.uploaded_at {
+  position: absolute;
+  right: 50px;
+  font-size: 10px;
+}
 
-
+.code_format {
+  background-color:#1e1e1e;
+  color: lime;
+  text-shadow: none;
+}
 
 /* Style the buttons that are used to open and close the accordion panel */
 .accordion {

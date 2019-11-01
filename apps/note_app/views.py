@@ -94,8 +94,9 @@ def delete_note(request, note_id):
     return redirect('/')
 
 def add_note_comment(request, note_id):
+    print(request.POST['isCode'])
     parent = Note.objects.get(id=note_id)
-    NoteComment.objects.create(content=request.POST['content'], parent=parent)
+    NoteComment.objects.create(content=request.POST['content'], parent=parent, isCode=request.POST['isCode'])
     return redirect('/')
 
 def edit_note_comment(request, note_comment_id):
