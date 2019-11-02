@@ -5,7 +5,8 @@
 
 body {
     /* background-color: rgb(163, 162, 162); */
-    background-color: #1e1e1e;
+    /* background-color: #1e1e1e; */
+    background-color: #DEDEDE;
 }
 
 .wrapper {
@@ -36,10 +37,23 @@ body {
 }
 
 .note {
-    border: 1px solid black;
-    padding: 5px;
+    border-bottom: 0.25px solid black;
+    /* border: 1px solid black; */
+    padding: 10px;
+    padding-left: 20px;
     position: relative;
     background-color: white;
+}
+
+.arrow_container a {
+  display: block;
+  position: absolute;
+  text-decoration: none;
+  color: inherit;
+}
+
+.arrow_container a:hover {
+  color: red;
 }
 
 .fa-edit {
@@ -52,6 +66,11 @@ body {
     right: 5px;
 }
 
+.fa-copy {
+  position: absolute;
+  right: 45px;
+}
+
 .uploaded_at {
   position: absolute;
   right: 50px;
@@ -59,9 +78,10 @@ body {
 }
 
 .code_format {
-  background-color:#1e1e1e;
-  color: lime;
-  text-shadow: none;
+  /* background-color:#1e1e1e; */
+  /* color: lime; */
+  /* text-shadow: none; */
+  font-family: 'Courier New', Courier, monospace;
 }
 
 /* Style the buttons that are used to open and close the accordion panel */
@@ -74,12 +94,18 @@ body {
     text-align: left;
     border: none;
     outline: none;
-    transition: 0.4s;
+    transition: 0.7s;
+  }
+
+  .sidenav h5 {
+    padding: 5px;
+    font-size: 1rem;
   }
   
   /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
   .active, .accordion:hover {
-    /* background-color: #ccc; */
+    background-color: white;
+    color: black;
   }
   
   /* Style the accordion panel. Note: hidden by default */
@@ -90,6 +116,7 @@ body {
     /* border: 1px solid black; */
     display: none;
     overflow: hidden;
+    text-align: left;
   }
 
   .panel ul form {
@@ -100,16 +127,59 @@ body {
       position: relative;
       white-space: pre-wrap;
       /* border-top: 2px solid black; */
-      padding: 2px;
+      padding: 5px;
       margin-left: 45px;
+  }
+
+  .sidenav ul li:hover {
+    background-color: rgb(3, 68, 105);
   }
 
   .panel form {
       margin-left: 45px;
   }
 
+  #title_input {
+    height: 20px;
+    width: 25%;
+    vertical-align: top;
+  }
 
+  #category_input {
+    vertical-align: top;
+    height: 24px;
+    width: 15%;
+  }
 
+  #content_input {
+    height: 22px;
+    width: 50%;
+  }
+
+  #add_note_button {
+    vertical-align: top;
+    padding: 1px;
+    width: 6%;
+  }
+
+  /* On the note  */
+
+  .note_textarea {
+    width: 50%;
+    height: 24px;
+  }
+
+  .isCode {
+    height: 26px;
+    vertical-align: top;
+  }
+
+  #add_subnote_button {
+    vertical-align: top;
+    padding: 2px;
+    width: 6%;
+  }
+  
   /* SIDENAV */
   .sidenav {
     height: 100%;
@@ -123,14 +193,18 @@ body {
     transition: 0.5s;
     padding-top: 60px;
     color: white;
+    text-align: center;
+  }
+
+  .sidenav h5 {
+    padding-left: 25px;
   }
   
   .sidenav a {
-    margin-left: 10px;
+    /* margin-left: 10px; */
     /* padding: 8px 8px 8px 32px; */
     text-decoration: none;
     /* font-size: 25px; */
-    color: #818181;
     color: white;
     /* display: block; */
     transition: 0.3s;
@@ -146,6 +220,14 @@ body {
     right: 25px;
     font-size: 36px;
     margin-left: 50px;
+  }
+
+  .sidenav form {
+    margin-top: 20px;
+  }
+  
+  .sidenav div {
+    background-color: rgb(37, 37, 37);
   }
   
   #main {

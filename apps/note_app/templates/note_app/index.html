@@ -19,9 +19,9 @@
 
     <!-- SideNavBar -->
     <div id="mySidenav" class="sidenav">
-    <h1>Categories</h1>
+    <h1>NoteBooks</h1>
     {% for category in list_of_categories %}
-        <p class="accordion">{{category.name}}</p>
+        <h5 class="accordion">{{category.name}}</h5>
         <div class="panel">
             <ul>
         {% for subcategory in list_of_subcategories %}
@@ -65,13 +65,15 @@
     <button class="accordion">
 
         <p id="{{note.id}}" title="{{note.title}}" content="{{note.content}}" class="note">
-            <a href="/note/move_up/{{note.id}}">
-                <i class="fas fa-arrow-up"></i>
-            </a> 
-            <a href="/note/move_down/{{note.id}}">
-                <i class="fas fa-arrow-down"></i>
-            </a> 
-            {{note.id}} {{note.title}} - [<a href="/category/view/{{note.category}}">{{note.category}}</a>] - {{note.content}} 
+            <span class="arrow_container">
+                <a href="/note/move_up/{{note.id}}" style="top:2px; left:5px;">
+                    <i class="fas fa-arrow-up"></i>
+                </a> 
+                <a href="/note/move_down/{{note.id}}" style="bottom:2px; left: 5px;">
+                    <i class="fas fa-arrow-down"></i>
+                </a> 
+            </span>
+            {{note.title}} - [<a href="/category/view/{{note.category}}">{{note.category}}</a>] - {{note.content}} 
             <span class="uploaded_at">
                 {{note.updated_at}}
             </span>
@@ -92,13 +94,13 @@
                 {% if note_comment.parent == note %}
                 <ul>
                     {% if note_comment.isCode == True %}
-                    <li id="note_comment_{{note_comment.id}}" class="code_format">{{note_comment.content}} <a onClick="toggleEdit({{note_comment.id}})"><i class="fas fa-edit"></i></a>            <a href="/note_comment/delete/{{note_comment.id}}"><i class="fas fa-trash"></i></a></li>
+                    <li id="note_comment_{{note_comment.id}}" class="code_format"><span class="note_content">{{note_comment.content}}</span> <a onClick="copyToClipboard(this)"><i class="fas fa-copy" style="color: white;"></i></a>  <a onClick="toggleCodeEdit({{note_comment.id}})"><i class="fas fa-edit"></i></a>            <a href="/note_comment/delete/{{note_comment.id}}"><i class="fas fa-trash"></i></a></li>
                     {% else %}
-                    <li id="note_comment_{{note_comment.id}}">{{note_comment.content}} <a onClick="toggleEdit({{note_comment.id}})"><i class="fas fa-edit"></i></a>            <a href="/note_comment/delete/{{note_comment.id}}"><i class="fas fa-trash"></i></a></li>
+                    <li id="note_comment_{{note_comment.id}}"><span class="note_content">{{note_comment.content}}</span> <a onClick="toggleEdit({{note_comment.id}})"><i class="fas fa-edit"></i></a>            <a href="/note_comment/delete/{{note_comment.id}}"><i class="fas fa-trash"></i></a></li>
                     {% endif %}
                     <form action="note/edit_note_comment/{{note_comment.id}}" method="POST" style="display:none">
                         {% csrf_token %}
-                        <textarea name="content" style="width: 100%;">{{note_comment.content}}</textarea>
+                        <textarea name="content" style="width: 100%;" >{{note_comment.content}}</textarea>
                         <!-- <input type="text" name="content" value="{{note_comment.content}}"> -->
                         <button>Update</button>
                     </form>
@@ -109,15 +111,15 @@
             <form action="/note/new_note_comment/{{note.id}}" method="POST">
                 {% csrf_token %}
                 <!-- <input type="text" name="content"> -->
-                <textarea name="content" rows="2" cols="25"></textarea>
+                <textarea name="content" rows="2" cols="25" class="note_textarea"></textarea>
                 <!-- <pre><code class="language-css"></code> -->
                 <!-- <a onclick="codeSnippet()"><button type="button">Code</button></a> -->
                 <!-- <input type="checkbox" value="True" name="isCode">Iscode -->
-                <select name="isCode" id="">
+                <select name="isCode" class="isCode">
                     <option value="False">Text</option>
                     <option value="True">Code</option>
                 </select>
-                <button>Add</button>
+                <button id="add_subnote_button">Add</button>
             </form>
         </div>
 
@@ -138,17 +140,18 @@
     {% endfor %}
 
     <!-- Add new Note -->
+    <h4>Add a new note</h4>
     <form action="/note/add" method="POST">
         {% csrf_token %}
         <input type="text" name="title" placeholder="Title" id="title_input">
-        <select name="category">
+        <select name="category" id="category_input">
             <option value="all">All</option>
             {% for subcategory in list_of_subcategories %}
                 <option value="{{subcategory.name}}">{{subcategory.name}}</option>
             {% endfor %}
         </select>
         <textarea name="content" id="content_input"></textarea>
-        <button>Add</button>
+        <button id="add_note_button">Add</button>
     </form>
 
     <!-- CSRF / Categories -->
