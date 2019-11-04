@@ -112,7 +112,8 @@ def delete_note_comment(request, note_comment_id):
 
 def add_category(request):
     print("Creating a category")
-    Category.objects.create(name=request.POST['name'])
+    category = Category.objects.create(name=request.POST['name'])
+    Subcategory.objects.create(name=request.POST['name'], parent=category)
     return redirect('/')
 
 def add_subcategory(request, category_id):
@@ -125,11 +126,18 @@ def delete_subcategory(request, subcategory_id):
     subcategory_to_delete.delete()
     return redirect('/')
 
-def view_subcategory(request, subcategory_name):
-    print("Viewing page about ", subcategory_name)
+# View only a subcategory
+def view_subcategory(request, subcategory):
     context = {
-        'all_category_notes' : Note.objects.filter(category=subcategory_name),
-        'subcategory_name' : subcategory_name,
+        'all_category_notes' : Note.objects.filter(category=subcategory),
+        'subcategory_name' : subcategory,
+    }
+    return render(request, "note_app/view_subcategory.html", context)
+
+def view_category_subcategory(request, category, subcategory):
+    context = {
+        'all_category_notes' : Note.objects.filter(category=subcategory),
+        'subcategory_name' : subcategory,
     }
     return render(request, "note_app/view_subcategory.html", context)
     # return redirect('/')

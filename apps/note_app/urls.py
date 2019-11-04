@@ -14,6 +14,7 @@ urlpatterns = [
     url(r'^category/add$', views.add_category),
     url(r'^subcategory/add/(?P<category_id>\d+)$', views.add_subcategory),
     url(r'^subcategory/delete/(?P<subcategory_id>\d+)$', views.delete_subcategory),
-    url(r'^category/view/(?P<subcategory_name>[\w\s]+)$', views.view_subcategory),
+    url(r'^category/view/(?P<subcategory>[\w\s]+)$', views.view_subcategory),
+    url(r'^category/view/(?P<category>[\w\s]+)/(?P<subcategory>[\w\s]+)$', views.view_category_subcategory),
     url(r'^master_list', views.master_list),
 ]

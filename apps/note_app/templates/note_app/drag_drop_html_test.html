@@ -1,0 +1,76 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<style>
+.droptarget {
+  /* float: left;  */
+  width: 100px; 
+  height: 35px;
+  margin: 15px;
+  padding: 10px;
+  border: 1px solid #aaaaaa;
+}
+</style>
+</head>
+<body>
+
+<div class="droptarget" ondrop="drop(event)" ondragover="allowDrop(event)" id="container1">
+  <p ondragstart="dragStart(event, this)" draggable="true" id="targ_one">ONE</p>
+</div>
+
+<div class="droptarget" ondrop="drop(event, this)" ondragover="allowDrop(event)" id="container2">
+  <p ondragstart="dragStart(event, this)" draggable="true" id="targ_two">TWO</p>
+</div>
+
+<div class="droptarget" ondrop="drop(event, this)" ondragover="allowDrop(event)" id="container3">
+</div>
+
+<div class="droptarget" ondrop="drop(event, this)" ondragover="allowDrop(event)" id="container4">
+</div>
+
+<p id="demo"></p>
+
+<script>
+
+var starting_element = null;
+var ending_element = null;
+var contents = null;
+
+function dragStart(event, ele) {
+  starting_element = ele;
+  event.dataTransfer.setData("Text", event.target.id);
+  document.getElementById("demo").innerHTML = "Started to drag the p element";
+}
+
+function allowDrop(event) {
+ event.preventDefault();
+}
+
+function drop(event, ele) {
+    ending_element = event.target;
+    event.preventDefault();
+    
+    if(event.target.tagName == "DIV"){
+        if((event.target.innerHTML).length > 1){
+          contents = event.target.innerHTML;
+          event.target.innerHTML = "";
+          starting_element = contents;
+          console.log("Replacing contents");
+        }
+      
+        var data = event.dataTransfer.getData("Text");
+        event.target.appendChild(document.getElementById(data));
+        document.getElementById("demo").innerHTML = "The p element was dropped";
+
+    console.log("Start:", starting_element);
+    console.log("End:", ending_element);
+    console.log("Contents:", contents);
+
+    }
+}
+
+
+</script>
+
+</body>
+</html>
