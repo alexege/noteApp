@@ -17,6 +17,11 @@
 </head>
 <body>
 
+    {% for file in all_files %}
+        {{ file.description }}
+        <img src="{{file.document.url}}" alt="{{file.document.url}}">
+    {% endfor %}
+
     <!-- SideNavBar -->
     <div id="mySidenav" class="sidenav">
     <h1>NoteBooks</h1>
@@ -121,6 +126,13 @@
                 </select>
                 <button id="add_subnote_button">Add</button>
             </form>
+
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="hidden" name="parent_id" value="{{note.id}}">
+                {{ form.as_p }}
+                <button type="submit">Upload</button>
+              </form>
         </div>
 
         </p>

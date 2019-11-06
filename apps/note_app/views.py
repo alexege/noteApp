@@ -1,14 +1,24 @@
 from django.shortcuts import render, HttpResponse, redirect
 from .models import *
+from .forms import DocumentForm
 
 def index(request):
-    context = {
-        'all_notes' : Note.objects.all(),
-        'list_of_categories' : Category.objects.all(),
-        'list_of_subcategories' : Subcategory.objects.all(),
-        'list_of_note_comments': NoteComment.objects.all(),
-    }
-    return render(request, "note_app/index.html", context)
+    if request.method == 'POST':
+        print("Uploading a file...")
+        form = DocumentForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('/notes/')
+    else:
+        context = {
+            'all_notes' : Note.objects.all(),
+            'list_of_categories' : Category.objects.all(),
+            'list_of_subcategories' : Subcategory.objects.all(),
+            'list_of_note_comments': NoteComment.objects.all(),
+            'form' : DocumentForm(),
+            'all_files' : Document.objects.all()
+        }
+        return render(request, "note_app/index.html", context)
 
 def add_note(request):
     Note.objects.create(title=request.POST['title'], category=request.POST['category'], content=request.POST['content'])

@@ -1,3 +1,4 @@
+from __future__ import unicode_literals
 from django.db import models
 
 class Note(models.Model):
@@ -28,3 +29,8 @@ class Subcategory(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
         
+class Document(models.Model):
+    description = models.CharField(max_length=255, blank=True)
+    document = models.FileField(upload_to='documents/')
+    # parent = models.ForeignKey(NoteComment, related_name="documents")
+    uploaded_at = models.DateTimeField(auto_now_add=True)
