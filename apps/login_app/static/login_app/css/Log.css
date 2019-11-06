@@ -1,0 +1,78 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    /* background: url('https://picsum.photos/1920/1080?grayscale&blur=2'); */
+    background: url('../images/Register_bg_gs.png');
+    background-size: cover;
+}
+
+.wrapper {
+    margin: 0 auto;
+}
+
+h1 {
+    text-align: center;
+    padding-bottom: 30px;
+    padding-top: 15px;
+}
+
+h3 {
+    text-align: center;
+    padding: 10px;
+}
+
+.container {
+    margin-top: 10%;
+    background-color: rgb(255,255,255, 0.75);
+    border-radius: 5px;
+    box-shadow: 1px 1px 60px black;
+    /* opacity: 0.8; */
+}
+
+.registration-block {
+    padding: 15px;
+    padding-bottom: 20px;
+    width: 49%;
+    display: inline-block;
+}
+
+.login-block {
+    width: 49%;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.custom_nav{
+    background-image: linear-gradient(45deg, #1e272e, #2f3640);
+}
+
+.back{
+    margin-left:30px;
+}
+
+.sibs{
+    display: inline-block;
+    vertical-align: top;
+}
+
+.registration-table{
+    width: 500px;
+}
+
+.users_container{
+    display: inline-block;
+    vertical-align: top;
+    margin-left: 165px;
+}
+
+.logout{
+    color: #1c7731;
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+    /* margin-left: 1000px; */
+}

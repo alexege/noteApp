@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    {% load staticfiles %}
+    <!-- <link rel="stylesheet" href="{% static 'login_app/css/Log.css' %}"> -->
+    <link rel="stylesheet" href="{% static 'login_app\css\style.css' %}">
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+    <link href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" rel="stylesheet">
+    <title>Slick Notes</title>
+</head>
+<body>
+
+    <!-- <div class="container">
+        <div class="header">
+            <video src="static\notes_app\images\lit_notes.mp4" autoplay="true" loop="true"></video>
+        </div>
+    </div> -->
+<div class="overlay"></div>
+<div class="center-login-box">
+    <form action="/login" method="POST">
+        {% csrf_token %}
+        <table class="login-table">
+            <tr>
+                <td colspan="2">
+                    <div class="logo-container">
+                    <img src="{% static '\login_app\images\SNLogo3.png' %}" class="logo"> 
+                    <img src="{% static '\login_app\images\SNLogo4.png' %}" class="logo-rotate"> 
+                    <h1 class="brand">Slick Notes</h1>
+                </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="email" id="email" name="email" placeholder="Email">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="password" id="password" name="password" placeholder="Password">
+                </td>
+            </tr>
+            <tr>
+                    <td>
+                        <!-- Validation Check -->
+                        {% if messages %}
+                        <ul>
+                            {% for message in messages %}
+                            <p{% if message.tags %} class="{{ message.tags }} validation-error"{% endif %}>{{ message }}</p>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+                    </td>
+                </tr>
+            <tr>
+                <td colspan="2">
+                    <button class="login-button"><a href="#">Login</a></button>
+                </td>
+            </tr>
+            <tr class="new_user">
+                <td colspan=2>New user? <a href="pre_login">Register here</a></td>
+            </tr>
+        </table>
+    </form>
+    <div class="corner corner-top-left"></div>
+    <div class="corner corner-top-right"></div>
+    <div class="corner corner-bottom-left"></div>
+    <div class="corner corner-bottom-right"></div>
+</div>    
+
+<script>
+
+// Hover
+$(".center-login-box").hover(function(){
+  $(".corner").stop().animate({height: "250px", width: "250px"});
+}, function(){
+  $(".corner").stop().animate({height: "50px", width: "50px"});
+});
+
+</script>
+</body>
+</html>

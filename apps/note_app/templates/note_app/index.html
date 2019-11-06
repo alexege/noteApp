@@ -13,7 +13,7 @@
     <!-- Code Snippet Link -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.0/themes/prism.min.css"/>
 
-    <title>Document</title>
+    <title>Note App</title>
 </head>
 <body>
 
@@ -26,11 +26,11 @@
             <ul>
         {% for subcategory in list_of_subcategories %}
             {% if subcategory.parent.id == category.id %}
-            <li><a href="category/view/{{subcategory.name}}">{{subcategory.name}}</a> <a href="/subcategory/delete/{{subcategory.id}}"><i class="fas fa-trash"></i></a></li>    
+            <li><a href="/notes/category/view/{{subcategory.name}}">{{subcategory.name}}</a> <a href="/notes/subcategory/delete/{{subcategory.id}}"><i class="fas fa-trash"></i></a></li>    
             {% endif %}
         {% endfor %}
             </ul>
-        <form action="subcategory/add/{{category.id}}" method="POST">
+        <form action="/notes/subcategory/add/{{category.id}}" method="POST">
             {% csrf_token %}
             <input type="text" name="name">
             <button>Add</button>
@@ -38,13 +38,13 @@
     </div>
     {% endfor %}
     
-    <form action="category/add" method="POST">
+    <form action="/notes/category/add" method="POST">
         {% csrf_token %}
         <input type="text" name="name">
         <button>Add</button>
     </form>
     
-    <a href="master_list" id="master_list">Master List</a>
+    <a href="/notes/master_list" id="master_list">Master List</a>
     
     </div>
     
@@ -66,21 +66,21 @@
 
         <p id="{{note.id}}" title="{{note.title}}" content="{{note.content}}" class="note">
             <span class="arrow_container">
-                <a href="/note/move_up/{{note.id}}" style="top:2px; left:5px;">
+                <a href="/notes/note/move_up/{{note.id}}" style="top:2px; left:5px;">
                     <i class="fas fa-arrow-up"></i>
                 </a> 
-                <a href="/note/move_down/{{note.id}}" style="bottom:2px; left: 5px;">
+                <a href="/notes/note/move_down/{{note.id}}" style="bottom:2px; left: 5px;">
                     <i class="fas fa-arrow-down"></i>
                 </a> 
             </span>
-            {{note.title}} - [<a href="/category/view/{{note.category}}">{{note.category}}</a>] - {{note.content}} 
+            {{note.title}} - [<a href="/notes/category/view/{{note.category}}">{{note.category}}</a>] - {{note.content}} 
             <span class="uploaded_at">
                 {{note.updated_at}}
             </span>
-            <a href="/note/edit/{{note.id}}">
+            <a href="/notes/note/edit/{{note.id}}">
                 <i class="fas fa-edit"></i>
             </a> 
-            <a href="/note/delete/{{note.id}}">
+            <a href="/notes/note/delete/{{note.id}}">
                 <i class="fas fa-trash"></i>
             </a>
             <a onClick="edit_note(this)">
@@ -94,11 +94,11 @@
                 {% if note_comment.parent == note %}
                 <ul>
                     {% if note_comment.isCode == True %}
-                    <li id="note_comment_{{note_comment.id}}" class="code_format"><span class="note_content">{{note_comment.content}}</span> <a onClick="copyToClipboard(this)"><i class="fas fa-copy" style="color: white;"></i></a>  <a onClick="toggleCodeEdit({{note_comment.id}})"><i class="fas fa-edit"></i></a>            <a href="/note_comment/delete/{{note_comment.id}}"><i class="fas fa-trash"></i></a></li>
+                    <li id="note_comment_{{note_comment.id}}" class="code_format"><span class="note_content">{{note_comment.content}}</span> <a onClick="copyToClipboard(this)"><i class="fas fa-copy" style="color: white;"></i></a>  <a onClick="toggleCodeEdit({{note_comment.id}})"><i class="fas fa-edit"></i></a>            <a href="/notes/note_comment/delete/{{note_comment.id}}"><i class="fas fa-trash"></i></a></li>
                     {% else %}
-                    <li id="note_comment_{{note_comment.id}}"><span class="note_content">{{note_comment.content}}</span> <a onClick="toggleEdit({{note_comment.id}})"><i class="fas fa-edit"></i></a>            <a href="/note_comment/delete/{{note_comment.id}}"><i class="fas fa-trash"></i></a></li>
+                    <li id="note_comment_{{note_comment.id}}"><span class="note_content">{{note_comment.content}}</span> <a onClick="toggleEdit({{note_comment.id}})"><i class="fas fa-edit"></i></a>            <a href="/notes/note_comment/delete/{{note_comment.id}}"><i class="fas fa-trash"></i></a></li>
                     {% endif %}
-                    <form action="note/edit_note_comment/{{note_comment.id}}" method="POST" style="display:none">
+                    <form action="/notes/note/edit_note_comment/{{note_comment.id}}" method="POST" style="display:none">
                         {% csrf_token %}
                         <textarea name="content" style="width: 100%;" >{{note_comment.content}}</textarea>
                         <!-- <input type="text" name="content" value="{{note_comment.content}}"> -->
@@ -108,7 +108,7 @@
                 {% endif %}
             {% endfor %}
             
-            <form action="/note/new_note_comment/{{note.id}}" method="POST">
+            <form action="/notes/note/new_note_comment/{{note.id}}" method="POST">
                 {% csrf_token %}
                 <!-- <input type="text" name="content"> -->
                 <textarea name="content" rows="2" cols="25" class="note_textarea"></textarea>
@@ -124,7 +124,7 @@
         </div>
 
         </p>
-        <form action="/note/update" method="POST" id="edit_form">
+        <form action="/notes/note/update" method="POST" id="edit_form">
             {% csrf_token %}
             <input type="text" name="title" placeholder="Title" value="{{note.title}}">
             <select name="category" value="{{note.category}}">
@@ -141,7 +141,7 @@
 
     <!-- Add new Note -->
     <h4>Add a new note</h4>
-    <form action="/note/add" method="POST">
+    <form action="/notes/note/add" method="POST">
         {% csrf_token %}
         <input type="text" name="title" placeholder="Title" id="title_input">
         <select name="category" id="category_input">

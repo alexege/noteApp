@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login/Register</title>
+    {% load static %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> -->
+    <link rel="stylesheet" href="{% static 'login_app\css\style.css' %}">
+</head>
+<body>
+
+<div class="overlay"></div>
+<div class="center-login-box">
+    <form action="/register" method="POST">
+        {% csrf_token %}
+        <table class="login-table ">
+            <tr>
+                <td colspan=2>
+                    <h1 class="brand marg_top">Registration</h1>
+                </td>
+            </tr>    
+            <tr>
+                <td>
+                    <input class="form-control" type="text" name="first_name" id="first_name" placeholder="First Name">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input class="form-control" type="text" name="last_name" id="last_name" placeholder="Last Name">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input class="form-control" type="email" name="email" id="email" placeholder="Email">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input class="form-control" type="password" name="password" id="password" placeholder="Password">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input class="form-control" type="password" name="confirmation_password" id="confirmation_password" placeholder="Confirmation Password">
+                </td>
+            </tr>
+            <tr>
+                <td colspan=2>
+                    <!-- Validation Check -->
+                    <div class='small'>
+                        {% if messages %}
+                        <ul>
+                            {% for message in messages %}
+                            <p{% if message.tags %} class="{{ message.tags }} validation-error"{% endif %}>{{ message }}</p>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan=2>
+                    <button class="login-button">Register</button>
+                </td>
+            </tr>
+            <tr class="new_user">
+                <td colspan=2>Already have an account? <a href="/">Log in</a></td>
+            </tr>
+        </table>
+    </form>
+    <div class="corner corner-top-left"></div>
+    <div class="corner corner-top-right"></div>
+    <div class="corner corner-bottom-left"></div>
+    <div class="corner corner-bottom-right"></div>
+    </div>   
+    
+</div>
+<script>
+
+    // Hover
+    $(".center-login-box").hover(function(){
+      $(".corner").stop().animate({height: "250px", width: "250px"});
+    }, function(){
+      $(".corner").stop().animate({height: "50px", width: "50px"});
+    });
+    
+    </script>
+</body>
+</html>

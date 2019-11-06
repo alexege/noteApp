@@ -12,11 +12,11 @@ def index(request):
 
 def add_note(request):
     Note.objects.create(title=request.POST['title'], category=request.POST['category'], content=request.POST['content'])
-    return redirect('/')
+    return redirect('/notes/')
 
 def edit_note(request, note_id):
     
-    return redirect('/')
+    return redirect('/notes/')
 
 def move_up(request, note_id):
 
@@ -47,7 +47,7 @@ def move_up(request, note_id):
     prev_note.save()
     current_note.save()
     
-    return redirect('/')
+    return redirect('/notes/')
 
 def move_down(request, note_id):
 
@@ -78,7 +78,7 @@ def move_down(request, note_id):
     prev_note.save()
     current_note.save()
     
-    return redirect('/')
+    return redirect('/notes/')
 
 def update_note(request, note_id):
     note_to_edit = Note.objects.get(id=note_id)
@@ -86,45 +86,45 @@ def update_note(request, note_id):
     note_to_edit.category = request.POST['category']
     note_to_edit.content = request.POST['content']
     note_to_edit.save()
-    return redirect('/')
+    return redirect('/notes/')
 
 def delete_note(request, note_id):
     note_to_delete = Note.objects.get(id=note_id)
     note_to_delete.delete()
-    return redirect('/')
+    return redirect('/notes/')
 
 def add_note_comment(request, note_id):
     print(request.POST['isCode'])
     parent = Note.objects.get(id=note_id)
     NoteComment.objects.create(content=request.POST['content'], parent=parent, isCode=request.POST['isCode'])
-    return redirect('/')
+    return redirect('/notes/')
 
 def edit_note_comment(request, note_comment_id):
     note_comment_to_edit = NoteComment.objects.get(id=note_comment_id)
     note_comment_to_edit.content = request.POST['content']
     note_comment_to_edit.save()
-    return redirect('/')
+    return redirect('/notes/')
 
 def delete_note_comment(request, note_comment_id):
     note_comment_to_delete = NoteComment.objects.get(id=note_comment_id)
     note_comment_to_delete.delete()
-    return redirect('/')
+    return redirect('/notes/')
 
 def add_category(request):
     print("Creating a category")
     category = Category.objects.create(name=request.POST['name'])
     Subcategory.objects.create(name=request.POST['name'], parent=category)
-    return redirect('/')
+    return redirect('/notes/')
 
 def add_subcategory(request, category_id):
     print("Creating a subcategory")
     Subcategory.objects.create(name=request.POST['name'], parent=Category.objects.get(id=category_id))
-    return redirect('/')
+    return redirect('/notes/')
 
 def delete_subcategory(request, subcategory_id):
     subcategory_to_delete = Subcategory.objects.get(id=subcategory_id)
     subcategory_to_delete.delete()
-    return redirect('/')
+    return redirect('/notes/')
 
 # View only a subcategory
 def view_subcategory(request, subcategory):
@@ -140,7 +140,7 @@ def view_category_subcategory(request, category, subcategory):
         'subcategory_name' : subcategory,
     }
     return render(request, "note_app/view_subcategory.html", context)
-    # return redirect('/')
+    # return redirect('/notes/')
 
 def master_list(request):
     context = {
