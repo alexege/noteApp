@@ -13,6 +13,7 @@ class NoteComment(models.Model):
     content = models.TextField()
     parent = models.ForeignKey(Note, related_name="subcontents")
     private = models.BooleanField(default=True)
+    image = models.FileField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     isCode = models.BooleanField(default=False)

@@ -1,8 +1,13 @@
 from django.shortcuts import render, HttpResponse, redirect
 from .models import *
+from apps.login_app.models import User
 from .forms import DocumentForm
+from django.core.files.storage import FileSystemStorage
 
 def index(request):
+    if 'active_user' not in request.session:
+        return redirect('/')
+
     if request.method == 'POST':
         print("Uploading a file...")
         form = DocumentForm(request.POST, request.FILES)
@@ -16,7 +21,8 @@ def index(request):
             'list_of_subcategories' : Subcategory.objects.all(),
             'list_of_note_comments': NoteComment.objects.all(),
             'form' : DocumentForm(),
-            'all_files' : Document.objects.all()
+            'all_files' : Document.objects.all(),
+            'current_user' : User.objects.get(id=request.session['active_user'])
         }
         return render(request, "note_app/index.html", context)
 
@@ -104,9 +110,19 @@ def delete_note(request, note_id):
     return redirect('/notes/')
 
 def add_note_comment(request, note_id):
-    print(request.POST['isCode'])
-    parent = Note.objects.get(id=note_id)
-    NoteComment.objects.create(content=request.POST['content'], parent=parent, isCode=request.POST['isCode'])
+    if request.method == 'POST':
+        print("Length:", len(request.FILES))
+        if len(request.FILES) > 0:
+            print("File provided!")
+            parent = Note.objects.get(id=note_id)
+            image = request.FILES['myfile']
+            NoteComment.objects.create(content=request.POST['content'], parent=parent, isCode=request.POST['isCode'], image=image)
+            return redirect('/notes/')
+        else:
+            print("No file provided!")
+            parent = Note.objects.get(id=note_id)
+            NoteComment.objects.create(content=request.POST['content'], parent=parent, isCode=request.POST['isCode'])
+            return redirect('/notes/')
     return redirect('/notes/')
 
 def edit_note_comment(request, note_comment_id):

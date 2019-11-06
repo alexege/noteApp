@@ -54,6 +54,7 @@
     </div>
     
     <h1 style="text-align: center;">All Notes</h1>
+    <p style="text-align: center;">Welcome, {{current_user.first_name}}</p>
 <div id="main"> <!--Start of SideNav Main-->
 
     <!-- Toggle Sidebar -->
@@ -103,6 +104,12 @@
                     {% else %}
                     <li id="note_comment_{{note_comment.id}}"><span class="note_content">{{note_comment.content}}</span> <a onClick="toggleEdit({{note_comment.id}})"><i class="fas fa-edit"></i></a>            <a href="/notes/note_comment/delete/{{note_comment.id}}"><i class="fas fa-trash"></i></a></li>
                     {% endif %}
+                    
+                    <!-- Display an image if one was uploaded -->
+                    {% if note_comment.image %}
+                        <img src="{{note_comment.image.url}}" alt="">
+                    {% endif %}
+
                     <form action="/notes/note/edit_note_comment/{{note_comment.id}}" method="POST" style="display:none">
                         {% csrf_token %}
                         <textarea name="content" style="width: 100%;" >{{note_comment.content}}</textarea>
@@ -113,7 +120,7 @@
                 {% endif %}
             {% endfor %}
             
-            <form action="/notes/note/new_note_comment/{{note.id}}" method="POST">
+            <form action="/notes/note/new_note_comment/{{note.id}}" method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
                 <!-- <input type="text" name="content"> -->
                 <textarea name="content" rows="2" cols="25" class="note_textarea"></textarea>
@@ -124,15 +131,18 @@
                     <option value="False">Text</option>
                     <option value="True">Code</option>
                 </select>
+
+                <!-- Simple File Upload --><br>
+                <input type="file" name="myfile">
+
                 <button id="add_subnote_button">Add</button>
             </form>
 
-            <form method="post" enctype="multipart/form-data">
+            <!-- <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
-                <input type="hidden" name="parent_id" value="{{note.id}}">
                 {{ form.as_p }}
                 <button type="submit">Upload</button>
-              </form>
+              </form> -->
         </div>
 
         </p>
