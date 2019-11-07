@@ -263,7 +263,9 @@ if(localStorage.getItem('sideNavToggle') === 'true'){
     if($(document).ready(function(){
         document.getElementById("toggle_button").innerHTML='<i class="fas fa-chevron-left" id="toggle_button"></i>';
         document.getElementById("mySidenav").style.width = "20vw";
+        document.getElementById("mySidenav").style.transition = "0s";
         document.getElementById("main").style.marginLeft = "20vw";
+        document.getElementById("main").style.transition = "0s";
         toggle = false;
         localStorage.setItem('sideNavToggle', 'false');
     }));
@@ -281,6 +283,9 @@ if(localStorage.getItem('sideNavToggle') === 'true'){
 // console.log("toggle:", toggle)
 function openNav() {
 console.log("sideNavToggle", localStorage.getItem('sideNavToggle'))
+document.getElementById("mySidenav").style.transition = "0.5s";
+document.getElementById("main").style.transition = "0.5s";
+
   if (toggle){
     document.getElementById("toggle_button").innerHTML='<i class="fas fa-chevron-left" id="toggle_button"></i>';
     document.getElementById("mySidenav").style.width = "20vw";
