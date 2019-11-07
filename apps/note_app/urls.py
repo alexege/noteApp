@@ -3,6 +3,7 @@ from . import views
 urlpatterns = [
     url(r'^$', views.index),
     url(r'^note/add$', views.add_note),
+    url(r'^note/add_from_category$', views.add_note_from_category),
     url(r'^note/edit/(?P<note_id>\d+)$', views.edit_note),
     url(r'^note/update/(?P<note_id>\d+)$', views.update_note),
     url(r'^note/delete/(?P<note_id>\d+)$', views.delete_note),

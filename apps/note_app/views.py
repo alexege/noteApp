@@ -161,7 +161,8 @@ def view_subcategory(request, category, subcategory):
         'subcategory_name' : subcategory,
         'list_of_categories' : Category.objects.all(),
         'list_of_subcategories' : Subcategory.objects.all(),
-        'current_user' : User.objects.get(id=request.session['active_user'])
+        'current_user' : User.objects.get(id=request.session['active_user']),
+        'list_of_note_comments': NoteComment.objects.all(),
     }
     return render(request, "note_app/view_subcategory.html", context)
 
@@ -174,6 +175,13 @@ def view_subcategory(request, category, subcategory):
 #     }
 #     return render(request, "note_app/view_category_subcategory.html", context)
 #     # return redirect('/notes/')
+
+def add_note_from_category(request):
+    print("Adding note from category")
+    category = request.POST['category_name']
+    subcategory = request.POST['subcategory_name']    
+    Note.objects.create(title=request.POST['title'], category=request.POST['category'], content=request.POST['content'])
+    return redirect('/notes/category/view/' + category + "/" + subcategory)
 
 def add_note_comment_from_category(request, note_id):
     if request.method == 'POST':

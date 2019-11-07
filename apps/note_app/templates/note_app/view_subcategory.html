@@ -67,7 +67,7 @@
 
     <div class="wrapper">
 
-    {% for note in all_notes %}
+    {% for note in all_category_notes %}
 
     <button class="accordion">
 
@@ -166,8 +166,10 @@
 
     <!-- Add new Note -->
     <h4>Add a new note</h4>
-    <form action="/notes/note/add" method="POST">
+    <form action="/notes/note/add_from_category" method="POST">
         {% csrf_token %}
+        <input type="hidden" value="{{category_name}}" name="category_name">
+        <input type="hidden" value="{{subcategory_name}}" name="subcategory_name">
         <input type="text" name="title" placeholder="Title" id="title_input">
         <select name="category" id="category_input">
             <option value="{{subcategory_name}}">{{subcategory_name}}</option>

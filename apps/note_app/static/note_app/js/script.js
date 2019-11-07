@@ -116,12 +116,9 @@ function copyToClipboard(ele){
 
 $(document).ready(function(){
 
-    console.log(window.find("This is a test of "))
-
-    console.log("Wrapping");
 // element that will be wrapped
 var el = document.querySelectorAll('.code_format');
-console.log(el);
+// console.log(el);
 
 var i;
 for (i = 0; i < el.length; i++) {
@@ -155,7 +152,7 @@ wrapper.setAttribute('class', "language-css");
 
 
     var acc = document.getElementsByClassName("accordion");
-    console.log(acc.length);
+    // console.log(acc.length);
     var i;
 
     for (i = 0; i < acc.length; i++) {
@@ -207,16 +204,94 @@ wrapper.setAttribute('class', "language-css");
 
 //Side Nav Script
 var toggle = true;
+
+// if (localStorage.getItem('sideNavToggle') === null){
+//     console.log("Does not exist in localstorage!");
+//     localStorage.setItem('sideNavToggle', true);
+//     console.log("sideNavToggle:", localStorage.getItem('sideNavToggle'));
+//     toggle = false;
+// } else {
+//     localStorage.getItem('sideNavToggle');
+//     toggle = true;
+// }
+
+// if (localStorage.getItem('sideNavToggle') === null){
+//     localStorage.setItem('sideNavToggle', true);
+//     toggle = false;
+// } else {
+//     localStorage.getItem('sideNavToggle');
+//     toggle = true;
+// }
+
+// if(localStorage.getItem('sideNavToggle') == true){
+//     console.log("sideNavToggle is true");
+//     if($(document).ready(function(){
+//         document.getElementById("toggle_button").innerHTML='<i class="fas fa-chevron-left" id="toggle_button"></i>';
+//         document.getElementById("mySidenav").style.width = "20vw";
+//         document.getElementById("main").style.marginLeft = "20vw";
+//         toggle = false;
+//         // localStorage.setItem('sideNavToggle', false);
+//     }));
+// } else {
+//     console.log("sideNavToggle is false");
+//     if($(document).ready(function(){
+//         document.getElementById("toggle_button").innerHTML='<i class="fas fa-chevron-right" id="toggle_button"></i>';
+//         document.getElementById("mySidenav").style.width = "0";
+//         document.getElementById("main").style.marginLeft= "0";
+//         toggle = true;
+//         // localStorage.setItem('sideNavToggle', true);
+//     }));
+// }
+
+console.log("Start:", localStorage.getItem('sideNavToggle'))
+if(localStorage.getItem('sideNavToggle') === null){
+    localStorage.setItem('sideNavToggle', false)
+}
+
+console.log("Currently, it's ", localStorage.getItem('sideNavToggle'))
+
+if(localStorage.getItem('sideNavToggle') === 'false'){
+    console.log("it's false. Keep it closed!");
+    localStorage.setItem('sideNavToggle', 'true')
+} else {
+    console.log("it's true. Open it up!");
+    localStorage.setItem('sideNavToggle', 'false')
+}
+
+if(localStorage.getItem('sideNavToggle') === 'true'){
+    console.log("sideNavToggle is true");
+    if($(document).ready(function(){
+        document.getElementById("toggle_button").innerHTML='<i class="fas fa-chevron-left" id="toggle_button"></i>';
+        document.getElementById("mySidenav").style.width = "20vw";
+        document.getElementById("main").style.marginLeft = "20vw";
+        toggle = false;
+        localStorage.setItem('sideNavToggle', 'false');
+    }));
+} else {
+    console.log("sideNavToggle is false");
+    if($(document).ready(function(){
+        document.getElementById("toggle_button").innerHTML='<i class="fas fa-chevron-right" id="toggle_button"></i>';
+        document.getElementById("mySidenav").style.width = "0";
+        document.getElementById("main").style.marginLeft= "0";
+        toggle = true;
+        localStorage.setItem('sideNavToggle', 'true');
+    }));
+}
+
+// console.log("toggle:", toggle)
 function openNav() {
+console.log("sideNavToggle", localStorage.getItem('sideNavToggle'))
   if (toggle){
     document.getElementById("toggle_button").innerHTML='<i class="fas fa-chevron-left" id="toggle_button"></i>';
     document.getElementById("mySidenav").style.width = "20vw";
     document.getElementById("main").style.marginLeft = "20vw";
     toggle = false;
-  } else {
+    localStorage.setItem('sideNavToggle', false);
+} else {
     document.getElementById("toggle_button").innerHTML='<i class="fas fa-chevron-right" id="toggle_button"></i>';
     document.getElementById("mySidenav").style.width = "0";
     document.getElementById("main").style.marginLeft= "0";
     toggle = true;
+    localStorage.setItem('sideNavToggle', true);
   }
 }
