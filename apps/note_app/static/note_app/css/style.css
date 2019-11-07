@@ -27,6 +27,16 @@ body {
     display: none;
 }
 
+/* :not(pre)>code[class*=language-]{
+  padding: 0;
+} */
+
+.all_notes {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+}
+
 .note {
     border-bottom: 0.25px solid black;
     /* border: 1px solid black; */
@@ -119,7 +129,7 @@ body {
       white-space: pre-wrap;
       /* border-top: 2px solid black; */
       padding: 5px;
-      margin-left: 45px;
+      margin: 0 45px;
   }
 
   .sidenav ul li:hover {
@@ -163,6 +173,13 @@ body {
   .isCode {
     height: 26px;
     vertical-align: top;
+  }
+
+  .comment_image {
+    max-width: 90%;
+    max-height: 50%;
+    margin-left: 45px;
+    margin-right: 45px;
   }
 
   #add_subnote_button {

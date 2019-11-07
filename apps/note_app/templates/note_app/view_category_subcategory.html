@@ -13,7 +13,7 @@
     <!-- Code Snippet Link -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.0/themes/prism.min.css"/>
 
-    <title>Note App</title>
+    <title>{{category_name}}/{{subcategory_name}}</title>
 </head>
 <body>
 
@@ -24,6 +24,7 @@
 
     <!-- SideNavBar -->
     <div id="mySidenav" class="sidenav">
+        <a href="/notes/" class="all_notes"><i class="fas fa-home"></i></a>
     <h1>NoteBooks</h1>
     {% for category in list_of_categories %}
         <h5 class="accordion">{{category.name}}</h5>
@@ -31,7 +32,7 @@
             <ul>
         {% for subcategory in list_of_subcategories %}
             {% if subcategory.parent.id == category.id %}
-            <li><a href="/notes/category/view/{{category.name}}/{{subcategory.name}}">{{subcategory.name}}</a> <a href="/notes/subcategory/delete/{{subcategory.id}}"><i class="fas fa-trash"></i></a></li>    
+            <li><a href="/notes/category/view/{{subcategory.name}}">{{subcategory.name}}</a> <a href="/notes/subcategory/delete/{{subcategory.id}}"><i class="fas fa-trash"></i></a></li>    
             {% endif %}
         {% endfor %}
             </ul>
@@ -53,7 +54,7 @@
     
     </div>
     
-    <h1 style="text-align: center;">All Notes</h1>
+    <h1 style="text-align: center;">{{subcategory_name}} Notes</h1>
     <p style="text-align: center;">Welcome, {{current_user.first_name}}</p>
 <div id="main"> <!--Start of SideNav Main-->
 
@@ -150,6 +151,7 @@
             {% csrf_token %}
             <input type="text" name="title" placeholder="Title" value="{{note.title}}">
             <select name="category" value="{{note.category}}">
+                <option value="{{subcategory_name}}">{{subcategory_name}}</option>
                 <option value="all">All</option>
                 {% for category in list_of_categories %}
                     <option value="{{category.name}}">{{category.name}}</option>

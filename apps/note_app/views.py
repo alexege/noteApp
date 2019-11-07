@@ -153,23 +153,51 @@ def delete_subcategory(request, subcategory_id):
     return redirect('/notes/')
 
 # View only a subcategory
-def view_subcategory(request, subcategory):
+def view_subcategory(request, category, subcategory):
     context = {
         'all_category_notes' : Note.objects.filter(category=subcategory),
+        'all_notes' : Note.objects.filter(category=category),
+        'category_name' : category,
         'subcategory_name' : subcategory,
+        'list_of_categories' : Category.objects.all(),
+        'list_of_subcategories' : Subcategory.objects.all(),
+        'current_user' : User.objects.get(id=request.session['active_user'])
     }
     return render(request, "note_app/view_subcategory.html", context)
 
-def view_category_subcategory(request, category, subcategory):
-    context = {
-        'all_category_notes' : Note.objects.filter(category=subcategory),
-        'subcategory_name' : subcategory,
-    }
-    return render(request, "note_app/view_subcategory.html", context)
-    # return redirect('/notes/')
+# def view_category_subcategory(request, category, subcategory):
+#     context = {
+#         'all_category_notes' : Note.objects.filter(category=subcategory),
+#         'category_name' : category,
+#         'subcategory_name' : subcategory,
+#         'current_user' : User.objects.get(id=request.session['active_user'])
+#     }
+#     return render(request, "note_app/view_category_subcategory.html", context)
+#     # return redirect('/notes/')
+
+def add_note_comment_from_category(request, note_id):
+    if request.method == 'POST':
+        category = request.POST['category_name']
+        subcategory = request.POST['subcategory_name']
+        print(category)
+        print(subcategory)
+        print("Length:", len(request.FILES))
+        if len(request.FILES) > 0:
+            print("File provided!")
+            parent = Note.objects.get(id=note_id)
+            image = request.FILES['myfile']
+            NoteComment.objects.create(content=request.POST['content'], parent=parent, isCode=request.POST['isCode'], image=image)
+            return redirect('/notes/category/view/' + category + "/" + subcategory)
+        else:
+            print("No file provided!")
+            parent = Note.objects.get(id=note_id)
+            NoteComment.objects.create(content=request.POST['content'], parent=parent, isCode=request.POST['isCode'])
+            return redirect('/notes/category/view/' + category + "/" + subcategory)
+    return redirect('/notes/')
 
 def master_list(request):
     context = {
         'all_notes' : Note.objects.all(),
+        'current_user' : User.objects.get(id=request.session['active_user'])
     }
     return render(request, "note_app/master_list.html", context)
