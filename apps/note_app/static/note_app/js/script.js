@@ -18,7 +18,8 @@
 // }
 
 
-function edit_note(ele){
+function edit_note(ele, event){
+
     var current_note = ele.parentElement;
     console.log(ele.parentElement.getAttribute('id'))
     
@@ -26,10 +27,12 @@ function edit_note(ele){
     note_title.setAttribute('name','note_title');
     note_title.setAttribute('value', current_note.getAttribute('title'))
     note_title.setAttribute('name', 'title');
+    note_title.setAttribute('class', 'propagating_input');
     
     var note_content = document.createElement("input");
     note_content.setAttribute('value', current_note.getAttribute('content'))
     note_content.setAttribute('name', 'content');
+    note_content.setAttribute('class', 'propagating_input');
     
     var edit_form = document.createElement("form");
     edit_form.setAttribute('method','POST');
@@ -53,6 +56,51 @@ function edit_note(ele){
     // var theDiv = document.getElementById("<ID_OF_THE_DIV>");
     // var content = document.createTextNode("<YOUR_CONTENT>");
     // theDiv.appendChild(content);
+
+    $(".propagating_input").on('click', function(e){
+        console.log("Stopping Propagation");
+        e.stopPropagation();
+    })
+
+    $(".propagating_input").on('keydown', function(e){
+        if(e.key === ' ' || e.key === 'Spacebar'){
+            // e.preventDefault();
+            e.stopPropagation();
+            console.log("Space was clicked");
+        }
+        // console.log("Stopping Propagation");
+        // e.stopPropagation();
+    })
+
+    // // Disable edit form inputs from propagating accordion collapse
+    // $(".edit_form").on('click', function(e){
+    //     console.log("Clicking a form")
+    //     e.stopPropagation();
+    //     e.preventDefault();
+    // })
+    // $(".edit_form").on("keydown", function(e){
+    //     if (e.key === ' ' || e.key === 'Spacebar') {
+    //         // ' ' is standard, 'Spacebar' was used by IE9 and Firefox < 37
+    //         // e.preventDefault()
+    //         e.stopPropagation();
+    //         console.log('Space pressed')
+    //       }
+    // })
+
+    event.stopPropagation();
+}
+
+function togglePrivacy(ele, event){
+    console.log(ele.getAttribute('privacy'));
+    privacy = ele.getAttribute('privacy');
+    if(privacy){
+        console.log("Private")
+        privacy = false;
+    } else {
+        privacy = true;
+        console.log("Public")
+    }
+    event.stopPropagation();
 }
 
 function toggleEdit(note_comment_id){
@@ -143,14 +191,6 @@ wrapper.setAttribute('class', "language-css");
 //     code_elements[i].parentNode.classList.add("language-css");
 // }
 
-
-
-
-
-
-
-
-
     var acc = document.getElementsByClassName("accordion");
     // console.log(acc.length);
     var i;
@@ -169,8 +209,7 @@ wrapper.setAttribute('class', "language-css");
         panel.style.display = "block";
         }
     });
-    }
-
+}
 
     // AutoSize TextAreas
     var textarea = document.querySelector('textarea');
@@ -188,8 +227,6 @@ wrapper.setAttribute('class', "language-css");
     }
 
 });
-
-
 
 // // sidenav
 // function openNav() {

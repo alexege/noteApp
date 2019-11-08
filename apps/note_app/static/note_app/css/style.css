@@ -32,6 +32,12 @@ body {
   padding: 0;
 } */
 
+.logout {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+
 .all_notes {
   position: absolute;
   left: 10px;
@@ -59,6 +65,11 @@ body {
   color: red;
 }
 
+.privacy {
+  position: absolute;
+  right: 40px;
+}
+
 .fa-edit {
     position: absolute;
     right: 20px;
@@ -76,7 +87,7 @@ body {
 
 .uploaded_at {
   position: absolute;
-  right: 50px;
+  right: 60px;
   font-size: 10px;
 }
 
@@ -143,8 +154,14 @@ body {
 
   #title_input {
     height: 20px;
-    width: 25%;
+    width: 20%;
     vertical-align: top;
+  }
+
+  #privacy_input {
+    vertical-align: top;
+    height: 24px;
+    /* width: 15%; */
   }
 
   #category_input {

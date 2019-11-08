@@ -13,7 +13,7 @@ class Note(models.Model):
 class NoteComment(models.Model):
     content = models.TextField()
     parent = models.ForeignKey(Note, related_name="subcontents")
-    private = models.BooleanField(default=True)
+    private = models.BooleanField(default=False)
     image = models.FileField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -25,6 +25,8 @@ class NoteComment(models.Model):
         return extension
 
 class Category(models.Model):
+    # isPublic = models.BooleanField(default=true)
+    # creator = models.ForeignKey(User, related_name="categories")    
     name = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

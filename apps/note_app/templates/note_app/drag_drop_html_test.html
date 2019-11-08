@@ -14,6 +14,8 @@
 </head>
 <body>
 
+  <div id="start">This is my first target</div>
+
 <div class="droptarget" ondrop="drop(event)" ondragover="allowDrop(event)" id="container1">
   <p ondragstart="dragStart(event, this)" draggable="true" id="targ_one">ONE</p>
 </div>
@@ -28,16 +30,19 @@
 <div class="droptarget" ondrop="drop(event, this)" ondragover="allowDrop(event)" id="container4">
 </div>
 
+<div id="target">This is my target</div>
+
 <p id="demo"></p>
 
 <script>
-
+var starting_cell = null;
 var starting_element = null;
 var ending_element = null;
 var contents = null;
 
 function dragStart(event, ele) {
   starting_element = ele;
+  starting_cell = ele.parentElement;
   event.dataTransfer.setData("Text", event.target.id);
   document.getElementById("demo").innerHTML = "Started to drag the p element";
 }
@@ -51,20 +56,39 @@ function drop(event, ele) {
     event.preventDefault();
     
     if(event.target.tagName == "DIV"){
-        if((event.target.innerHTML).length > 1){
-          contents = event.target.innerHTML;
-          event.target.innerHTML = "";
-          starting_element = contents;
-          console.log("Replacing contents");
-        }
+        // if((event.target.innerHTML).length > 1){
+        //   contents = event.target.innerHTML;
+        //   event.target.innerHTML = "";
+        //   starting_element = contents;
+        //   console.log("Replacing contents");
+        // }
       
         var data = event.dataTransfer.getData("Text");
         event.target.appendChild(document.getElementById(data));
         document.getElementById("demo").innerHTML = "The p element was dropped";
+        
+      // console.log("Start:", starting_element);
+      // console.log("End:", ending_element);
+      // console.log("Contents:", contents);
 
-    console.log("Start:", starting_element);
-    console.log("End:", ending_element);
-    console.log("Contents:", contents);
+      var starting_node = starting_cell;
+      var ending_node = ending_element;
+      var temp = starting_node;
+
+      // starting_node.replaceNode(ending_node);
+      // ending_node.replaceNode(temp);
+
+      // starting_node.parentNode.replaceChild(ending_node, starting_node);
+      
+      // temp.parentNode.replaceChild(starting_node, temp);
+
+      console.log("Start:", starting_node);
+      console.log("End:", ending_node);
+
+      // starting_cell.append(ending_element)
+
+      // document.getElementById('start').append(starting_element)
+      // document.getElementById('target').append(ending_element)
 
     }
 }

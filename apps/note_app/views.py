@@ -15,9 +15,13 @@ def index(request):
             form.save()
             return redirect('/notes/')
     else:
+        active_user = User.objects.get(id=request.session['active_user'])
         context = {
             'all_notes' : Note.objects.all(),
+            # 'all_notes' : Note.objects.filter(isPublic=true),
+            # 'list_of_categories' : Category.objects.filter(creator=active_user),
             'list_of_categories' : Category.objects.all(),
+            'list_of_public_categories' : Category.objects.all(),
             'list_of_subcategories' : Subcategory.objects.all(),
             'list_of_note_comments': NoteComment.objects.all(),
             'form' : DocumentForm(),
@@ -27,7 +31,7 @@ def index(request):
         return render(request, "note_app/index.html", context)
 
 def add_note(request):
-    Note.objects.create(title=request.POST['title'], category=request.POST['category'], content=request.POST['content'])
+    Note.objects.create(title=request.POST['title'], category=request.POST['category'], content=request.POST['content'], private=request.POST['privacy'])
     return redirect('/notes/')
 
 def edit_note(request, note_id):

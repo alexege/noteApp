@@ -21,7 +21,6 @@ class UserManager(models.Manager):
 
     def login_validator(self, postData):
         errors = {}
-
         if not EMAIL_REGEX.match(postData['email']):
             errors['email'] = 'Email must be of valid format'
         if not User.objects.filter(email=postData['email']):
