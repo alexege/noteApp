@@ -107,7 +107,13 @@
                     
                     <!-- Display an image if one was uploaded -->
                     {% if note_comment.image %}
-                        <img src="{{note_comment.image.url}}" alt="" class="comment_image">
+                        {% if note_comment.extension == '.mp4' or note_comment.extension == '.webm' or note_comment.extension == '.ogg' or note_comment.extension == '.MOV'%}
+                        <video src="{{note_comment.image.url}}" controls="controls" class="video_format"></video>
+                        {% elif note_comment.extension == '.pdf'%}
+                        <embed src="{{note_comment.image.url}}" type="application/pdf" width="100%" height="400px"/>
+                        {% else %}
+                        <img src="{{note_comment.image.url}}" alt="{{note_comment.image.url}}" class="comment_image">
+                        {% endif %}
                     {% endif %}
 
                     <form action="/notes/note/edit_note_comment/{{note_comment.id}}" method="POST" style="display:none">

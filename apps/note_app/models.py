@@ -1,5 +1,6 @@
 from __future__ import unicode_literals
 from django.db import models
+import os
 
 class Note(models.Model):
     title = models.CharField(max_length=255)
@@ -18,6 +19,10 @@ class NoteComment(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     isCode = models.BooleanField(default=False)
     # comments = models.ForeignKey(Note, related_name="comments")
+    
+    def extension(self):
+        name, extension = os.path.splitext(self.image.name)
+        return extension
 
 class Category(models.Model):
     name = models.CharField(max_length=255)
