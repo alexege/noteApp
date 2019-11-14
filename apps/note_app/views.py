@@ -21,7 +21,7 @@ def index(request):
             # 'all_notes' : Note.objects.filter(isPublic=true),
             # 'list_of_categories' : Category.objects.filter(creator=active_user),
             'list_of_categories' : Category.objects.all(),
-            'list_of_public_categories' : Category.objects.all(),
+            'list_of_public_categories' : Subcategory.objects.filter(private=False),
             'list_of_subcategories' : Subcategory.objects.all(),
             'list_of_note_comments': NoteComment.objects.all(),
             'form' : DocumentForm(),
@@ -31,7 +31,7 @@ def index(request):
         return render(request, "note_app/index.html", context)
 
 def add_note(request):
-    Note.objects.create(title=request.POST['title'], category=request.POST['category'], content=request.POST['content'], private=request.POST['privacy'])
+    Note.objects.create(title=request.POST['title'], category=request.POST['category'], created_by=User.objects.get(id=request.session['active_user']), content=request.POST['content'], private=request.POST['privacy'])
     return redirect('/notes/')
 
 def edit_note(request, note_id):
@@ -142,14 +142,40 @@ def delete_note_comment(request, note_comment_id):
 
 def add_category(request):
     print("Creating a category")
-    category = Category.objects.create(name=request.POST['name'])
-    Subcategory.objects.create(name=request.POST['name'], parent=category)
+    category = Category.objects.create(name=request.POST['name'], created_by=User.objects.get(id=request.session['active_user']))
+    Subcategory.objects.create(name=request.POST['name'], parent=category, created_by=User.objects.get(id=request.session['active_user']))
     return redirect('/notes/')
 
 def add_subcategory(request, category_id):
     print("Creating a subcategory")
-    Subcategory.objects.create(name=request.POST['name'], parent=Category.objects.get(id=category_id))
+    Subcategory.objects.create(name=request.POST['name'], parent=Category.objects.get(id=category_id), created_by=User.objects.get(id=request.session['active_user']))
     return redirect('/notes/')
+
+def privacyToggle(request, subcat_id):
+    subcategory = Subcategory.objects.get(id=subcat_id)
+    if subcategory.private == True:
+        print("False")
+        subcategory.private = False
+        subcategory.save()
+    else:
+        print("True")
+        subcategory.private = True
+        subcategory.save()
+    return redirect('/notes/')
+
+# def privacyToggleCategory(request, cat_id):
+#     category = Category.objects.get(id=cat_id)
+#     if category.private == True:
+#         # print("False")
+#         category.private = False
+#         print("The current state is: " , category.private)
+#         category.save()
+#     else:
+#         # print("True")
+#         category.private = True
+#         category.save()
+#         print("The current state is: " , category.private)
+#     return redirect('/notes/')
 
 def delete_subcategory(request, subcategory_id):
     subcategory_to_delete = Subcategory.objects.get(id=subcategory_id)

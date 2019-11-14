@@ -103,6 +103,17 @@ function togglePrivacy(ele, event){
     event.stopPropagation();
 }
 
+function toggleCategoryPrivacy(ele, event){
+    privacy = ele.getAttribute('privacy');
+    if(privacy){
+        console.log("Private")
+        privacy = false;
+    } else {
+        privacy = true;
+        console.log("Public")
+    }
+}
+
 function toggleEdit(note_comment_id){
     console.log("Toggling Edit");
     console.log(note_comment_id);
@@ -225,6 +236,80 @@ wrapper.setAttribute('class', "language-css");
         el.style.cssText = 'height:' + el.scrollHeight + 'px';
     },0);
     }
+    $('#togglePrivacy').on('click', function(e){
+        var privacy = this.getAttribute('privacy');
+        var Notebook = this;
+        var category_id = this.getAttribute('custom_id');
+        var notebook = this.parentNode;
+        console.log("Category id: ", category_id);
+        e.preventDefault()
+        $.ajax({
+            url: 'toggle_subcat_privacy/' + category_id,
+            method: 'get',
+            data: $(this).serialize(),
+            success: function(serverResponse){
+                console.log("privacy:",privacy)
+                public_notes = document.getElementsByClassName("public_notebooks");
+                public_notes[0].append(notebook);
+                // console.log("privacytype:",typeof(privacy))
+                // if(privacy == "False"){
+                //     Notebook.privacy = "True";
+                //     Notebook.save();
+                //     console.log("This was false.")
+                // } else {
+                //     Notebook.privacy = "False";
+                //     Notebook.save();
+                //     console.log("This was True.")
+                // }
+                console.log("got successfully");
+            }
+        })
+    });
+
+    // // Submit new note using Ajax
+    // $('#new_note_form').submit(function(e){
+    //     console.log("Adding a new note with ajax.")
+    //       e.preventDefault()
+
+    //       title = document.getElementById("title_input").value;
+    //       content = document.getElementById("content_input").value;
+    //       privacy = document.getElementById("privacy_input").value;
+    //       category = document.getElementById("category_input").value;
+    //       upload_date = new Date().toJSON().slice(0,10);
+
+    //       $.ajax({
+    //         url: '/notes/note/add',
+    //         method: 'post',
+    //         data: $(this).serialize(),
+    //         success: function(serverResponse){
+    //             var note_layout = document.getElementById("note_template")
+    //             // console.log(note_layout)
+    //             var clone_note = note_layout.cloneNode(true);
+    //             // console.log(clone_note)
+    //             clone_note.addEventListener('click', function(){
+    //                 this.firstElementChild.classList.toggle("active");
+    //                 /* Toggle between hiding and showing the active panel */
+    //                 var panel = this.firstElementChild.nextElementSibling;
+    //                 console.log(panel)
+    //                 if (panel.style.display === "block") {
+    //                 panel.style.display = "none";
+    //                 } else {
+    //                 panel.style.display = "block";
+    //                 }
+    //             })
+    //             $(".note_container").append(clone_note);
+    //             document.getElementById("temp_note_title").innerHTML = title;
+    //             document.getElementById("temp_note_content").innerHTML = content;
+    //             // document.getElementById("temp_note_privacy").innerHTML = privacy;
+    //             document.getElementById("temp_note_category").innerHTML = category;
+    //             document.getElementById("upload_date").innerHTML = upload_date;
+    //             // $(".note_container").append(clone_note);
+    //         //   console.log("Received this from server: ", serverResponse)
+    //           // $('.notes').html(serverResponse)
+    //         //   $(".wrapper").html(serverResponse);
+    //         }
+    //       })
+    //     })
 
 });
 

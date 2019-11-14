@@ -6,13 +6,26 @@
 body {
     /* background-color: rgb(163, 162, 162); */
     /* background-color: #1e1e1e; */
-    background-color: #DEDEDE;
+    /* background-color: #DEDEDE; */
+    background-color: #232331;
     /* background-color: #1e1e1e; */
+}
+
+h1 {
+  color: #09d6ef;
 }
 
 .wrapper {
     width: 70vw;
     margin: 0 auto;
+}
+
+.note_container {
+  /* border: 2px solid red; */
+}
+
+#note_template {
+  /* display: none; */
 }
 
 .master_wrapper {
@@ -50,7 +63,14 @@ body {
     padding: 10px;
     padding-left: 20px;
     position: relative;
-    background-color: white;
+    /* background-color: white; */
+    background-color: #2d3748;
+    color: #09d6ef;
+}
+
+.note:hover {
+  /* background-color: #f1f1f1; */
+  background-color: black;
 }
 
 .arrow_container a {
@@ -78,6 +98,11 @@ body {
 .fa-trash {
     position: absolute;
     right: 5px;
+}
+
+.fa-lock, .fa-lock-open {
+  position: absolute;
+  right: 30px;
 }
 
 .fa-copy {
@@ -125,7 +150,8 @@ body {
   .panel {
     /* padding: 0 18px; */
     /* padding: 10px;   */
-    background-color: rgba(243, 237, 237, 0.774);
+    /* background-color: rgba(243, 237, 237, 0.774); */
+    background-color: #09d6ef;
     /* border: 1px solid black; */
     display: none;
     overflow: hidden;
@@ -138,7 +164,7 @@ body {
 
   .panel ul li {
       position: relative;
-      white-space: pre-wrap;
+      /* white-space: pre-wrap; */
       /* border-top: 2px solid black; */
       padding: 5px;
       margin: 0 45px;

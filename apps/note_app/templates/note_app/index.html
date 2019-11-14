@@ -24,14 +24,21 @@
 
     <!-- SideNavBar -->
     <div id="mySidenav" class="sidenav">
-    <h1>My NoteBooks</h1>
+    <h1>My Notebooks</h1>
     {% for category in list_of_categories %}
         <h5 class="accordion">{{category.name}}</h5>
         <div class="panel">
             <ul>
         {% for subcategory in list_of_subcategories %}
             {% if subcategory.parent.id == category.id %}
-            <li><a href="/notes/category/view/{{category.name}}/{{subcategory.name}}">{{subcategory.name}}</a> <a href="/notes/subcategory/delete/{{subcategory.id}}"><i class="fas fa-trash"></i></a></li>    
+            <li><a href="/notes/category/view/{{category.name}}/{{subcategory.name}}">{{subcategory.name}}</a>
+                {% if subcategory.private %}
+                <i id="togglePrivacy" custom_id="{{category.id}}" class="fas fa-lock-open" privacy={{category.private}}></i>
+                {% else %}
+                <i id="togglePrivacy" custom_id="{{category.id}}" class="fas fa-lock" privacy={{category.private}}></i>
+                {% endif %}
+                <a href="/notes/subcategory/delete/{{subcategory.id}}"><i class="fas fa-trash"></i></a>
+            </li>
             {% endif %}
         {% endfor %}
             </ul>
@@ -51,24 +58,26 @@
     
     <a href="/notes/master_list" id="master_list">Master List</a>
     <br><br>
-    <h1>Public NoteBooks</h1>
-    {% for category in list_of_public_categories %}
-    <h5 class="accordion">{{category.name}}</h5>
-    <div class="panel">
-        <ul>
-        {% for subcategory in list_of_subcategories %}
-        {% if subcategory.parent.id == category.id %}
-        <li><a href="/notes/category/view/{{category.name}}/{{subcategory.name}}">{{subcategory.name}}</a> <a href="/notes/subcategory/delete/{{subcategory.id}}"><i class="fas fa-trash"></i></a></li>    
-        {% endif %}
+    <h1>Public Notebooks</h1>
+    <div class="public_notebooks">
+        {% for category in list_of_public_categories %}
+        <h5 class="accordion">{{category.name}}</h5>
+        <div class="panel">
+            <ul>
+            {% for subcategory in list_of_subcategories %}
+            {% if subcategory.parent.id == category.id %}
+            <li><a href="/notes/category/view/{{category.name}}/{{subcategory.name}}">{{subcategory.name}}</a> <a href="/notes/subcategory/delete/{{subcategory.id}}"><i class="fas fa-trash"></i></a></li>    
+            {% endif %}
+            {% endfor %}
+            </ul>
+        <form action="/notes/subcategory/add/{{category.id}}" method="POST">
+            {% csrf_token %}
+            <input type="text" name="name">
+            <button>Add</button>
+        </form>
+        </div>
         {% endfor %}
-        </ul>
-    <form action="/notes/subcategory/add/{{category.id}}" method="POST">
-        {% csrf_token %}
-        <input type="text" name="name">
-        <button>Add</button>
-    </form>
-    </div>
-    {% endfor %}
+        </div>
     </div>
     
     <h1 style="text-align: center;">All My Notes</h1>
@@ -85,10 +94,10 @@
     </a>
 
     <div class="wrapper">
-
+    <div class="note_container">
     {% for note in all_notes %}
-
-    <button class="accordion">
+    <div id="base_note">
+    <button class="accordion" id="note_layout">
 
         <p id="{{note.id}}" title="{{note.title}}" content="{{note.content}}" class="note">
             <span class="arrow_container">
@@ -188,8 +197,9 @@
             <textarea name="content" value="{{note.content}}">{{note.content}}</textarea>
             <button>Update</button>
         </form>
-
+    </div>
     {% endfor %}
+    </div>
 
     <!-- Add new Note -->
     <h4>Add a new note</h4>

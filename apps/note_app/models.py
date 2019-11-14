@@ -1,12 +1,30 @@
 from __future__ import unicode_literals
 from django.db import models
+from ..login_app.models import *
 import os
+
+class Category(models.Model):
+    name = models.CharField(max_length=255)
+    private = models.BooleanField(default=True)
+    created_by = models.ForeignKey(User, related_name="categories")    
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+class Subcategory(models.Model):
+    name = models.CharField(max_length=255)
+    private = models.BooleanField(default=True)
+    parent = models.ForeignKey(Category, related_name="subcategories")
+    created_by = models.ForeignKey(User, related_name="my_subcategories")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
 class Note(models.Model):
     title = models.CharField(max_length=255)
     category = models.CharField(max_length=255)
+    # parent = models.ForeignKey(Category, related_name="notes")
     content = models.TextField()
-    private = models.BooleanField(default=True)
+    private = models.BooleanField(default=False)
+    created_by = models.ForeignKey(User, related_name="notes")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -23,19 +41,6 @@ class NoteComment(models.Model):
     def extension(self):
         name, extension = os.path.splitext(self.image.name)
         return extension
-
-class Category(models.Model):
-    # isPublic = models.BooleanField(default=true)
-    # creator = models.ForeignKey(User, related_name="categories")    
-    name = models.CharField(max_length=255)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-class Subcategory(models.Model):
-    name = models.CharField(max_length=255)
-    parent = models.ForeignKey(Category, related_name="subcategories")
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
         
 class Document(models.Model):
     description = models.CharField(max_length=255, blank=True)

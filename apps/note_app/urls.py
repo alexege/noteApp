@@ -18,5 +18,7 @@ urlpatterns = [
     url(r'^subcategory/delete/(?P<subcategory_id>\d+)$', views.delete_subcategory),
     # url(r'^category/view/(?P<subcategory>[\w\s]+)$', views.view_subcategory),
     url(r'^category/view/(?P<category>[\w\s]+)/(?P<subcategory>[\w\s]+)$', views.view_subcategory),
-    url(r'^master_list', views.master_list),
+    url(r'^master_list$', views.master_list),
+    url(r'^category/view/all$', views.index),
+    url(r'^toggle_subcat_privacy/(?P<subcat_id>\d+)$', views.privacyToggle),
 ]
