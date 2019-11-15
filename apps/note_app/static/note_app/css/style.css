@@ -46,6 +46,10 @@ a {
     display: none;
 }
 
+.add_note_form {
+  padding: 10px;
+}
+
 /* :not(pre)>code[class*=language-]{
   padding: 0;
 } */
@@ -161,6 +165,8 @@ a {
     display: none;
     overflow: hidden;
     text-align: left;
+    color: #232331;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   }
 
   .panel ul form {

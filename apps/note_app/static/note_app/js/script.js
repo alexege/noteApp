@@ -173,7 +173,70 @@ function copyToClipboard(ele){
     // alert("Copied the text: " + copyText);
 }
 
+function jump(anchor){
+    window.location.href = "#" + anchor;
+    console.log("Jumping to ", window.location.href);
+}
+
 $(document).ready(function(){
+
+   
+    // var note = localStorage.getItem('target_note');
+    // jump(note);
+
+    // var current_note = localStorage.getItem('current_note');
+    // location.href = current_note;
+    // history.replaceState(null,null,url);
+
+
+    target_id = localStorage.getItem('target_note');
+    console.log("target_note:",localStorage.getItem('target_note'));
+
+    var element = document.getElementById(target_id);
+
+
+
+    var a_tag = document.createElement('a');
+    // a_tag.innerHTML = "This is a tag";
+    a_tag.setAttribute('id', 'trigger');
+    element.insertBefore(a_tag, element.childNodes[0]);
+
+    jump('trigger');
+    element.childNodes[2].classList.toggle("active");
+
+    // Toggle open or closed if active or not 
+    console.log(document.querySelectorAll(".accordion"));
+    var list_of_accordion_nodes = document.querySelectorAll(".accordion");
+    for(i = 0; i < list_of_accordion_nodes.length; i++){
+        var panel = list_of_accordion_nodes[i].nextElementSibling;
+        if(list_of_accordion_nodes[i].classList.contains("active")){
+            console.log("Panel:", panel);
+            if (panel.style.display === "block") {
+                panel.style.display = "none";
+                } else {
+                panel.style.display = "block";
+                }
+        }
+    }
+
+    $(".add_subnote_button").on('click', function(e){
+        // e.preventDefault();
+        // console.log("Target note: ", localStorage.getItem('target_note'));
+        // console.log(this.parentElement.parentElement.parentElement);
+        
+        var note = this.parentElement.parentElement.parentElement;
+        var note_id = note.getAttribute('id');
+        localStorage.setItem('target_note', note_id);
+        console.log("target_note:",localStorage.getItem('target_note'));
+
+        var a_tag = document.createElement('a');
+        a_tag.innerHTML = "This is a tag";
+        a_tag.setAttribute('id', 'trigger');
+        note.insertBefore(a_tag, note.childNodes[0]);
+
+    });
+
+
 
 // element that will be wrapped
 var el = document.querySelectorAll('.code_format');
@@ -193,6 +256,7 @@ wrapper.setAttribute('class', "language-css");
   
   // move el into wrapper
   wrapper.appendChild(el[i]);
+
 
 }
 
@@ -266,43 +330,43 @@ wrapper.setAttribute('class', "language-css");
         })
     });
 
-    // Add noteComment
-    $('.post-form').on('submit', function(event){
-        console.log("__________Submitting the form___________");
-        event.preventDefault();
-        // console.log(this);
-        // console.log(this.getAttribute('note_id'));
-        note_id = this.getAttribute('note_id');
+    // // Add noteComment
+    // $('.post-form').on('submit', function(event){
+    //     console.log("__________Submitting the form___________");
+    //     event.preventDefault();
+    //     console.log(this);
+    //     console.log(this.getAttribute('note_id'));
+    //     note_id = this.getAttribute('note_id');
 
-        $.ajax({
-            url: `/notes/note/new_note_comment/${note_id}`,
-            method: 'post',
-            data: $(this).serialize(),
-            success: function(serverResponse){
-                console.log("Running ajax request");
-                $(".note_comments_panel").html(serverResponse);
-                document.querySelectorAll('.accordion')
-                .forEach(input => input.addEventListener('click', function(){
-                    this.firstElementChild.classList.toggle("active");
-                    /* Toggle between hiding and showing the active panel */
-                    console.log("input", input)
-                    console.log("next:", this.nextElementSibling);
-                    // var panel = input.firstElementChild.nextElementSibling;
-                    var panel = this.nextElementSibling;
-                    console.log(panel)
-                    if (panel.style.display === "block") {
-                    panel.style.display = "none";
-                    } else {
-                    panel.style.display = "block";
-                    }
-                }));
-                console.log("SUCCESS");
-                // console.log("------Server Response------");
-                // console.log(serverResponse);
-                // $("#note_comments_panel").html("Testing something");
-            }
-        })
-    })
+    //     $.ajax({
+    //         url: `/notes/note/new_note_comment/${note_id}`,
+    //         method: 'post',
+    //         data: $(this).serialize(),
+    //         success: function(serverResponse){
+    //             console.log("Running ajax request");
+    //             $(".note_comments_panel").html(serverResponse);
+    //             document.querySelectorAll('.accordion')
+    //             .forEach(input => input.addEventListener('click', function(){
+    //                 this.firstElementChild.classList.toggle("active");
+    //                 /* Toggle between hiding and showing the active panel */
+    //                 console.log("input", input)
+    //                 console.log("next:", this.nextElementSibling);
+    //                 // var panel = input.firstElementChild.nextElementSibling;
+    //                 var panel = this.nextElementSibling;
+    //                 console.log(panel)
+    //                 if (panel.style.display === "block") {
+    //                 panel.style.display = "none";
+    //                 } else {
+    //                 panel.style.display = "block";
+    //                 }
+    //             }));
+    //             console.log("SUCCESS");
+    //             // console.log("------Server Response------");
+    //             // console.log(serverResponse);
+    //             // $("#note_comments_panel").html("Testing something");
+    //         }
+    //     })
+    // })
 
     // // Submit new note using Ajax
     // $('#new_note_form').submit(function(e){
@@ -403,23 +467,23 @@ var toggle = true;
 //     }));
 // }
 
-console.log("Start:", localStorage.getItem('sideNavToggle'))
+// console.log("Start:", localStorage.getItem('sideNavToggle'))
 if(localStorage.getItem('sideNavToggle') === null){
     localStorage.setItem('sideNavToggle', false)
 }
 
-console.log("Currently, it's ", localStorage.getItem('sideNavToggle'))
+// console.log("Currently, it's ", localStorage.getItem('sideNavToggle'))
 
 if(localStorage.getItem('sideNavToggle') === 'false'){
-    console.log("it's false. Keep it closed!");
+    // console.log("it's false. Keep it closed!");
     localStorage.setItem('sideNavToggle', 'true')
 } else {
-    console.log("it's true. Open it up!");
+    // console.log("it's true. Open it up!");
     localStorage.setItem('sideNavToggle', 'false')
 }
 
 if(localStorage.getItem('sideNavToggle') === 'true'){
-    console.log("sideNavToggle is true");
+    // console.log("sideNavToggle is true");
     if($(document).ready(function(){
         document.getElementById("toggle_button").innerHTML='<i class="fas fa-chevron-left" id="toggle_button"></i>';
         document.getElementById("mySidenav").style.width = "20vw";
@@ -430,7 +494,7 @@ if(localStorage.getItem('sideNavToggle') === 'true'){
         localStorage.setItem('sideNavToggle', 'false');
     }));
 } else {
-    console.log("sideNavToggle is false");
+    // console.log("sideNavToggle is false");
     if($(document).ready(function(){
         document.getElementById("toggle_button").innerHTML='<i class="fas fa-chevron-right" id="toggle_button"></i>';
         document.getElementById("mySidenav").style.width = "0";

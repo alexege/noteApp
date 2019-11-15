@@ -17,19 +17,19 @@ def index(request):
             return redirect('/notes/')
     else:
         active_user = User.objects.get(id=request.session['active_user'])
-    context = {
-        'all_notes' : Note.objects.all(),
-        # 'all_notes' : Note.objects.filter(isPublic=true),
-        # 'list_of_categories' : Category.objects.filter(creator=active_user),
-        'list_of_categories' : Category.objects.all(),
-        'list_of_public_categories' : Subcategory.objects.filter(private=False),
-        'list_of_subcategories' : Subcategory.objects.all(),
-        'list_of_note_comments': NoteComment.objects.all(),
-        'form' : DocumentForm(),
-        'all_files' : Document.objects.all(),
-        'current_user' : User.objects.get(id=request.session['active_user'])
-    }
-    return render(request, "note_app/index.html", context)
+        context = {
+            'all_notes' : Note.objects.all(),
+            # 'all_notes' : Note.objects.filter(isPublic=true),
+            # 'list_of_categories' : Category.objects.filter(creator=active_user),
+            'list_of_categories' : Category.objects.all(),
+            'list_of_public_categories' : Subcategory.objects.filter(private=False),
+            'list_of_subcategories' : Subcategory.objects.all(),
+            'list_of_note_comments': NoteComment.objects.all(),
+            'form' : DocumentForm(),
+            'all_files' : Document.objects.all(),
+            'current_user' : User.objects.get(id=request.session['active_user'])
+        }
+        return render(request, "note_app/index.html", context)
 
 def add_note(request):
     Note.objects.create(title=request.POST['title'], category=request.POST['category'], created_by=User.objects.get(id=request.session['active_user']), content=request.POST['content'], private=request.POST['privacy'])
@@ -122,38 +122,12 @@ def add_note_comment(request, note_id):
             parent = Note.objects.get(id=note_id)
             image = request.FILES['myfile']
             NoteComment.objects.create(content=request.POST['content'], parent=parent, isCode=request.POST['isCode'], image=image)
-            # return redirect('/notes/')
-            context = {
-                'all_notes' : Note.objects.all(),
-                # 'all_notes' : Note.objects.filter(isPublic=true),
-                # 'list_of_categories' : Category.objects.filter(creator=active_user),
-                'list_of_categories' : Category.objects.all(),
-                'list_of_public_categories' : Subcategory.objects.filter(private=False),
-                'list_of_subcategories' : Subcategory.objects.all(),
-                'list_of_note_comments': NoteComment.objects.all(),
-                'form' : DocumentForm(),
-                'all_files' : Document.objects.all(),
-                'current_user' : User.objects.get(id=request.session['active_user'])
-            }
-            return render(request, "note_app/note_comment.html", context)
+            return redirect('/notes/')
         else:
             print("No file provided!")
             parent = Note.objects.get(id=note_id)
             NoteComment.objects.create(content=request.POST['content'], parent=parent, isCode=request.POST['isCode'])
-            # return redirect('/notes/')
-            context = {
-                'all_notes' : Note.objects.all(),
-                # 'all_notes' : Note.objects.filter(isPublic=true),
-                # 'list_of_categories' : Category.objects.filter(creator=active_user),
-                'list_of_categories' : Category.objects.all(),
-                'list_of_public_categories' : Subcategory.objects.filter(private=False),
-                'list_of_subcategories' : Subcategory.objects.all(),
-                'list_of_note_comments': NoteComment.objects.all(),
-                'form' : DocumentForm(),
-                'all_files' : Document.objects.all(),
-                'current_user' : User.objects.get(id=request.session['active_user'])
-                }
-    return render(request, "note_app/note_comment.html", context)
+            return redirect('/notes/')
 
 # def add_note_comment(request, note_id):
 #     if request.method == 'POST':

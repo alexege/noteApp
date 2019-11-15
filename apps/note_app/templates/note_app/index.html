@@ -17,6 +17,7 @@
 </head>
 <body>
 
+
     <!-- {% for file in all_files %}
         {{ file.description }}
         <img src="{{file.document.url}}" alt="{{file.document.url}}">
@@ -96,7 +97,7 @@
     <div class="wrapper">
     <div class="note_container">
     {% for note in all_notes %}
-    <div id="base_note">
+    <div id="note{{note.id}}">
     <button class="accordion" id="note_layout">
 
         <p id="{{note.id}}" title="{{note.title}}" content="{{note.content}}" class="note">
@@ -133,7 +134,12 @@
                 {% if note_comment.parent == note %}
                 <ul>
                     {% if note_comment.isCode == True %}
-                    <li id="note_comment_{{note_comment.id}}" class="code_format"><span class="note_content">{{note_comment.content}}</span> <a onClick="copyToClipboard(this)"><i class="fas fa-copy" style="color: white;"></i></a>  <a onClick="toggleCodeEdit({{note_comment.id}})"><i class="fas fa-edit"></i></a>            <a href="/notes/note_comment/delete/{{note_comment.id}}"><i class="fas fa-trash"></i></a></li>
+                    <li id="note_comment_{{note_comment.id}}" class="code_format">                        
+                        <span class="note_content">{{note_comment.content}}</span>
+                        <a onClick="copyToClipboard(this)"><i class="fas fa-copy" style="color: white;"></i></a>
+                        <a onClick="toggleCodeEdit({{note_comment.id}})"><i class="fas fa-edit"></i></a>
+                        <a href="/notes/note_comment/delete/{{note_comment.id}}"><i class="fas fa-trash"></i></a>
+                    </li>
                     {% else %}
                     <li id="note_comment_{{note_comment.id}}"><span class="note_content">{{note_comment.content}}</span> <a onClick="toggleEdit({{note_comment.id}})"><i class="fas fa-edit"></i></a>            <a href="/notes/note_comment/delete/{{note_comment.id}}"><i class="fas fa-trash"></i></a></li>
                     {% endif %}
@@ -160,7 +166,7 @@
             {% endfor %}
             </div>
             
-            <form method="POST" enctype="multipart/form-data" class="post-form" note_id="{{note.id}}">
+            <form action="/notes/note/new_note_comment/{{note.id}}" method="POST" enctype="multipart/form-data" class="add_note_form">
                 {% csrf_token %}
                 <!-- <input type="text" name="content"> -->
                 <textarea name="content" rows="2" cols="25" class="note_textarea"></textarea>
@@ -175,7 +181,7 @@
                 <!-- Simple File Upload --><br>
                 <input type="file" name="myfile">
 
-                <button class="add_subnote_button" id="add_subnote_button">Add</button>
+                <button class="add_subnote_button" id="{{note.id}}">Add</button>
             </form>
 
             <!-- <form method="post" enctype="multipart/form-data">
