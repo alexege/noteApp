@@ -1,0 +1,32 @@
+{% for note in all_notes %}
+    {% for subnote in note.subcontents.all %}
+        {% if subnote.parent == note %}
+        <ul>
+                {% if subnote.isCode == True %}
+                <li id="subnote_{{subnote.id}}" class="code_format"><span class="note_content">{{subnote.content}}</span> <a onClick="copyToClipboard(this)"><i class="fas fa-copy" style="color: white;"></i></a>  <a onClick="toggleCodeEdit({{subnote.id}})"><i class="fas fa-edit"></i></a>            <a href="/notes/subnote/delete/{{subnote.id}}"><i class="fas fa-trash"></i></a></li>
+                {% else %}
+                <li id="subnote_{{subnote.id}}"><span class="note_content">{{subnote.content}}</span> <a onClick="toggleEdit({{subnote.id}})"><i class="fas fa-edit"></i></a>            <a href="/notes/subnote/delete/{{subnote.id}}"><i class="fas fa-trash"></i></a></li>
+                {% endif %}
+                
+                <!-- Display an image if one was uploaded -->
+                {% if subnote.image %}
+                    {% if subnote.extension == '.mp4' or subnote.extension == '.webm' or subnote.extension == '.ogg' or subnote.extension == '.MOV'%}
+                    <video src="{{subnote.image.url}}" controls="controls" class="video_format" width="100%" height="600px"></video>
+                    {% elif subnote.extension == '.pdf'%}
+                    <embed src="{{subnote.image.url}}" type="application/pdf" width="100%" height="600px"/>
+                    {% else %}
+                    <img src="{{subnote.image.url}}" alt="{{subnote.image.url}}" class="comment_image">
+                    {% endif %}
+                {% endif %}
+            
+                <form action="/notes/note/edit_subnote/{{subnote.id}}" method="POST" style="display:none">
+                    {% csrf_token %}
+                    <textarea name="content" style="width: 100%;" >{{subnote.content}}</textarea>
+                    <!-- <input type="text" name="content" value="{{subnote.content}}"> -->
+                    <button>Update</button>
+                </form>
+            </ul>
+        {% endif %}
+    {% endfor %}
+{% endfor %}
+

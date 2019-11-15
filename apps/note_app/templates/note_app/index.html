@@ -128,7 +128,7 @@
 
         </button>
         <div class="panel">
-          
+          <div class="note_comments_panel">
             {% for note_comment in list_of_note_comments %}
                 {% if note_comment.parent == note %}
                 <ul>
@@ -158,8 +158,9 @@
                 </ul>
                 {% endif %}
             {% endfor %}
+            </div>
             
-            <form action="/notes/note/new_note_comment/{{note.id}}" method="POST" enctype="multipart/form-data">
+            <form method="POST" enctype="multipart/form-data" class="post-form" note_id="{{note.id}}">
                 {% csrf_token %}
                 <!-- <input type="text" name="content"> -->
                 <textarea name="content" rows="2" cols="25" class="note_textarea"></textarea>
@@ -174,7 +175,7 @@
                 <!-- Simple File Upload --><br>
                 <input type="file" name="myfile">
 
-                <button id="add_subnote_button">Add</button>
+                <button class="add_subnote_button" id="add_subnote_button">Add</button>
             </form>
 
             <!-- <form method="post" enctype="multipart/form-data">

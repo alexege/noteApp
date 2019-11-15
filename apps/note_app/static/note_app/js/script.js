@@ -266,6 +266,44 @@ wrapper.setAttribute('class', "language-css");
         })
     });
 
+    // Add noteComment
+    $('.post-form').on('submit', function(event){
+        console.log("__________Submitting the form___________");
+        event.preventDefault();
+        // console.log(this);
+        // console.log(this.getAttribute('note_id'));
+        note_id = this.getAttribute('note_id');
+
+        $.ajax({
+            url: `/notes/note/new_note_comment/${note_id}`,
+            method: 'post',
+            data: $(this).serialize(),
+            success: function(serverResponse){
+                console.log("Running ajax request");
+                $(".note_comments_panel").html(serverResponse);
+                document.querySelectorAll('.accordion')
+                .forEach(input => input.addEventListener('click', function(){
+                    this.firstElementChild.classList.toggle("active");
+                    /* Toggle between hiding and showing the active panel */
+                    console.log("input", input)
+                    console.log("next:", this.nextElementSibling);
+                    // var panel = input.firstElementChild.nextElementSibling;
+                    var panel = this.nextElementSibling;
+                    console.log(panel)
+                    if (panel.style.display === "block") {
+                    panel.style.display = "none";
+                    } else {
+                    panel.style.display = "block";
+                    }
+                }));
+                console.log("SUCCESS");
+                // console.log("------Server Response------");
+                // console.log(serverResponse);
+                // $("#note_comments_panel").html("Testing something");
+            }
+        })
+    })
+
     // // Submit new note using Ajax
     // $('#new_note_form').submit(function(e){
     //     console.log("Adding a new note with ajax.")
