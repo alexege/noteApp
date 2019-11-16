@@ -24,7 +24,7 @@
     {% endfor %} -->
 
     <!-- SideNavBar -->
-    <div id="mySidenav" class="sidenav">
+    <div id="mySidenav" class="sidenav" onmouseover="revealCategoryAddForm()" onmouseout="hideCategoryAddForm()">
     <h1>My Notebooks</h1>
     {% for category in list_of_categories %}
         <h5 class="accordion">{{category.name}}</h5>
@@ -34,9 +34,9 @@
             {% if subcategory.parent.id == category.id %}
             <li><a href="/notes/category/view/{{category.name}}/{{subcategory.name}}">{{subcategory.name}}</a>
                 {% if subcategory.private %}
-                <i id="togglePrivacy" custom_id="{{category.id}}" class="fas fa-lock-open" privacy={{category.private}}></i>
+                <i custom_id="{{category.id}}" class="fas fa-lock-open togglePrivacy" privacy={{category.private}}></i>
                 {% else %}
-                <i id="togglePrivacy" custom_id="{{category.id}}" class="fas fa-lock" privacy={{category.private}}></i>
+                <i custom_id="{{category.id}}" class="fas fa-lock togglePrivacy" privacy={{category.private}}></i>
                 {% endif %}
                 <a href="/notes/subcategory/delete/{{subcategory.id}}"><i class="fas fa-trash"></i></a>
             </li>
@@ -51,7 +51,7 @@
     </div>
     {% endfor %}
     
-    <form action="/notes/category/add" method="POST">
+    <form action="/notes/category/add" method="POST" class="category_add_form">
         {% csrf_token %}
         <input type="text" name="name">
         <button>Add</button>
@@ -82,7 +82,7 @@
     </div>
     
     <h1 style="text-align: center;">All My Notes</h1>
-    <p style="text-align: center;">Welcome, {{current_user.first_name}}</p>
+    <p id="greeting">Welcome, {{current_user.first_name}}</p>
 <div id="main"> <!--Start of SideNav Main-->
 
     <a href="/login/logout" class="logout"><i class="fas fa-door-open"></i></a>
@@ -159,7 +159,7 @@
                         {% csrf_token %}
                         <textarea name="content" style="width: 100%;" >{{note_comment.content}}</textarea>
                         <!-- <input type="text" name="content" value="{{note_comment.content}}"> -->
-                        <button>Update</button>
+                        <button class="update_subnote_button" id="{{note.id}}">Update</button>
                     </form>
                 </ul>
                 {% endif %}
@@ -191,12 +191,39 @@
               </form> -->
         </div>
 
+        <form action="/notes/note/edit/{{note.id}}" method="POST" style="display:none;" id="update_form">
+            {% csrf_token %}
+            <input type="text" name="title" id="title_input" value="{{note.title}}">
+            <select name="privacy" id="privacy_input" value="{{note.privacy}}">
+                {% if note.private == True %}
+                    <option value="True">public</option>
+                    <option value="False">private</option>
+                {% else %}
+                    <option value="False">private</option>
+                    <option value="True">public</option>
+                {% endif %}
+                </select>
+            <select name="category" id="category_input" value="{{note.category}}">
+                <option value="{{note.category}}">{{note.category}}</option>
+                {% if note.category != "All" %}
+                <option value="All">All</option>
+                {% endif %}
+                {% for subcategory in list_of_subcategories %}
+                    {% if subcategory.name != note.category %}
+                        <option value="{{subcategory.name}}">{{subcategory.name}}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+            <textarea name="content" id="content_input" value="{{note.content}}">{{note.content}}</textarea>
+            <button id="add_note_button">Update</button>
+        </form>
+
         </p>
         <form action="/notes/note/update" method="POST" id="edit_form">
             {% csrf_token %}
             <input type="text" name="title" placeholder="Title" value="{{note.title}}">
             <select name="category" value="{{note.category}}">
-                <option value="all">All</option>
+                <option value="All">All</option>
                 {% for category in list_of_categories %}
                     <option value="{{category.name}}">{{category.name}}</option>
                 {% endfor %}
@@ -218,7 +245,7 @@
             <option value="False">private</option>
         </select>
         <select name="category" id="category_input">
-            <option value="all">All</option>
+            <option value="All">All</option>
             {% for subcategory in list_of_subcategories %}
                 <option value="{{subcategory.name}}">{{subcategory.name}}</option>
             {% endfor %}
@@ -230,7 +257,7 @@
     <!-- CSRF / Categories -->
     <span id="csrf">
         <select name="category" style="display: none;">
-            <option value="all">All</option>
+            <option value="All">All</option>
             <option value="none">None</option>
             {% for category in list_of_categories %}
                 <option value="{{category}}">{{category}}</option>

@@ -19,58 +19,65 @@
 
 
 function edit_note(ele, event){
-
-    var current_note = ele.parentElement;
-    console.log(ele.parentElement.getAttribute('id'))
     
-    var note_title = document.createElement("input");
-    note_title.setAttribute('name','note_title');
-    note_title.setAttribute('value', current_note.getAttribute('title'))
-    note_title.setAttribute('name', 'title');
-    note_title.setAttribute('class', 'propagating_input');
+    var note = ele.parentNode.parentNode.parentNode.querySelector('#update_form')
+    if(note.style.display == "block"){
+        note.style.display = "none";
+    } else {
+        note.style.display = "block";
+    }
+
+    // var current_note = ele.parentElement;
+    // console.log(ele.parentElement.getAttribute('id'))
     
-    var note_content = document.createElement("input");
-    note_content.setAttribute('value', current_note.getAttribute('content'))
-    note_content.setAttribute('name', 'content');
-    note_content.setAttribute('class', 'propagating_input');
+    // var note_title = document.createElement("input");
+    // note_title.setAttribute('name','note_title');
+    // note_title.setAttribute('value', current_note.getAttribute('title'))
+    // note_title.setAttribute('name', 'title');
+    // note_title.setAttribute('class', 'propagating_input');
     
-    var edit_form = document.createElement("form");
-    edit_form.setAttribute('method','POST');
-    edit_form.setAttribute('action','note/update/' + current_note.getAttribute('id'));
+    // var note_content = document.createElement("input");
+    // note_content.setAttribute('value', current_note.getAttribute('content'))
+    // note_content.setAttribute('name', 'content');
+    // note_content.setAttribute('class', 'propagating_input');
+    
+    // var edit_form = document.createElement("form");
+    // edit_form.setAttribute('method','POST');
+    // edit_form.setAttribute('action','note/update/' + current_note.getAttribute('id'));
 
-    var update_button = document.createElement("button");
-    update_button.setAttribute("value", "update")
-    update_button.innerText = "Update"
+    // var update_button = document.createElement("button");
+    // update_button.setAttribute("value", "update")
+    // update_button.innerText = "Update"
 
-    // edit_form.append("{% csrf_token %}"|safe);
-    var csrf = document.getElementById('csrf');
-    var cloned_csrf = csrf.cloneNode(true);
-    edit_form.append(cloned_csrf);
-    edit_form.append(note_title);
-    edit_form.append(note_content);
-    edit_form.append(update_button);
+    // // edit_form.append("{% csrf_token %}"|safe);
+    // var csrf = document.getElementById('csrf');
+    // var cloned_csrf = csrf.cloneNode(true);
+    // edit_form.append(cloned_csrf);
+    // edit_form.append(note_title);
+    // edit_form.append(note_content);
+    // edit_form.append(update_button);
 
-    var replaceBody = document.querySelector('note_content')
+    // var replaceBody = document.querySelector('note_content')
 
-    current_note.append(edit_form);
-    // var theDiv = document.getElementById("<ID_OF_THE_DIV>");
-    // var content = document.createTextNode("<YOUR_CONTENT>");
-    // theDiv.appendChild(content);
+    // current_note.append(edit_form);
+    // // var theDiv = document.getElementById("<ID_OF_THE_DIV>");
+    // // var content = document.createTextNode("<YOUR_CONTENT>");
+    // // theDiv.appendChild(content);
 
-    $(".propagating_input").on('click', function(e){
-        console.log("Stopping Propagation");
-        e.stopPropagation();
-    })
+    // $(".propagating_input").on('click', function(e){
+    //     console.log("Stopping Propagation");
+    //     e.stopPropagation();
+    // })
 
-    $(".propagating_input").on('keydown', function(e){
-        if(e.key === ' ' || e.key === 'Spacebar'){
-            // e.preventDefault();
-            e.stopPropagation();
-            console.log("Space was clicked");
-        }
-        // console.log("Stopping Propagation");
-        // e.stopPropagation();
-    })
+    // $(".propagating_input").on('keydown', function(e){
+    //     if(e.key === ' ' || e.key === 'Spacebar'){
+    //         // e.preventDefault();
+    //         e.stopPropagation();
+    //         console.log("Space was clicked");
+    //     }
+    //     // console.log("Stopping Propagation");
+    //     // e.stopPropagation();
+    // })
 
     // // Disable edit form inputs from propagating accordion collapse
     // $(".edit_form").on('click', function(e){
@@ -173,70 +180,93 @@ function copyToClipboard(ele){
     // alert("Copied the text: " + copyText);
 }
 
+function revealCategoryAddForm(){    
+    document.querySelector(".category_add_form").style.opacity = 1;
+}
+function hideCategoryAddForm(){
+    document.querySelector(".category_add_form").style.opacity = 0;
+}
+
 function jump(anchor){
     window.location.href = "#" + anchor;
     console.log("Jumping to ", window.location.href);
+    history.replaceState(null,null,' ');
 }
 
 $(document).ready(function(){
-
-   
+  
     // var note = localStorage.getItem('target_note');
     // jump(note);
 
     // var current_note = localStorage.getItem('current_note');
     // location.href = current_note;
     // history.replaceState(null,null,url);
+    console.log("target_note", typeof(localStorage.getItem('target_note')));
+    console.log("target_note", localStorage.getItem('target_note'));
+    if(localStorage.getItem('target_note') != null){
 
+        target_id = localStorage.getItem('target_note');
+        // console.log("target_note:",localStorage.getItem('target_note'));
 
-    target_id = localStorage.getItem('target_note');
-    console.log("target_note:",localStorage.getItem('target_note'));
-
-    var element = document.getElementById(target_id);
-
-
-
-    var a_tag = document.createElement('a');
-    // a_tag.innerHTML = "This is a tag";
-    a_tag.setAttribute('id', 'trigger');
-    element.insertBefore(a_tag, element.childNodes[0]);
-
-    jump('trigger');
-    element.childNodes[2].classList.toggle("active");
-
-    // Toggle open or closed if active or not 
-    console.log(document.querySelectorAll(".accordion"));
-    var list_of_accordion_nodes = document.querySelectorAll(".accordion");
-    for(i = 0; i < list_of_accordion_nodes.length; i++){
-        var panel = list_of_accordion_nodes[i].nextElementSibling;
-        if(list_of_accordion_nodes[i].classList.contains("active")){
-            console.log("Panel:", panel);
-            if (panel.style.display === "block") {
-                panel.style.display = "none";
-                } else {
-                panel.style.display = "block";
-                }
-        }
+        var element = document.getElementById(target_id);
+        
+        
+        var a_tag = document.createElement('a');
+        // a_tag.innerHTML = "This is a tag";
+        a_tag.setAttribute('id', 'trigger');
+        element.insertBefore(a_tag, element.childNodes[0]);
+        element.childNodes[2].classList.toggle("active");
     }
 
+    // Look to see if any notes are active
+    var active_notes = document.querySelectorAll('.active');
+    console.log("acitve_notes", active_notes);
+
+    if(active_notes){
+        console.log("Active notes found");
+        jump('trigger');
+        // element.childNodes[2].classList.toggle("active");
+    
+        // Toggle open or closed if active or not 
+        var list_of_accordion_nodes = document.querySelectorAll(".accordion");
+        for(i = 0; i < list_of_accordion_nodes.length; i++){
+            var panel = list_of_accordion_nodes[i].nextElementSibling;
+            if(list_of_accordion_nodes[i].classList.contains("active")){
+                if (panel.style.display === "block") {
+                    panel.style.display = "none";
+                    } else {
+                    panel.style.display = "block";
+                    }
+                // give panel focus
+                panel.childNodes[3].querySelector('textarea').focus();
+            }
+        }
+    } else {
+        console.log("No active notes found")
+    }
+
+
+
     $(".add_subnote_button").on('click', function(e){
-        // e.preventDefault();
-        // console.log("Target note: ", localStorage.getItem('target_note'));
-        // console.log(this.parentElement.parentElement.parentElement);
-        
+        console.log("Adding subnote")
         var note = this.parentElement.parentElement.parentElement;
+        console.log("note:", note)
         var note_id = note.getAttribute('id');
         localStorage.setItem('target_note', note_id);
-        console.log("target_note:",localStorage.getItem('target_note'));
-
         var a_tag = document.createElement('a');
-        a_tag.innerHTML = "This is a tag";
         a_tag.setAttribute('id', 'trigger');
         note.insertBefore(a_tag, note.childNodes[0]);
-
     });
 
-
+    // $(".update_subnote_button").on('click', function(e){
+    //     console.log("Updating subnote")
+    //     var note = this.parentElement.parentElement.parentElement;
+    //     var note_id = note.getAttribute('id');
+    //     localStorage.setItem('target_note', note_id);
+    //     var a_tag = document.createElement('a');
+    //     a_tag.setAttribute('id', 'trigger');
+    //     note.insertBefore(a_tag, note.childNodes[0]);
+    // })
 
 // element that will be wrapped
 var el = document.querySelectorAll('.code_format');
@@ -280,6 +310,8 @@ wrapper.setAttribute('class', "language-css");
         var panel = this.nextElementSibling;
         if (panel.style.display === "block") {
         panel.style.display = "none";
+        localStorage.clear();
+        console.log("Clearing local storage")
         } else {
         panel.style.display = "block";
         }
@@ -300,7 +332,7 @@ wrapper.setAttribute('class', "language-css");
         el.style.cssText = 'height:' + el.scrollHeight + 'px';
     },0);
     }
-    $('#togglePrivacy').on('click', function(e){
+    $('.togglePrivacy').on('click', function(e){
         var privacy = this.getAttribute('privacy');
         var Notebook = this;
         var category_id = this.getAttribute('custom_id');

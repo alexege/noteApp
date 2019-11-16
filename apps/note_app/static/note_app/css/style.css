@@ -60,6 +60,13 @@ a {
   top: 10px;
 }
 
+#greeting {
+  position: absolute;
+  color: white;
+  right: 50px;
+  top: 10px;
+}
+
 .all_notes {
   position: absolute;
   left: 10px;
@@ -112,6 +119,7 @@ a {
 .fa-lock, .fa-lock-open {
   position: absolute;
   right: 30px;
+  color: #09d6ef;
 }
 
 .fa-copy {
@@ -151,8 +159,8 @@ a {
   
   /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
   .active, .accordion:hover {
-    background-color: white;
-    color: black;
+    background-color: #232331;
+    color: white;
   }
   
   /* Style the accordion panel. Note: hidden by default */
@@ -191,7 +199,7 @@ a {
 
   #title_input {
     height: 20px;
-    width: 20%;
+    /* width: 15%; */
     vertical-align: top;
   }
 
@@ -204,18 +212,19 @@ a {
   #category_input {
     vertical-align: top;
     height: 24px;
-    width: 15%;
+    /* width: 15%; */
   }
 
   #content_input {
     height: 22px;
-    width: 50%;
+    /* width: 50%; */
+    /* width: auto; */
   }
 
   #add_note_button {
     vertical-align: top;
     padding: 2px;
-    width: 6%;
+    /* width: 6%; */
   }
 
   /* On the note  */
@@ -240,7 +249,7 @@ a {
   #add_subnote_button {
     vertical-align: top;
     padding: 3px;
-    width: 6%;
+    /* width: 6%; */
   }
   
   /* SIDENAV */
@@ -251,7 +260,9 @@ a {
     z-index: 1;
     top: 0;
     left: 0;
-    background-color: #111;
+    /* background-color: #111; */
+    background-color: #2d3748;
+
     overflow-x: hidden;
     transition: 0.5s;
     padding-top: 60px;
@@ -290,7 +301,14 @@ a {
   }
   
   .sidenav div {
-    background-color: rgb(37, 37, 37);
+    /* background-color: rgb(37, 37, 37); */
+    /* background-color: #232331; */
+    background-color: rgb(60, 92, 143);
+  }
+
+  .category_add_form {
+    opacity: 0;
+    transition: 1s ease-in-out;
   }
   
   #main {
