@@ -230,7 +230,7 @@ def add_note_from_category(request):
     print("Adding note from category")
     category = request.POST['category_name']
     subcategory = request.POST['subcategory_name']    
-    Note.objects.create(title=request.POST['title'], category=request.POST['category'], content=request.POST['content'])
+    Note.objects.create(title=request.POST['title'], category=request.POST['category'], content=request.POST['content'], created_by=User.objects.get(id=request.session['active_user']))
     return redirect('/notes/category/view/' + category + "/" + subcategory)
 
 def add_note_comment_from_category(request, note_id):
