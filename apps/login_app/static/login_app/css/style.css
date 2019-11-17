@@ -24,6 +24,7 @@
 
 body {
   background: url("../images/bay.jpg") no-repeat center center fixed;
+  /* background-color: #1e272e; */
 }
 
 .container{

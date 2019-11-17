@@ -236,8 +236,8 @@
     </div>
 
     <!-- Add new Note -->
-    <h4>Add a new note</h4>
-    <form action="/notes/note/add" method="POST">
+    <h4 class="add_new_note_tag">Add a new note</h4>
+    <form action="/notes/note/add" method="POST" class="new_note_form">
         {% csrf_token %}
         <input type="text" name="title" placeholder="Title" id="title_input">
         <select name="privacy" id="privacy_input">

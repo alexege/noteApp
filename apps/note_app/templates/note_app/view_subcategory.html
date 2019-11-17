@@ -239,8 +239,8 @@
     </div>
 
     <!-- Add new Note -->
-    <h4>Add a new note</h4>
-    <form action="/notes/note/add_from_category" method="POST">
+    <h4 class="add_new_note_tag">Add a new note</h4>
+    <form action="/notes/note/add_from_category" method="POST" class="new_note_form">
         {% csrf_token %}
         <input type="hidden" name="category_name" value="{{category_name}}">
         <input type="hidden" name="subcategory_name" value="{{subcategory_name}}">

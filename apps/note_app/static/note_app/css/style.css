@@ -25,6 +25,22 @@ a {
     margin: 0 auto;
 }
 
+.add_new_note_tag {
+  text-align: center;
+  width: 100%;
+  color: #09d6ef;
+  padding: 3px;
+}
+
+.new_note_form {
+  background-color: #2d3748;
+  color: #09d6ef;
+  border-left: 2px solid #09d6ef;
+  border-right: 2px solid #09d6ef;
+
+  padding: 10px;
+}
+
 .note_container {
   /* border: 2px solid red; */
 }
@@ -160,7 +176,12 @@ a {
   /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
   .active, .accordion:hover {
     background-color: #232331;
-    color: white;
+    /* border-left: 2px solid #09d6ef; */
+    /* border-right: 2px solid #09d6ef; */
+    /* border-bottom: 2px solid #09d6ef; */
+    /* border: 2px solid #09d6ef; */
+    /* margin-left: 15px; */
+    color: #09d6ef;
   }
   
   /* Style the accordion panel. Note: hidden by default */
@@ -199,32 +220,32 @@ a {
 
   #title_input {
     height: 20px;
-    /* width: 15%; */
+    width: 15%;
     vertical-align: top;
   }
 
   #privacy_input {
     vertical-align: top;
     height: 24px;
-    /* width: 15%; */
+    width: 10%;
   }
 
   #category_input {
     vertical-align: top;
     height: 24px;
-    /* width: 15%; */
+    width: 15%;
   }
 
   #content_input {
     height: 22px;
-    /* width: 50%; */
+    width: 50%;
     /* width: auto; */
   }
 
   #add_note_button {
     vertical-align: top;
     padding: 2px;
-    /* width: 6%; */
+    width: 6%;
   }
 
   /* On the note  */
@@ -299,11 +320,20 @@ a {
   .sidenav form {
     margin-top: 20px;
   }
+
+  .sidenav .panel {
+    background-color: #232331;
+    color: white;
+  }
+
+  .sidenav .panel a {
+    color: #09d6ef;
+  }
   
   .sidenav div {
     /* background-color: rgb(37, 37, 37); */
     /* background-color: #232331; */
-    background-color: rgb(60, 92, 143);
+    /* background-color: rgb(60, 92, 143); */
   }
 
   .category_add_form {

@@ -18,10 +18,10 @@ def index(request):
     else:
         active_user = User.objects.get(id=request.session['active_user'])
         context = {
-            'all_notes' : Note.objects.all(),
+            'all_notes' : Note.objects.filter(created_by=active_user),
             # 'all_notes' : Note.objects.filter(isPublic=true),
             # 'list_of_categories' : Category.objects.filter(creator=active_user),
-            'list_of_categories' : Category.objects.all(),
+            'list_of_categories' : Category.objects.filter(created_by=active_user),
             'list_of_public_categories' : Subcategory.objects.filter(private=False),
             'list_of_subcategories' : Subcategory.objects.all(),
             'list_of_note_comments': NoteComment.objects.all(),
@@ -204,13 +204,14 @@ def delete_subcategory(request, subcategory_id):
 
 # View only a subcategory
 def view_subcategory(request, category, subcategory):
+    active_user = User.objects.get(id=request.session['active_user'])
     context = {
         'all_category_notes' : Note.objects.filter(category=subcategory),
-        'all_notes' : Note.objects.filter(category=category),
+        'all_notes' : Note.objects.filter(category=category).filter(created_by=active_user),
         'category_name' : category,
         'subcategory_name' : subcategory,
-        'list_of_categories' : Category.objects.all(),
-        'list_of_subcategories' : Subcategory.objects.all(),
+        'list_of_categories' : Category.objects.filter(created_by=active_user),
+        'list_of_subcategories' : Subcategory.objects.filter(created_by=active_user),
         'current_user' : User.objects.get(id=request.session['active_user']),
         'list_of_note_comments': NoteComment.objects.all(),
     }
