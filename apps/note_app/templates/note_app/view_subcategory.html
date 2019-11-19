@@ -111,6 +111,9 @@
                 </a> 
             </span>
             {{note.title}} - [<a href="/notes/category/view/{{note.category}}">{{note.category}}</a>] - {{note.content}}
+            <span class="uploaded_by">
+                  {{note.created_by.first_name}} {{note.created_by.last_name}}
+            </span>
             <span class="uploaded_at">
                 {{note.updated_at}}
             </span>
@@ -142,7 +145,11 @@
                         <a href="/notes/note_comment/delete/{{note_comment.id}}"><i class="fas fa-trash"></i></a>
                     </li>
                     {% else %}
-                    <li id="note_comment_{{note_comment.id}}"><span class="note_content">{{note_comment.content}}</span> <a onClick="toggleEdit({{note_comment.id}})"><i class="fas fa-edit"></i></a>            <a href="/notes/note_comment/delete/{{note_comment.id}}"><i class="fas fa-trash"></i></a></li>
+                    <li id="note_comment_{{note_comment.id}}">
+                        <span class="note_content">{{note_comment.content}}</span>
+                        <a onClick="toggleEdit({{note_comment.id}})"><i class="fas fa-edit"></i></a>
+                        <a href="/notes/category/note_comment/delete/{{note_comment.id}}/{{category_name}}/{{subcategory_name}}"><i class="fas fa-trash"></i></a>
+                    </li>
                     {% endif %}
                     
                     <!-- Display an image if one was uploaded -->

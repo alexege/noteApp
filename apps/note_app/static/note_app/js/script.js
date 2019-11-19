@@ -208,14 +208,15 @@ $(document).ready(function(){
         target_id = localStorage.getItem('target_note');
         // console.log("target_note:",localStorage.getItem('target_note'));
 
-        var element = document.getElementById(target_id);
-        
-        
+        var element = document.getElementById(target_id);        
         var a_tag = document.createElement('a');
-        // a_tag.innerHTML = "This is a tag";
-        a_tag.setAttribute('id', 'trigger');
-        element.insertBefore(a_tag, element.childNodes[0]);
-        element.childNodes[2].classList.toggle("active");
+
+        if(element){
+            // a_tag.innerHTML = "This is a tag";
+            a_tag.setAttribute('id', 'trigger');
+            element.insertBefore(a_tag, element.childNodes[0]);
+            element.childNodes[2].classList.toggle("active");
+        }
     }
 
     // Look to see if any notes are active
@@ -318,25 +319,31 @@ wrapper.setAttribute('class', "language-css");
     });
 }
 
-    // AutoSize TextAreas
-    var textarea = document.querySelector('textarea');
+    // // AutoSize TextAreas
+    // var textarea = document.querySelector('textarea');
 
-    textarea.addEventListener('keydown', autosize);
+    // textarea.addEventListener('keydown', autosize);
                 
-    function autosize(){
-    var el = this;
-    setTimeout(function(){
-        el.style.cssText = 'height:auto; padding:0';
-        // for box-sizing other than "content-box" use:
-        // el.style.cssText = '-moz-box-sizing:content-box';
-        el.style.cssText = 'height:' + el.scrollHeight + 'px';
-    },0);
-    }
+    // function autosize(){
+    // var el = this;
+    // setTimeout(function(){
+    //     el.style.cssText = 'height:auto; padding:0';
+    //     // for box-sizing other than "content-box" use:
+    //     // el.style.cssText = '-moz-box-sizing:content-box';
+    //     el.style.cssText = 'height:' + el.scrollHeight + 'px';
+    // },0);
+    // }
+
+
     $('.togglePrivacy').on('click', function(e){
         var privacy = this.getAttribute('privacy');
         var Notebook = this;
         var category_id = this.getAttribute('custom_id');
         var notebook = this.parentNode;
+        var clone = notebook.parentNode.parentNode.parentNode.cloneNode(true);
+        console.log("notebook:", clone.querySelector("h5").classList.remove('active'))
+        console.log("Next sibling", clone.querySelector('div').style.display = "none")
+        // clone.style.dispaly = "none";
         console.log("Category id: ", category_id);
         e.preventDefault()
         $.ajax({
@@ -346,7 +353,7 @@ wrapper.setAttribute('class', "language-css");
             success: function(serverResponse){
                 console.log("privacy:",privacy)
                 public_notes = document.getElementsByClassName("public_notebooks");
-                public_notes[0].append(notebook);
+                public_notes[0].append(clone);
                 // console.log("privacytype:",typeof(privacy))
                 // if(privacy == "False"){
                 //     Notebook.privacy = "True";

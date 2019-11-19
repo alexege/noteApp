@@ -103,6 +103,8 @@ a {
 .note:hover {
   /* background-color: #f1f1f1; */
   background-color: black;
+  border-left: 2px solid #09d6ef;
+  border-right: 2px solid #09d6ef;
 }
 
 .arrow_container a {
@@ -134,8 +136,8 @@ a {
 
 .fa-lock, .fa-lock-open {
   position: absolute;
-  right: 30px;
   color: #09d6ef;
+  right: 3px;
 }
 
 .fa-copy {
@@ -147,6 +149,11 @@ a {
   position: absolute;
   right: 60px;
   font-size: 10px;
+}
+
+.uploaded_by {
+  position: absolute;
+  right: 200px;
 }
 
 .code_format {
@@ -182,6 +189,10 @@ a {
     /* border: 2px solid #09d6ef; */
     /* margin-left: 15px; */
     color: #09d6ef;
+  }
+
+  .sidenav .active, .sidenav .accordion:hover{
+    /* margin-left: 5px; */
   }
   
   /* Style the accordion panel. Note: hidden by default */
@@ -237,8 +248,10 @@ a {
   }
 
   #content_input {
-    height: 22px;
-    width: 50%;
+    /* height: 22px; */
+    /* width: 50%; */
+    height: 100px;
+    width: 100%;
     /* width: auto; */
   }
 
@@ -338,7 +351,7 @@ a {
 
   .category_add_form {
     opacity: 0;
-    transition: 1s ease-in-out;
+    transition: 0.5s ease-in-out;
   }
   
   #main {

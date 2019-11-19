@@ -183,20 +183,6 @@ def privacyToggle(request, subcat_id):
         subcategory.save()
     return redirect('/notes/')
 
-# def privacyToggleCategory(request, cat_id):
-#     category = Category.objects.get(id=cat_id)
-#     if category.private == True:
-#         # print("False")
-#         category.private = False
-#         print("The current state is: " , category.private)
-#         category.save()
-#     else:
-#         # print("True")
-#         category.private = True
-#         category.save()
-#         print("The current state is: " , category.private)
-#     return redirect('/notes/')
-
 def delete_subcategory(request, subcategory_id):
     subcategory_to_delete = Subcategory.objects.get(id=subcategory_id)
     subcategory_to_delete.delete()
@@ -211,7 +197,8 @@ def view_subcategory(request, category, subcategory):
         'category_name' : category,
         'subcategory_name' : subcategory,
         'list_of_categories' : Category.objects.filter(created_by=active_user),
-        'list_of_subcategories' : Subcategory.objects.filter(created_by=active_user),
+        'list_of_public_categories' : Subcategory.objects.filter(private=False),
+        'list_of_subcategories' : Subcategory.objects.all(),
         'current_user' : User.objects.get(id=request.session['active_user']),
         'list_of_note_comments': NoteComment.objects.all(),
     }
@@ -253,6 +240,11 @@ def add_note_comment_from_category(request, note_id):
             NoteComment.objects.create(content=request.POST['content'], parent=parent, isCode=request.POST['isCode'])
             return redirect('/notes/category/view/' + category + "/" + subcategory)
     return redirect('/notes/')
+
+def delete_note_comment_from_category(request, note_comment_id, category, subcategory):
+    note_comment_to_delete = NoteComment.objects.get(id=note_comment_id)
+    note_comment_to_delete.delete()
+    return redirect('/notes/category/view/' + category + "/" + subcategory)
 
 def master_list(request):
     context = {

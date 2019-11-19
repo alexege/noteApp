@@ -16,6 +16,7 @@ urlpatterns = [
     url(r'^note/add_from_category$', views.add_note_from_category),
     url(r'^note/new_note_comment_from_category/(?P<note_id>\d+)$', views.add_note_comment_from_category),
     
+    url(r'^category/note_comment/delete/(?P<note_comment_id>\d+)/(?P<category>[\w\s]+)/(?P<subcategory>[\w\s]+)$', views.delete_note_comment_from_category),
     url(r'^subcategory/add/(?P<category_id>\d+)$', views.add_subcategory),
     url(r'^subcategory/delete/(?P<subcategory_id>\d+)$', views.delete_subcategory),
     # url(r'^category/view/(?P<subcategory>[\w\s]+)$', views.view_subcategory),
