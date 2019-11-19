@@ -156,6 +156,20 @@ a {
   right: 200px;
 }
 
+.sidenav i {
+  font-size: 12px;
+}
+
+.sidenav i:hover {
+  color: white;
+  cursor: pointer;
+}
+
+.sidenav .fa-lock, .sidenav .fa-lock-open {
+  position: absolute;
+  right: 22px;
+}
+
 .code_format {
   background-color:#1e1e1e;
   color: lime;

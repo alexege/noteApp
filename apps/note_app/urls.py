@@ -24,5 +24,5 @@ urlpatterns = [
     url(r'^category/view/all$', views.index),
     
     url(r'^master_list$', views.master_list),
-    url(r'^toggle_subcat_privacy/(?P<subcat_id>\d+)$', views.privacyToggle),
+    url(r'^toggle_note_privacy/(?P<subcat_id>\d+)$', views.privacyToggle),
 ]
