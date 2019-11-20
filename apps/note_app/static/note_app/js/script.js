@@ -10,6 +10,7 @@ function edit_note(ele, event){
 
 function togglePrivacy(ele, event){
     privacy = ele.getAttribute('privacy');
+    console.log("Privacy:", privacy)
     if(privacy){
         privacy = false;
     } else {

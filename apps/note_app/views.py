@@ -42,6 +42,7 @@ def edit_note(request, note_id):
     note_to_edit.title = request.POST['title']
     note_to_edit.category = request.POST['category']
     note_to_edit.content = request.POST['content']
+    note_to_edit.private = request.POST['privacy']
     note_to_edit.save()
     return redirect('/notes/')
 

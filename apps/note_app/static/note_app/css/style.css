@@ -310,6 +310,7 @@ a {
     left: 0;
     /* background-color: #111; */
     background-color: #2d3748;
+    box-shadow: 2px 2px 10px black;
 
     overflow-x: hidden;
     transition: 0.5s;
