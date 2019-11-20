@@ -231,8 +231,8 @@ def add_note_from_category(request):
 def add_note_comment_from_category(request, note_id):
     print("add_note_comment_from_category")
     if request.method == 'POST':
-        category = request.POST['category_name']
-        subcategory = request.POST['subcategory_name']
+        category = request.POST['category']
+        subcategory = request.POST['subcategory']
         print(category)
         print(subcategory)
         print("Length:", len(request.FILES))
@@ -241,13 +241,20 @@ def add_note_comment_from_category(request, note_id):
             parent = Note.objects.get(id=note_id)
             image = request.FILES['myfile']
             NoteComment.objects.create(content=request.POST['content'], parent=parent, isCode=request.POST['isCode'], image=image)
-            return redirect('/notes/category/view/' + category + "/" + subcategory)
+            return redirect('/notes/category/view/' + category + "/" + str(subcategory))
         else:
             print("No file provided!")
             parent = Note.objects.get(id=note_id)
             NoteComment.objects.create(content=request.POST['content'], parent=parent, isCode=request.POST['isCode'])
-            return redirect('/notes/category/view/' + category + "/" + subcategory)
+            return redirect('/notes/category/view/' + category + "/" + str(subcategory))
     return redirect('/notes/')
+
+def delete_note_from_category(request, subcategory_id, note_id):
+    print("delete_note")
+    category = Note.objects.get(id=note_id).id
+    note_to_delete = Note.objects.get(id=note_id)
+    note_to_delete.delete()
+    return redirect('/notes/category/view/' + str(category) + '/' + subcategory_id)
 
 def delete_note_comment_from_category(request, note_comment_id, category, subcategory):
     print("delete_note_comment_from_category")

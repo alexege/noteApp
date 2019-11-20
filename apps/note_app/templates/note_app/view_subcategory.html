@@ -131,7 +131,7 @@
                                     privacy={{note.private}}></i>
                                 {% endif %}
                             </span>
-                            <a href="/notes/note/delete/{{note.id}}">
+                            <a href="/notes/note/delete_note_from_category/{{subcategory.id}}/{{note.id}}">
                                 <i class="fas fa-trash"></i>
                             </a>
                             <a onClick="edit_note(this, event)">
@@ -186,10 +186,12 @@
                             {% endfor %}
                         </div>
 
-                        <form action="/notes/note/new_note_comment/{{note.id}}" method="POST"
+                        <form action="/notes/note/new_note_comment_from_category/{{note.id}}" method="POST"
                             enctype="multipart/form-data" class="add_note_form">
                             {% csrf_token %}
                             <!-- <input type="text" name="content"> -->
+                            <input type="hidden" name="category" value="{{note.category}}">
+                            <input type="hidden" name="subcategory" value="{{subcategory.id}}">
                             <textarea name="content" rows="2" cols="25" class="note_textarea"></textarea>
                             <!-- <pre><code class="language-css"></code> -->
                             <!-- <a onclick="codeSnippet()"><button type="button">Code</button></a> -->
@@ -261,7 +263,7 @@
             <form action="/notes/note/add_from_category" method="POST" class="new_note_form">
                 {% csrf_token %}
                 <input type="text" name="title" placeholder="Title" id="title_input">
-                <input type="hidden" name="category" value="{{category}}">
+                <input type="hidden" name="category" value="{{subcategory.name}}">
                 <select name="privacy" id="privacy_input">
                     <option value="True">public</option>
                     <option value="False">private</option>
