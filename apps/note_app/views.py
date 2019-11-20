@@ -176,9 +176,11 @@ def privacyToggle(request, category_id):
         category.save()
     return redirect('/notes/')
 
-def categoryPrivacyToggle(request, category_id, category_name):
+def categoryPrivacyToggle(request, category_id):
     print("privacyToggle")
     category = Category.objects.get(id=category_id)
+    category_name = category.name
+    # subcategory = Subcategory.objects.get(id=)
     if category.private == True:
         print("False")
         category.private = False
@@ -187,7 +189,8 @@ def categoryPrivacyToggle(request, category_id, category_name):
         print("True")
         category.private = True
         category.save()
-    return redirect('/notes/' + category_name)
+    # return redirect('/notes/' + category_name)
+    return redirect('/notes/category/view/' + category_name + '/' + str(category.id))
 
 def delete_category(request, category_id):
     print("delete_category")
@@ -224,8 +227,8 @@ def add_note_from_category(request):
     print("add_note_from_category")
     category = request.POST['category']
     subcategory = request.POST['subcategory']
-    subcategory = Subcategory.objects.get(id=request.POST['subcategory']).id
-    Note.objects.create(title=request.POST['title'], category=request.POST['category'], content=request.POST['content'], created_by=User.objects.get(id=request.session['active_user']))
+    # subcategory = Subcategory.objects.get(id=request.POST['subcategory']).id
+    Note.objects.create(title=request.POST['title'], category=request.POST['category'], private=request.POST['privacy'], content=request.POST['content'], created_by=User.objects.get(id=request.session['active_user']))
     return redirect('/notes/category/view/' + category + "/" + str(subcategory))
 
 def add_note_comment_from_category(request, note_id):

@@ -33,7 +33,7 @@ urlpatterns = [
     url(r'^master_list$', views.master_list),
     # url(r'^toggle_note_privacy/(?P<subcat_id>\d+)$', views.privacyToggle),
     url(r'^toggle_notebook_privacy/(?P<category_id>\d+)$', views.privacyToggle),
-    url(r'^toggle_notebook_privacy_from_category/(?P<category_id>\d+)/(?P<category_name>[\w\s]+)$', views.categoryPrivacyToggle),
+    url(r'^toggle_notebook_privacy_from_category/(?P<category_id>\d+)$', views.categoryPrivacyToggle),
     url(r'^category/delete/(?P<category_id>\d+)$', views.delete_category),
 
 ]
