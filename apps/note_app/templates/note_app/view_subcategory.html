@@ -61,8 +61,6 @@
             <button>Add</button>
         </form>
 
-        <a href="/notes/master_list" id="master_list">Master List</a>
-        <br><br>
         <h1>Public Notebooks</h1>
         <div class="public_notebooks">
             {% for category in list_of_public_categories %}
@@ -84,6 +82,7 @@
             </div>
             {% endfor %}
         </div>
+        <a href="/notes/master_list" id="master_list">Master List</a>
     </div>
 
     <h1 style="text-align: center;">{{subcategory.name}} Notes</h1>

@@ -267,7 +267,7 @@ def delete_note_comment_from_category(request, note_comment_id, category, subcat
 
 def master_list(request):
     context = {
-        'all_notes' : Note.objects.all(),
+        'all_public_notes' : Note.objects.filter(private=False).order_by('title'),
         'current_user' : User.objects.get(id=request.session['active_user'])
     }
     return render(request, "note_app/master_list.html", context)
