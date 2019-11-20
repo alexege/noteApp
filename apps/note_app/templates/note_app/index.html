@@ -17,27 +17,29 @@
 </head>
 
 <body>
-
     <!-- SideNavBar -->
     <div id="mySidenav" class="sidenav" onmouseover="revealCategoryAddForm()" onmouseout="hideCategoryAddForm()">
         <h1>My Notebooks</h1>
         {% for category in list_of_categories %}
         <div class="notebook">
-            <h5 class="accordion">{{category.name}}</h5>
+            <h5 class="accordion">{{category.name}}
+                    {% if category.private == False %}
+                    <a href="toggle_notebook_privacy/{{category.id}}">
+                        <i custom_id="{{category.id}}" class="fas fa-lock-open" privacy={{category.private}}></i>
+                    </a>
+                    {% else %}
+                    <a href="toggle_notebook_privacy/{{category.id}}">
+                        <i custom_id="{{category.id}}" class="fas fa-lock" privacy={{category.private}}></i>
+                    </a>
+                    {% endif %}
+                    <a href="/notes/category/delete/{{category.id}}"><i class="fas fa-trash"></i></a>
+            </h5>
             <div class="panel">
                 <ul>
                     {% for subcategory in list_of_subcategories %}
                     {% if subcategory.parent.id == category.id %}
-                    <li><a href="/notes/category/view/{{category.name}}/{{subcategory.name}}">{{subcategory.name}}</a>
-                        {% if subcategory.private %}
-                        <a href="toggle_note_privacy/{{subcategory.id}}">
-                            <i custom_id="{{category.id}}" class="fas fa-lock-open togglePrivacy" privacy={{category.private}}></i>
-                        </a>
-                        {% else %}
-                        <a href="toggle_note_privacy/{{subcategory.id}}">
-                            <i custom_id="{{category.id}}" class="fas fa-lock togglePrivacy" privacy={{category.private}}></i>
-                        </a>
-                        {% endif %}
+                    <li>
+                        <a href="/notes/category/view/{{category.name}}/{{subcategory.id}}">{{subcategory.name}}</a>
                         <a href="/notes/subcategory/delete/{{subcategory.id}}"><i class="fas fa-trash"></i></a>
                     </li>
                     {% endif %}
@@ -67,10 +69,10 @@
             <div class="panel">
                 <ul>
                     {% for subcategory in list_of_subcategories %}
-                    {% if subcategory.parent.id == category.id %}
-                    <li><a href="/notes/category/view/{{category.name}}/{{subcategory.name}}">{{subcategory.name}}</a>
+                        {% if subcategory.parent.name == category.name %}
+                        <li><a href="/notes/category/view/{{category.name}}/{{subcategory.id}}">{{subcategory.name}}</a>
                         <a href="/notes/subcategory/delete/{{subcategory.id}}"><i class="fas fa-trash"></i></a></li>
-                    {% endif %}
+                        {% endif %}
                     {% endfor %}
                 </ul>
                 <form action="/notes/subcategory/add/{{category.id}}" method="POST">

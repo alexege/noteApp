@@ -1,5 +1,4 @@
 function edit_note(ele, event){
-    
     var note = ele.parentNode.parentNode.parentNode.querySelector('#update_form')
     if(note.style.display == "block"){
         note.style.display = "none";
@@ -10,35 +9,17 @@ function edit_note(ele, event){
 }
 
 function togglePrivacy(ele, event){
-    console.log(ele.getAttribute('privacy'));
     privacy = ele.getAttribute('privacy');
     if(privacy){
-        console.log("Private")
         privacy = false;
     } else {
         privacy = true;
-        console.log("Public")
     }
     event.stopPropagation();
 }
 
-function toggleCategoryPrivacy(ele, event){
-    privacy = ele.getAttribute('privacy');
-    if(privacy){
-        console.log("Private")
-        privacy = false;
-    } else {
-        privacy = true;
-        console.log("Public")
-    }
-}
-
 function toggleEdit(note_comment_id){
-    console.log("Toggling Edit");
-    console.log(note_comment_id);
     var parent = document.getElementById('note_comment_' + note_comment_id);
-    console.log("Parent: ", parent);
-    console.log("Sibling: ", parent.nextElementSibling);
     if (parent.nextElementSibling.style.display === "none") {
         parent.style.display = "none";
         parent.nextElementSibling.style.display = "block";
@@ -49,11 +30,7 @@ function toggleEdit(note_comment_id){
 }
 
 function toggleCodeEdit(note_comment_id){
-    console.log("Toggling Code Edit");
-    console.log(note_comment_id);
     var parent = document.getElementById('note_comment_' + note_comment_id);
-    console.log("Parent: ", parent);
-    console.log("Parent: ", parent.parentElement);
     if (parent.parentElement.nextElementSibling.style.display === "none") {
         parent.style.display = "none";
         parent.parentElement.nextElementSibling.style.display = "block";
@@ -82,16 +59,17 @@ function hideCategoryAddForm(){
 
 function jump(anchor){
     window.location.href = "#" + anchor;
-    console.log("Jumping to ", window.location.href);
     history.replaceState(null,null,' ');
 }
+
+//-------- Wait for page to load --------
 
 $(document).ready(function(){
   
     if(localStorage.getItem('target_note') != null){
 
         target_id = localStorage.getItem('target_note');
-        var element = document.getElementById(target_id);        
+        var element = document.getElementById(target_id);
         var a_tag = document.createElement('a');
 
         if(element){
@@ -103,10 +81,8 @@ $(document).ready(function(){
 
     // Look to see if any notes are active
     var active_notes = document.querySelectorAll('.active');
-    console.log("acitve_notes", active_notes);
 
     if(active_notes){
-        console.log("Active notes found");
         jump('trigger');
     
         // Toggle open or closed if active or not 
@@ -130,7 +106,6 @@ $(document).ready(function(){
     $(".add_subnote_button").on('click', function(e){
         console.log("Adding subnote")
         var note = this.parentElement.parentElement.parentElement;
-        console.log("note:", note)
         var note_id = note.getAttribute('id');
         localStorage.setItem('target_note', note_id);
         var a_tag = document.createElement('a');
@@ -140,8 +115,6 @@ $(document).ready(function(){
 
 // element that will be wrapped
 var el = document.querySelectorAll('.code_format');
-// console.log(el);
-
 var i;
 for (i = 0; i < el.length; i++) {
 
@@ -166,8 +139,7 @@ wrapper.setAttribute('class', "language-css");
 
     for (i = 0; i < acc.length; i++) {
     acc[i].addEventListener("click", function() {
-        /* Toggle between adding and removing the "active" class,
-        to highlight the button that controls the panel */
+        /* Toggle between adding and removing the "active" class, to highlight the button that controls the panel */
         this.classList.toggle("active");
 
         /* Toggle between hiding and showing the active panel */
@@ -214,23 +186,21 @@ if(localStorage.getItem('sideNavToggle') === 'true'){
     }));
 }
 
-// console.log("toggle:", toggle)
 function openNav() {
-console.log("sideNavToggle", localStorage.getItem('sideNavToggle'))
-document.getElementById("mySidenav").style.transition = "0.5s";
-document.getElementById("main").style.transition = "0.5s";
+    document.getElementById("mySidenav").style.transition = "0.5s";
+    document.getElementById("main").style.transition = "0.5s";
 
-  if (toggle){
-    document.getElementById("toggle_button").innerHTML='<i class="fas fa-chevron-left" id="toggle_button"></i>';
-    document.getElementById("mySidenav").style.width = "20vw";
-    document.getElementById("main").style.marginLeft = "20vw";
-    toggle = false;
-    localStorage.setItem('sideNavToggle', false);
-} else {
-    document.getElementById("toggle_button").innerHTML='<i class="fas fa-chevron-right" id="toggle_button"></i>';
-    document.getElementById("mySidenav").style.width = "0";
-    document.getElementById("main").style.marginLeft= "0";
-    toggle = true;
-    localStorage.setItem('sideNavToggle', true);
-  }
+    if (toggle){
+        document.getElementById("toggle_button").innerHTML='<i class="fas fa-chevron-left" id="toggle_button"></i>';
+        document.getElementById("mySidenav").style.width = "20vw";
+        document.getElementById("main").style.marginLeft = "20vw";
+        toggle = false;
+        localStorage.setItem('sideNavToggle', false);
+    } else {
+        document.getElementById("toggle_button").innerHTML='<i class="fas fa-chevron-right" id="toggle_button"></i>';
+        document.getElementById("mySidenav").style.width = "0";
+        document.getElementById("main").style.marginLeft= "0";
+        toggle = true;
+        localStorage.setItem('sideNavToggle', true);
+    }
 }
