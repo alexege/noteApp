@@ -224,6 +224,23 @@ def view_subcategory(request, category, subcategory_id):
     }
     return render(request, "note_app/view_subcategory.html", context)
 
+def view_category(request, category):
+    active_user = User.objects.get(id=request.session['active_user'])
+
+    # category = request.POST['category']
+    # subcategory = request.POST['subcategory']
+    context = {
+        'all_notes' : Note.objects.filter(category=category).filter(created_by=active_user),
+        'all_category_notes' : Note.objects.filter(category=category),
+        'category' : category,
+        'list_of_categories' : Category.objects.filter(created_by=active_user),
+        'list_of_public_categories' : Category.objects.filter(private=False),
+        'list_of_subcategories' : Subcategory.objects.all(),
+        'current_user' : User.objects.get(id=request.session['active_user']),
+        'list_of_note_comments': NoteComment.objects.all(),
+    }
+    return render(request, "note_app/view_subcategory.html", context)
+
 def add_note_from_category(request):
     print("add_note_from_category")
     category = request.POST['category']
@@ -276,8 +293,14 @@ def master_list(request):
 def drag_and_drop(request, starting_note_id, ending_note_id):
     starting_note = Note.objects.get(id=starting_note_id)
     ending_note = Note.objects.get(id=ending_note_id)
+    print("Start")
+    print("starting_note.id", starting_note.id)
+    print("ending_note.id", ending_note.id)
     starting_note.id = ending_note_id
     ending_note.id = starting_note_id
     starting_note.save()
     ending_note.save()
+    print("End")
+    print("starting_note.id", starting_note.id)
+    print("ending_note.id", ending_note.id)
     return HttpResponse(200)

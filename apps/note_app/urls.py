@@ -26,7 +26,8 @@ urlpatterns = [
     url(r'^subcategory/delete/(?P<subcategory_id>\d+)$', views.delete_subcategory),
     # url(r'^category/view/(?P<subcategory>[\w\s]+)$', views.view_subcategory),
     url(r'^category/view/(?P<category>[\w\s]+)/(?P<subcategory_id>[\w\s]+)$', views.view_subcategory),
-    url(r'^category/view/all$', views.index),
+    url(r'^category/view/(?P<category>[\w\s]+)$', views.view_category),
+    url(r'^category/view/All$', views.index),
     url(r'^note/delete_note_from_category/(?P<subcategory_id>[\w\s]+)/(?P<note_id>\d+)$', views.delete_note_from_category),
 
     
@@ -36,5 +37,5 @@ urlpatterns = [
     url(r'^toggle_notebook_privacy_from_category/(?P<category_id>\d+)$', views.categoryPrivacyToggle),
     url(r'^category/delete/(?P<category_id>\d+)$', views.delete_category),
 
-    url(r'^ajax/drag_and_drop/(?P<starting_note_id>\d+)/(?P<ending_note_id>\d+)$', views.drag_and_drop)
+    url(r'^ajax/drag_and_drop/(?P<starting_note_id>\d+)/(?P<ending_note_id>\d+)$', views.drag_and_drop),
 ]

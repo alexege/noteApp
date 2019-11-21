@@ -3,6 +3,7 @@ from django.db import models
 from ..login_app.models import *
 import os
 
+# Notebook
 class Category(models.Model):
     name = models.CharField(max_length=255)
     private = models.BooleanField(default=True)
@@ -10,6 +11,7 @@ class Category(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+# Category
 class Subcategory(models.Model):
     name = models.CharField(max_length=255)
     private = models.BooleanField(default=True)
@@ -18,6 +20,7 @@ class Subcategory(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+# Note
 class Note(models.Model):
     title = models.CharField(max_length=255)
     category = models.CharField(max_length=255)
@@ -28,6 +31,7 @@ class Note(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+# Comments
 class NoteComment(models.Model):
     content = models.TextField()
     parent = models.ForeignKey(Note, related_name="subcontents")

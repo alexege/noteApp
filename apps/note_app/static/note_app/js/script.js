@@ -1,22 +1,3 @@
-// $(document).on("mouseover", function(e){
-//     if(e.pageX <= 100){
-//         console.log("Entered");
-//         $('#mySideNav').show();
-//         document.getElementById("mySidenav").style.width = "20vw";
-//         document.getElementById("mySidenav").style.transition = "1s";
-//         document.getElementById("main").style.marginLeft = "20vw";
-//         document.getElementById("main").style.transition = "1s";
-
-//     } else {
-//         console.log("Exited");
-//         if(!$(e.target).is('.sidenav')){
-//             $('#mySideNav').hide();
-//             document.getElementById("mySidenav").style.width = "0";
-//             document.getElementById("main").style.marginLeft= "0";
-//         }
-//     }
-// })
-
 function edit_note(ele, event){
     var note = ele.parentNode.parentNode.parentNode.querySelector('#update_form')
     if(note.style.display == "block"){
@@ -92,8 +73,24 @@ var starting_note_id = null;
 var ending_note_id = null;
 
 function dragStart(event, element) {
-  starting_cell = element.parentNode;
-  starting_element = element;
+    starting_cell = null;
+    starting_element = null;
+    ending_cell = null;
+    ending_element = null;
+    starting_note_id = null;
+    ending_note_id = null;
+    
+    // console.log("---------------dragStart---------------")
+    // console.log("starting_cell", starting_cell);
+    // console.log("starting_element", starting_element);
+    // console.log("ending_cell", ending_cell);
+    // console.log("ending_element", ending_element);
+    // console.log("starting_note_id", starting_note_id);
+    // console.log("ending_note_id", ending_note_id);
+    // console.log("---------------dragEnd---------------")
+
+    starting_cell = element.parentNode;
+    starting_element = element;
 }
 
 function allowDrop(event) {
@@ -101,24 +98,29 @@ function allowDrop(event) {
 }
 
 function drop(event, element) {
+
+    console.log("---------------dragStart---------------")
+    console.log("starting_cell", starting_cell);
+    console.log("starting_element", starting_element);
+    console.log("ending_cell", ending_cell);
+    console.log("ending_element", ending_element);
+    console.log("starting_note_id", starting_note_id);
+    console.log("ending_note_id", ending_note_id);
+    console.log("---------------dragEnd---------------")
+
     if(event.target.tagName == "DIV"){
         starting_cell.innerHTML = event.target.innerHTML;
         event.target.innerHTML = "";
         event.target.append(starting_element);
-    } else {
-        // ending_element = element.childNodes[1];
-        // console.log("ending_element:", ending_element);
-        
         ending_element = element.querySelector('div');
-        // console.log("ending_element_query:", ending_element);
+    } else {       
+        ending_element = element.querySelector('div');
 
         //If target element is not a div, climb parents until div is found.
-        destination = element.closest('div');
-        destination.append(starting_element);
+        ending_cell = element.closest('div');
+        ending_cell.append(starting_element);
         starting_cell.append(ending_element);
     }
-    // console.log("starting_element:", starting_element);
-    // console.log("ending_element:", ending_element);
 
     starting_note_id = starting_element.getAttribute('note_id');
     ending_note_id = ending_element.getAttribute('note_id');
@@ -129,11 +131,14 @@ function drop(event, element) {
     $.ajax ({
         url: 'ajax/drag_and_drop/' + starting_note_id + '/' + ending_note_id,
         method: 'get',
-        data: $(this).serialize(),
+        // data: $(this).serialize(),
         success: function(serverResponse){
             console.log(`Swapping ${starting_note_id} with ${ending_note_id}`);
+            console.log("Server responded with: ", serverResponse);
         }
+        
     });
+    
 }
 
 //-------- Wait for page to load --------
