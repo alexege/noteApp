@@ -272,3 +272,12 @@ def master_list(request):
         'current_user' : User.objects.get(id=request.session['active_user'])
     }
     return render(request, "note_app/master_list.html", context)
+
+def drag_and_drop(request, starting_note_id, ending_note_id):
+    starting_note = Note.objects.get(id=starting_note_id)
+    ending_note = Note.objects.get(id=ending_note_id)
+    starting_note.id = ending_note_id
+    ending_note.id = starting_note_id
+    starting_note.save()
+    ending_note.save()
+    return HttpResponse(200)

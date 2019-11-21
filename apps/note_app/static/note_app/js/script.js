@@ -1,28 +1,3 @@
-var menu = $('.menu');
-var menuTimeout = null;
-
-$(window).on('mousemove', mouseMoveHandler);
-
-function showMenu() {
-  menu.removeClass('hide');
-}
-
-function hideMenu() {
-  menu.addClass('hide');
-}
-
-function mouseMoveHandler(e) {
-  if (e.pageX < 20 || menu.is(':hover')) {
-    // Show the menu if mouse is within 20 pixels from the left or we are hovering over it
-    clearTimeout(menuTimeout);
-    menuTimeout = null;
-    showMenu();
-  } else if (menuTimeout === null) {
-    // Hide the menu if the mouse is further than 20 pixels from the left and it is not hovering over the menu and we aren't already scheduled to hide it
-    menuTimeout = setTimeout(hideMenu, 2000);
-  }
-}
-
 // $(document).on("mouseover", function(e){
 //     if(e.pageX <= 100){
 //         console.log("Entered");
@@ -105,6 +80,60 @@ function hideCategoryAddForm(){
 function jump(anchor){
     window.location.href = "#" + anchor;
     history.replaceState(null,null,' ');
+}
+
+
+// Drag and Drop 
+var starting_cell = null;
+var starting_element = null;
+var ending_cell = null;
+var ending_element = null;
+var starting_note_id = null;
+var ending_note_id = null;
+
+function dragStart(event, element) {
+  starting_cell = element.parentNode;
+  starting_element = element;
+}
+
+function allowDrop(event) {
+  event.preventDefault();
+}
+
+function drop(event, element) {
+    if(event.target.tagName == "DIV"){
+        starting_cell.innerHTML = event.target.innerHTML;
+        event.target.innerHTML = "";
+        event.target.append(starting_element);
+    } else {
+        // ending_element = element.childNodes[1];
+        // console.log("ending_element:", ending_element);
+        
+        ending_element = element.querySelector('div');
+        // console.log("ending_element_query:", ending_element);
+
+        //If target element is not a div, climb parents until div is found.
+        destination = element.closest('div');
+        destination.append(starting_element);
+        starting_cell.append(ending_element);
+    }
+    // console.log("starting_element:", starting_element);
+    // console.log("ending_element:", ending_element);
+
+    starting_note_id = starting_element.getAttribute('note_id');
+    ending_note_id = ending_element.getAttribute('note_id');
+
+    console.log("starting_note_id", starting_note_id)
+    console.log("ending_note_id", ending_note_id)
+
+    $.ajax ({
+        url: 'ajax/drag_and_drop/' + starting_note_id + '/' + ending_note_id,
+        method: 'get',
+        data: $(this).serialize(),
+        success: function(serverResponse){
+            console.log(`Swapping ${starting_note_id} with ${ending_note_id}`);
+        }
+    });
 }
 
 //-------- Wait for page to load --------

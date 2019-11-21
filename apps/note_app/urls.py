@@ -36,4 +36,5 @@ urlpatterns = [
     url(r'^toggle_notebook_privacy_from_category/(?P<category_id>\d+)$', views.categoryPrivacyToggle),
     url(r'^category/delete/(?P<category_id>\d+)$', views.delete_category),
 
+    url(r'^ajax/drag_and_drop/(?P<starting_note_id>\d+)/(?P<ending_note_id>\d+)$', views.drag_and_drop)
 ]

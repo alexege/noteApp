@@ -88,7 +88,6 @@
     <p id="greeting">Welcome, {{current_user.first_name}}</p>
     <div id="main">
         <!--Start of SideNav Main-->
-
         <a href="/login/logout" class="logout"><i class="fas fa-door-open"></i></a>
 
         <!-- Toggle Sidebar -->
@@ -102,7 +101,8 @@
             <div class="note_container">
                 {% for note in all_notes %}
                 {% if note.private == False or note.created_by == current_user%}
-                <div id="note{{note.id}}">
+                <div id="note{{note.id}}_cell" ondrop="drop(event, this)" ondragover="allowDrop(event)">
+                <div id="note{{note.id}}" note_id="{{note.id}}" ondragstart="dragStart(event, this)" draggable="true">
                     <button class="accordion" id="note_layout">
                         <p id="{{note.id}}" title="{{note.title}}" content="{{note.content}}" class="note">
                             <span class="arrow_container">
@@ -252,6 +252,7 @@
                         <textarea name="content" value="{{note.content}}">{{note.content}}</textarea>
                         <button>Update</button>
                     </form>
+                </div>
                 </div>
                 {% endif %}
                 {% endfor %}

@@ -38,16 +38,12 @@ var ending_cell = null;
 var ending_element = null;
 
 function dragStart(event, element) {
-//   event.dataTransfer.setData("Text", event.target.id);
-//   console.log(element);
-//   console.log(element.parentNode);
   starting_cell = element.parentNode;
   starting_element = element;
 }
 
 function allowDrop(event) {
   event.preventDefault();
-//   event.target.style.border = "2px solid lime";
 }
 
 function drop(event, element) {
@@ -64,13 +60,6 @@ function drop(event, element) {
         event.innerHTML = "";
         event.append(starting_element);
     }
-
-
-
-//   event.preventDefault();
-//   var data = event.dataTransfer.getData("Text");
-//   event.target.appendChild(document.getElementById(data));
-//   document.getElementById("demo").innerHTML = "The p element was dropped.";
 }
 </script>
 
