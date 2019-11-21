@@ -1,0 +1,78 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<style>
+#droptarget {
+  width: 200px; 
+  height: 35px;
+  padding: 10px;
+  margin-top: 50px;
+  border: 1px solid #aaaaaa;
+}
+.item {
+    border: 1px solid red;
+}
+</style>
+</head>
+<body>
+
+<div id="droptarget" ondrop="drop(event, this)" ondragover="allowDrop(event)">
+    <p ondragstart="dragStart(event, this)" draggable="true" id="dragtarget" class="item">Item 1</p>
+</div>
+
+<div id="droptarget" ondrop="drop(event, this)" ondragover="allowDrop(event)">
+    <p ondragstart="dragStart(event, this)" draggable="true" id="dragtarget2" class="item">Item 2</p>
+</div>
+
+<div id="droptarget" ondrop="drop(event, this)" ondragover="allowDrop(event)">
+</div>
+
+<div id="droptarget" ondrop="drop(event, this)" ondragover="allowDrop(event)">
+</div>
+
+<script>
+
+var starting_cell = null;
+var starting_element = null;
+var ending_cell = null;
+var ending_element = null;
+
+function dragStart(event, element) {
+//   event.dataTransfer.setData("Text", event.target.id);
+//   console.log(element);
+//   console.log(element.parentNode);
+  starting_cell = element.parentNode;
+  starting_element = element;
+}
+
+function allowDrop(event) {
+  event.preventDefault();
+//   event.target.style.border = "2px solid lime";
+}
+
+function drop(event, element) {
+    console.log(event.target.tagName);
+    if(event.target.tagName == "DIV"){
+        starting_cell.innerHTML = event.target.innerHTML;
+        event.target.innerHTML = "";
+        event.target.append(starting_element);
+    } else {
+        //If target element is not a div, climb parents until div is found.
+        event = element.closest('div');
+        console.log("event-final:", event);
+        starting_cell.innerHTML = event.innerHTML;
+        event.innerHTML = "";
+        event.append(starting_element);
+    }
+
+
+
+//   event.preventDefault();
+//   var data = event.dataTransfer.getData("Text");
+//   event.target.appendChild(document.getElementById(data));
+//   document.getElementById("demo").innerHTML = "The p element was dropped.";
+}
+</script>
+
+</body>
+</html>

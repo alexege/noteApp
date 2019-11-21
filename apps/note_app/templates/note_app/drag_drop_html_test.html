@@ -73,12 +73,12 @@ function drop(event, ele) {
     event.preventDefault();
     
     if(event.target.tagName == "DIV"){
-        // if((event.target.innerHTML).length > 1){
-        //   contents = event.target.innerHTML;
-        //   event.target.innerHTML = "";
-        //   starting_element = contents;
-        //   console.log("Replacing contents");
-        // }
+        if((event.target.innerHTML).length > 1){
+          contents = event.target.innerHTML;
+          event.target.innerHTML = "";
+          starting_element = contents;
+          console.log("Replacing contents");
+        }
       
         var data = event.dataTransfer.getData("Text");
         event.target.appendChild(document.getElementById(data));
@@ -92,20 +92,20 @@ function drop(event, ele) {
       var ending_node = ending_element;
       var temp = starting_node;
 
-      // starting_node.replaceNode(ending_node);
-      // ending_node.replaceNode(temp);
+      starting_node.replaceNode(ending_node);
+      ending_node.replaceNode(temp);
 
-      // starting_node.parentNode.replaceChild(ending_node, starting_node);
+      starting_node.parentNode.replaceChild(ending_node, starting_node);
       
-      // temp.parentNode.replaceChild(starting_node, temp);
+      temp.parentNode.replaceChild(starting_node, temp);
 
-      // console.log("Start:", starting_node);
-      // console.log("End:", ending_node);
+      console.log("Start:", starting_node);
+      console.log("End:", ending_node);
 
-      // starting_cell.append(ending_element)
+      starting_cell.append(ending_element)
 
-      // document.getElementById('start').append(starting_element)
-      // document.getElementById('target').append(ending_element)
+      document.getElementById('start').append(starting_element)
+      document.getElementById('target').append(ending_element)
 
     }
 }

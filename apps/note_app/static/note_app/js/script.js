@@ -1,3 +1,47 @@
+var menu = $('.menu');
+var menuTimeout = null;
+
+$(window).on('mousemove', mouseMoveHandler);
+
+function showMenu() {
+  menu.removeClass('hide');
+}
+
+function hideMenu() {
+  menu.addClass('hide');
+}
+
+function mouseMoveHandler(e) {
+  if (e.pageX < 20 || menu.is(':hover')) {
+    // Show the menu if mouse is within 20 pixels from the left or we are hovering over it
+    clearTimeout(menuTimeout);
+    menuTimeout = null;
+    showMenu();
+  } else if (menuTimeout === null) {
+    // Hide the menu if the mouse is further than 20 pixels from the left and it is not hovering over the menu and we aren't already scheduled to hide it
+    menuTimeout = setTimeout(hideMenu, 2000);
+  }
+}
+
+// $(document).on("mouseover", function(e){
+//     if(e.pageX <= 100){
+//         console.log("Entered");
+//         $('#mySideNav').show();
+//         document.getElementById("mySidenav").style.width = "20vw";
+//         document.getElementById("mySidenav").style.transition = "1s";
+//         document.getElementById("main").style.marginLeft = "20vw";
+//         document.getElementById("main").style.transition = "1s";
+
+//     } else {
+//         console.log("Exited");
+//         if(!$(e.target).is('.sidenav')){
+//             $('#mySideNav').hide();
+//             document.getElementById("mySidenav").style.width = "0";
+//             document.getElementById("main").style.marginLeft= "0";
+//         }
+//     }
+// })
+
 function edit_note(ele, event){
     var note = ele.parentNode.parentNode.parentNode.querySelector('#update_form')
     if(note.style.display == "block"){
