@@ -73,22 +73,6 @@ var starting_note_id = null;
 var ending_note_id = null;
 
 function dragStart(event, element) {
-    starting_cell = null;
-    starting_element = null;
-    ending_cell = null;
-    ending_element = null;
-    starting_note_id = null;
-    ending_note_id = null;
-    
-    // console.log("---------------dragStart---------------")
-    // console.log("starting_cell", starting_cell);
-    // console.log("starting_element", starting_element);
-    // console.log("ending_cell", ending_cell);
-    // console.log("ending_element", ending_element);
-    // console.log("starting_note_id", starting_note_id);
-    // console.log("ending_note_id", ending_note_id);
-    // console.log("---------------dragEnd---------------")
-
     starting_cell = element.parentNode;
     starting_element = element;
 }
@@ -98,48 +82,47 @@ function allowDrop(event) {
 }
 
 function drop(event, element) {
+    ending_element = element.querySelector('div');
 
-    console.log("---------------dragStart---------------")
-    console.log("starting_cell", starting_cell);
-    console.log("starting_element", starting_element);
-    console.log("ending_cell", ending_cell);
-    console.log("ending_element", ending_element);
-    console.log("starting_note_id", starting_note_id);
-    console.log("ending_note_id", ending_note_id);
-    console.log("---------------dragEnd---------------")
+    //If target element is not a div, climb parents until div is found.
+    ending_cell = element.closest('div');
 
-    if(event.target.tagName == "DIV"){
-        starting_cell.innerHTML = event.target.innerHTML;
-        event.target.innerHTML = "";
-        event.target.append(starting_element);
-        ending_element = element.querySelector('div');
-    } else {       
-        ending_element = element.querySelector('div');
+    console.log("starting_element_id:", starting_element.getAttribute('note_position_id'))
+    console.log("ending_element_id:", ending_element.getAttribute('note_position_id'))
 
-        //If target element is not a div, climb parents until div is found.
-        ending_cell = element.closest('div');
-        ending_cell.append(starting_element);
-        starting_cell.append(ending_element);
-    }
-
-    starting_note_id = starting_element.getAttribute('note_id');
-    ending_note_id = ending_element.getAttribute('note_id');
-
-    console.log("starting_note_id", starting_note_id)
-    console.log("ending_note_id", ending_note_id)
+    starting_element_id = starting_element.getAttribute('note_position_id')
+    ending_element_id = ending_element.getAttribute('note_position_id')
 
     $.ajax ({
-        url: 'ajax/drag_and_drop/' + starting_note_id + '/' + ending_note_id,
+        url: 'ajax/drag_and_drop/' + starting_element_id + '/' + ending_element_id,
         method: 'get',
         // data: $(this).serialize(),
         success: function(serverResponse){
-            console.log(`Swapping ${starting_note_id} with ${ending_note_id}`);
-            console.log("Server responded with: ", serverResponse);
+            starting_element.setAttribute('note_position_id', ending_element_id)
+            ending_element.setAttribute('note_position_id', starting_element_id)
         }
-        
     });
-    
+
+    ending_cell.append(starting_element);
+    starting_cell.append(ending_element);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //-------- Wait for page to load --------
 

@@ -22,6 +22,7 @@ class Subcategory(models.Model):
 
 # Note
 class Note(models.Model):
+    position_id = models.IntegerField(null=True)
     title = models.CharField(max_length=255)
     category = models.CharField(max_length=255)
     # parent = models.ForeignKey(Category, related_name="notes")

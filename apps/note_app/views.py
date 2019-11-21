@@ -18,7 +18,7 @@ def index(request):
     else:
         active_user = User.objects.get(id=request.session['active_user'])
         context = {
-            'all_notes' : Note.objects.filter(created_by=active_user),
+            'all_notes' : Note.objects.filter(created_by=active_user).order_by('position_id'),
             # 'all_notes' : Note.objects.filter(isPublic=true),
             # 'list_of_categories' : Category.objects.filter(creator=active_user),
             'list_of_categories' : Category.objects.filter(created_by=active_user),
@@ -33,7 +33,9 @@ def index(request):
 
 def add_note(request):
     print("add_note")
-    Note.objects.create(title=request.POST['title'], category=request.POST['category'], created_by=User.objects.get(id=request.session['active_user']), content=request.POST['content'], private=request.POST['privacy'])
+    new_note = Note.objects.create(title=request.POST['title'], category=request.POST['category'], created_by=User.objects.get(id=request.session['active_user']), content=request.POST['content'], private=request.POST['privacy'])
+    new_note.position_id = new_note.id
+    new_note.save()
     return redirect('/notes/')
 
 def edit_note(request, note_id):
@@ -291,16 +293,13 @@ def master_list(request):
     return render(request, "note_app/master_list.html", context)
 
 def drag_and_drop(request, starting_note_id, ending_note_id):
-    starting_note = Note.objects.get(id=starting_note_id)
-    ending_note = Note.objects.get(id=ending_note_id)
-    print("Start")
-    print("starting_note.id", starting_note.id)
-    print("ending_note.id", ending_note.id)
-    starting_note.id = ending_note_id
-    ending_note.id = starting_note_id
+
+    starting_note = Note.objects.get(position_id=starting_note_id)
+    ending_note = Note.objects.get(position_id=ending_note_id)
+
+    starting_note.position_id = ending_note_id
+    ending_note.position_id = starting_note_id
+
     starting_note.save()
     ending_note.save()
-    print("End")
-    print("starting_note.id", starting_note.id)
-    print("ending_note.id", ending_note.id)
     return HttpResponse(200)
