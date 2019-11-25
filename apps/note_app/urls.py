@@ -7,10 +7,8 @@ urlpatterns = [
     url(r'^note/edit/(?P<note_id>\d+)$', views.edit_note),
     url(r'^note/update/(?P<note_id>\d+)$', views.update_note),
     url(r'^note/delete/(?P<note_id>\d+)$', views.delete_note),
-    
     url(r'^note/move_up/(?P<note_id>\d+)$', views.move_up),
     url(r'^note/move_down/(?P<note_id>\d+)$', views.move_down),
-    
     url(r'^note/new_note_comment/(?P<note_id>\d+)$', views.add_note_comment),
     url(r'^note/edit_note_comment/(?P<note_comment_id>\d+)$', views.edit_note_comment),
     url(r'^note_comment/delete/(?P<note_comment_id>\d+)$', views.delete_note_comment),
@@ -38,4 +36,5 @@ urlpatterns = [
     url(r'^category/delete/(?P<category_id>\d+)$', views.delete_category),
 
     url(r'^ajax/drag_and_drop/(?P<starting_note_id>\d+)/(?P<ending_note_id>\d+)$', views.drag_and_drop),
+    url(r'^ajax/all_notes_partial$', views.all_notes_partial)
 ]

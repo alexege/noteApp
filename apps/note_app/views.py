@@ -31,6 +31,20 @@ def index(request):
         }
         return render(request, "note_app/index.html", context)
 
+def all_notes_partial(request):
+    active_user = User.objects.get(id=request.session['active_user'])
+    context = {
+        'all_notes' : Note.objects.filter(created_by=active_user).order_by('position_id'),
+        'list_of_categories' : Category.objects.filter(created_by=active_user),
+        'list_of_public_categories' : Category.objects.filter(private=False),
+        'list_of_subcategories' : Subcategory.objects.all(),
+        'list_of_note_comments': NoteComment.objects.all(),
+        'form' : DocumentForm(),
+        'all_files' : Document.objects.all(),
+        'current_user' : User.objects.get(id=request.session['active_user'])
+    }
+    return render(request, "note_app/note_partial.html", context)
+
 def add_note(request):
     print("add_note")
     new_note = Note.objects.create(title=request.POST['title'], category=request.POST['category'], created_by=User.objects.get(id=request.session['active_user']), content=request.POST['content'], private=request.POST['privacy'])

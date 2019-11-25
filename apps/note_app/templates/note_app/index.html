@@ -87,6 +87,7 @@
     <h1 style="text-align: center;">All My Notes</h1>
     <p id="greeting">Welcome, {{current_user.first_name}}</p>
     <div id="main">
+
         <!--Start of SideNav Main-->
         <a href="/login/logout" class="logout"><i class="fas fa-door-open"></i></a>
 
@@ -98,165 +99,9 @@
         </a>
 
         <div class="wrapper">
-            <div class="note_container">
-                {% for note in all_notes %}
-                {% if note.private == False or note.created_by == current_user%}
-                <div id="note{{note.id}}_cell" ondrop="drop(event, this)" ondragover="allowDrop(event)" >
-                <div id="note{{note.id}}" note_position_id="{{note.position_id}}" ondragstart="dragStart(event, this)" draggable="true">
-                    <button class="accordion" id="note_layout">
-                        <p id="{{note.id}}" title="{{note.title}}" content="{{note.content}}" class="note">
-                            <span class="arrow_container">
-                                <a href="/notes/note/move_up/{{note.id}}" style="top:2px; left:5px;">
-                                    <i class="fas fa-arrow-up"></i>
-                                </a>
-                                <a href="/notes/note/move_down/{{note.id}}" style="bottom:2px; left: 5px;">
-                                    <i class="fas fa-arrow-down"></i>
-                                </a>
-                            </span>
-                            {{note.position_id}} - {{note.title}} - [<a href="/notes/category/view/{{note.category}}">{{note.category}}</a>] -
-                            {{note.content}}
-                            <span class="uploaded_by">
-                                {{note.created_by.first_name}} {{note.created_by.last_name}}
-                            </span>
-                            <span class="uploaded_at">
-                                {{note.updated_at}}
-                            </span>
-                            <span class="privacy">
-                                {% if note.private %}
-                                <i onclick="togglePrivacy(this, event)" class="fas fa-lock-open"
-                                    privacy={{note.private}}></i>
-                                {% else %}
-                                <i onclick="togglePrivacy(this, event)" class="fas fa-lock"
-                                    privacy={{note.private}}></i>
-                                {% endif %}
-                            </span>
-                            <a href="/notes/note/delete/{{note.id}}">
-                                <i class="fas fa-trash"></i>
-                            </a>
-                            <a onClick="edit_note(this, event)">
-                                <i class="fas fa-edit"></i>
-                            </a>
 
-                    </button>
-                    <div class="panel">
-                        <div class="note_comments_panel">
-                            {% for note_comment in list_of_note_comments %}
-                            {% if note_comment.parent == note %}
-                            <ul>
-                                {% if note_comment.isCode == True %}
-                                <li id="note_comment_{{note_comment.id}}" class="code_format">
-                                    <span class="note_content">{{note_comment.content}}</span>
-                                    <a onClick="copyToClipboard(this)"><i class="fas fa-copy"
-                                            style="color: white;"></i></a>
-                                    <a onClick="toggleCodeEdit({{note_comment.id}})"><i class="fas fa-edit"></i></a>
-                                    <a href="/notes/note_comment/delete/{{note_comment.id}}"><i
-                                            class="fas fa-trash"></i></a>
-                                </li>
-                                {% else %}
-                                <li id="note_comment_{{note_comment.id}}"><span
-                                        class="note_content">{{note_comment.content}}</span> <a
-                                        onClick="toggleEdit({{note_comment.id}})"><i class="fas fa-edit"></i></a> <a
-                                        href="/notes/note_comment/delete/{{note_comment.id}}"><i
-                                            class="fas fa-trash"></i></a></li>
-                                {% endif %}
-
-                                <!-- Display an image if one was uploaded -->
-                                {% if note_comment.image %}
-                                {% if note_comment.extension == '.mp4' or note_comment.extension == '.webm' or note_comment.extension == '.ogg' or note_comment.extension == '.MOV'%}
-                                <video src="{{note_comment.image.url}}" controls="controls" class="video_format"
-                                    width="100%" height="600px"></video>
-                                {% elif note_comment.extension == '.pdf'%}
-                                <embed src="{{note_comment.image.url}}" type="application/pdf" width="100%"
-                                    height="600px" />
-                                {% else %}
-                                <img src="{{note_comment.image.url}}" alt="{{note_comment.image.url}}"
-                                    class="comment_image">
-                                {% endif %}
-                                {% endif %}
-
-                                <form action="/notes/note/edit_note_comment/{{note_comment.id}}" method="POST"
-                                    style="display:none">
-                                    {% csrf_token %}
-                                    <textarea name="content" style="width: 100%;">{{note_comment.content}}</textarea>
-                                    <!-- <input type="text" name="content" value="{{note_comment.content}}"> -->
-                                    <button class="update_subnote_button" id="{{note.id}}">Update</button>
-                                </form>
-                            </ul>
-                            {% endif %}
-                            {% endfor %}
-                        </div>
-
-                        <form action="/notes/note/new_note_comment/{{note.id}}" method="POST"
-                            enctype="multipart/form-data" class="add_note_form">
-                            {% csrf_token %}
-                            <!-- <input type="text" name="content"> -->
-                            <textarea name="content" rows="2" cols="25" class="note_textarea"></textarea>
-                            <!-- <pre><code class="language-css"></code> -->
-                            <!-- <a onclick="codeSnippet()"><button type="button">Code</button></a> -->
-                            <!-- <input type="checkbox" value="True" name="isCode">Iscode -->
-                            <select name="isCode" class="isCode">
-                                <option value="False">Text</option>
-                                <option value="True">Code</option>
-                            </select>
-
-                            <!-- Simple File Upload --><br>
-                            <input type="file" name="myfile">
-
-                            <button class="add_subnote_button" id="{{note.id}}">Add</button>
-                        </form>
-
-                        <!-- <form method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <button type="submit">Upload</button>
-              </form> -->
-                    </div>
-
-                    <form action="/notes/note/edit/{{note.id}}" method="POST" style="display:none;" id="update_form">
-                        {% csrf_token %}
-                        <input type="text" name="title" id="title_input" value="{{note.title}}">
-                        <select name="privacy" id="privacy_input" value="{{note.privacy}}">
-                            {% if note.private == True %}
-                            <option value="True">public</option>
-                            <option value="False">private</option>
-                            {% else %}
-                            <option value="False">private</option>
-                            <option value="True">public</option>
-                            {% endif %}
-                        </select>
-                        <select name="category" id="category_input" value="{{note.category}}">
-                            <option value="{{note.category}}">{{note.category}}</option>
-                            {% if note.category != "All" %}
-                            <option value="All">All</option>
-                            {% endif %}
-                            {% for subcategory in list_of_subcategories %}
-                            {% if subcategory.name != note.category %}
-                            <option value="{{subcategory.name}}">{{subcategory.name}}</option>
-                            {% endif %}
-                            {% endfor %}
-                        </select>
-                        <textarea name="content" id="content_input" value="{{note.content}}">{{note.content}}</textarea>
-                        <button id="add_note_button">Update</button>
-                    </form>
-
-                    </p>
-                    <form action="/notes/note/update" method="POST" id="edit_form">
-                        {% csrf_token %}
-                        <input type="text" name="title" placeholder="Title" value="{{note.title}}">
-                        <select name="category" value="{{note.category}}">
-                            <option value="All">All</option>
-                            {% for category in list_of_categories %}
-                            <option value="{{category.name}}">{{category.name}}</option>
-                            {% endfor %}
-                        </select>
-                        <textarea name="content" value="{{note.content}}">{{note.content}}</textarea>
-                        <button>Update</button>
-                    </form>
-                </div>
-                </div>
-                {% endif %}
-                {% endfor %}
-            </div>
+        <!-- Div to hold all notes -->
+        <div id="notes_component"></div>
 
             <!-- Add new Note -->
             <h4 class="add_new_note_tag">Add a new note</h4>

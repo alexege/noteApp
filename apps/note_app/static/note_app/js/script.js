@@ -107,26 +107,42 @@ function drop(event, element) {
     starting_cell.append(ending_element);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //-------- Wait for page to load --------
 
 $(document).ready(function(){
+
+    $.ajax({
+        url:'ajax/all_notes_partial',
+        method:'get',
+        data: $(this).serialize(),
+        success: function(serverResponse){
+            console.log("Replace the component with all notes!")
+            $("#notes_component").html(serverResponse);
+
+            // Toggle open/close accordion elements
+                var list = document.getElementById("notes_component");
+                var acc = list.getElementsByClassName("accordion");
+                var i;
+
+                for (i = 0; i < acc.length; i++) {
+                acc[i].addEventListener("click", function() {
+                    /* Toggle between adding and removing the "active" class, to highlight the button that controls the panel */
+                    this.classList.toggle("active");
+
+                    /* Toggle between hiding and showing the active panel */
+                    var panel = this.nextElementSibling;
+                    if (panel.style.display === "block") {
+                    panel.style.display = "none";
+                    localStorage.clear();
+                    console.log("Clearing local storage")
+                    } else {
+                    panel.style.display = "block";
+                    }
+                });
+            }
+
+        }
+    });
   
     if(localStorage.getItem('target_note') != null){
 
