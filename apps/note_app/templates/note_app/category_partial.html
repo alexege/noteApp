@@ -1,4 +1,4 @@
-<h1 style="text-align: center;">All My Notes</h1>
+<h1 style="text-align: center;">{{category}} Notes</h1>
 
 <div class="note_container">
         {% for note in all_notes %}
@@ -170,6 +170,7 @@
             <option value="True">private</option>
         </select>
         <select name="category" id="category_input">
+            <option value="{{category}}">{{category}}</option>
             <option value="All">All</option>
             {% for subcategory in list_of_subcategories %}
             <option value="{{subcategory.name}}">{{subcategory.name}}</option>

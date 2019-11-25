@@ -41,7 +41,7 @@ def all_notes_partial(request):
         'list_of_note_comments': NoteComment.objects.all(),
         'form' : DocumentForm(),
         'all_files' : Document.objects.all(),
-        'current_user' : User.objects.get(id=request.session['active_user'])
+        'current_user' : User.objects.get(id=request.session['active_user']),
     }
     return render(request, "note_app/note_partial.html", context)
 
@@ -221,25 +221,6 @@ def delete_subcategory(request, subcategory_id):
     subcategory_to_delete.delete()
     return redirect('/notes/')
 
-def view_subcategory(request, category, subcategory_id):
-    active_user = User.objects.get(id=request.session['active_user'])
-
-    # category = request.POST['category']
-    # subcategory = request.POST['subcategory']
-    subcategory = Subcategory.objects.get(id=subcategory_id)
-    context = {
-        'all_notes' : Note.objects.filter(category=category).filter(created_by=active_user),
-        'all_category_notes' : Note.objects.filter(category=subcategory.name),
-        'category' : category,
-        'subcategory' : subcategory,
-        'list_of_categories' : Category.objects.filter(created_by=active_user),
-        'list_of_public_categories' : Category.objects.filter(private=False),
-        'list_of_subcategories' : Subcategory.objects.all(),
-        'current_user' : User.objects.get(id=request.session['active_user']),
-        'list_of_note_comments': NoteComment.objects.all(),
-    }
-    return render(request, "note_app/view_subcategory.html", context)
-
 def view_category(request, category):
     active_user = User.objects.get(id=request.session['active_user'])
 
@@ -256,48 +237,6 @@ def view_category(request, category):
         'list_of_note_comments': NoteComment.objects.all(),
     }
     return render(request, "note_app/view_subcategory.html", context)
-
-def add_note_from_category(request):
-    print("add_note_from_category")
-    category = request.POST['category']
-    subcategory = request.POST['subcategory']
-    # subcategory = Subcategory.objects.get(id=request.POST['subcategory']).id
-    Note.objects.create(title=request.POST['title'], category=request.POST['category'], private=request.POST['privacy'], content=request.POST['content'], created_by=User.objects.get(id=request.session['active_user']))
-    return redirect('/notes/category/view/' + category + "/" + str(subcategory))
-
-def add_note_comment_from_category(request, note_id):
-    print("add_note_comment_from_category")
-    if request.method == 'POST':
-        category = request.POST['category']
-        subcategory = request.POST['subcategory']
-        print(category)
-        print(subcategory)
-        print("Length:", len(request.FILES))
-        if len(request.FILES) > 0:
-            print("File provided!")
-            parent = Note.objects.get(id=note_id)
-            image = request.FILES['myfile']
-            NoteComment.objects.create(content=request.POST['content'], parent=parent, isCode=request.POST['isCode'], image=image)
-            return redirect('/notes/category/view/' + category + "/" + str(subcategory))
-        else:
-            print("No file provided!")
-            parent = Note.objects.get(id=note_id)
-            NoteComment.objects.create(content=request.POST['content'], parent=parent, isCode=request.POST['isCode'])
-            return redirect('/notes/category/view/' + category + "/" + str(subcategory))
-    return redirect('/notes/')
-
-def delete_note_from_category(request, subcategory_id, note_id):
-    print("delete_note")
-    category = Note.objects.get(id=note_id).id
-    note_to_delete = Note.objects.get(id=note_id)
-    note_to_delete.delete()
-    return redirect('/notes/category/view/' + str(category) + '/' + subcategory_id)
-
-def delete_note_comment_from_category(request, note_comment_id, category, subcategory):
-    print("delete_note_comment_from_category")
-    note_comment_to_delete = NoteComment.objects.get(id=note_comment_id)
-    note_comment_to_delete.delete()
-    return redirect('/notes/category/view/' + category + "/" + subcategory)
 
 def master_list(request):
     context = {
@@ -317,3 +256,20 @@ def drag_and_drop(request, starting_note_id, ending_note_id):
     starting_note.save()
     ending_note.save()
     return HttpResponse(200)
+
+
+def category(request, category):
+    print("category:", category)
+    active_user = User.objects.get(id=request.session['active_user'])
+    context = {
+        'all_notes' : Note.objects.filter(created_by=active_user, category=category).order_by('position_id'),
+        'list_of_categories' : Category.objects.filter(created_by=active_user),
+        'list_of_public_categories' : Category.objects.filter(private=False),
+        'list_of_subcategories' : Subcategory.objects.all(),
+        'list_of_note_comments': NoteComment.objects.all(),
+        'category': category,
+        'form' : DocumentForm(),
+        'all_files' : Document.objects.all(),
+        'current_user' : User.objects.get(id=request.session['active_user'])
+    }
+    return render(request, "note_app/category_partial.html", context)

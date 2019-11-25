@@ -13,20 +13,13 @@ urlpatterns = [
     url(r'^note/edit_note_comment/(?P<note_comment_id>\d+)$', views.edit_note_comment),
     url(r'^note_comment/delete/(?P<note_comment_id>\d+)$', views.delete_note_comment),
     
-    url(r'^category/add$', views.add_notebook),
-    
-    url(r'^note/add_from_category$', views.add_note_from_category),
-    url(r'^note/new_note_comment_from_category/(?P<note_id>\d+)$', views.add_note_comment_from_category),
+    url(r'^category/add$', views.add_notebook),   
+    url(r'^subcategory/add/(?P<category_id>\d+)$', views.add_subcategory),
     
     # Routes from Category page
-    url(r'^category/note_comment/delete/(?P<note_comment_id>\d+)/(?P<category>[\w\s]+)/(?P<subcategory>[\w\s]+)$', views.delete_note_comment_from_category),
-    url(r'^subcategory/add/(?P<category_id>\d+)$', views.add_subcategory),
     url(r'^subcategory/delete/(?P<subcategory_id>\d+)$', views.delete_subcategory),
-    # url(r'^category/view/(?P<subcategory>[\w\s]+)$', views.view_subcategory),
-    url(r'^category/view/(?P<category>[\w\s]+)/(?P<subcategory_id>[\w\s]+)$', views.view_subcategory),
     url(r'^category/view/(?P<category>[\w\s]+)$', views.view_category),
     url(r'^category/view/All$', views.index),
-    url(r'^note/delete_note_from_category/(?P<subcategory_id>[\w\s]+)/(?P<note_id>\d+)$', views.delete_note_from_category),
 
     
     url(r'^master_list$', views.master_list),
@@ -36,5 +29,7 @@ urlpatterns = [
     url(r'^category/delete/(?P<category_id>\d+)$', views.delete_category),
 
     url(r'^ajax/drag_and_drop/(?P<starting_note_id>\d+)/(?P<ending_note_id>\d+)$', views.drag_and_drop),
-    url(r'^ajax/all_notes_partial$', views.all_notes_partial)
+    url(r'^ajax/all_notes_partial$', views.all_notes_partial),
+
+    url(r'^(?P<category>[\w\s]+)$', views.category)
 ]

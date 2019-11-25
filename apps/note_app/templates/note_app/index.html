@@ -20,6 +20,11 @@
     <!-- SideNavBar -->
     <div id="mySidenav" class="sidenav" onmouseover="revealCategoryAddForm()" onmouseout="hideCategoryAddForm()">
         <h1>My Notebooks</h1>
+
+        <div class="notebook">
+            <a onclick="view_category('All')">All</a>
+        </div>
+
         {% for category in list_of_categories %}
         <div class="notebook">
             <h5 class="accordion">{{category.name}}
@@ -39,7 +44,8 @@
                     {% for subcategory in list_of_subcategories %}
                     {% if subcategory.parent.id == category.id %}
                     <li>
-                        <a href="/notes/category/view/{{category.name}}/{{subcategory.id}}">{{subcategory.name}}</a>
+                        <a onclick="view_category('{{subcategory.name}}')">{{subcategory.name}}</a>
+                        <!-- <a href="/notes/category/view/{{category.name}}/{{subcategory.id}}">{{subcategory.name}}</a> -->
                         <a href="/notes/subcategory/delete/{{subcategory.id}}"><i class="fas fa-trash"></i></a>
                     </li>
                     {% endif %}
@@ -84,9 +90,10 @@
         <a href="/notes/master_list" id="master_list">Master List</a>
     </div>
 
-    <h1 style="text-align: center;">All My Notes</h1>
     <p id="greeting">Welcome, {{current_user.first_name}}</p>
     <div id="main">
+
+        <!-- <button onclick="view_category('asdf')">Item</button> -->
 
         <!--Start of SideNav Main-->
         <a href="/login/logout" class="logout"><i class="fas fa-door-open"></i></a>
@@ -102,37 +109,6 @@
 
         <!-- Div to hold all notes -->
         <div id="notes_component"></div>
-
-            <!-- Add new Note -->
-            <h4 class="add_new_note_tag">Add a new note</h4>
-            <form action="/notes/note/add" method="POST" class="new_note_form">
-                {% csrf_token %}
-                <input type="text" name="title" placeholder="Title" id="title_input">
-                <select name="privacy" id="privacy_input">
-                    <option value="False">public</option>
-                    <option value="True">private</option>
-                </select>
-                <select name="category" id="category_input">
-                    <option value="All">All</option>
-                    {% for subcategory in list_of_subcategories %}
-                    <option value="{{subcategory.name}}">{{subcategory.name}}</option>
-                    {% endfor %}
-                </select>
-                <textarea name="content" id="content_input" placeholder="Description"></textarea>
-                <button id="add_note_button">Add</button>
-            </form>
-
-            <!-- CSRF / Categories -->
-            <span id="csrf">
-                <select name="category" style="display: none;">
-                    <option value="All">All</option>
-                    <option value="none">None</option>
-                    {% for category in list_of_categories %}
-                    <option value="{{category}}">{{category}}</option>
-                    {% endfor %}
-                </select>
-                {% csrf_token %}
-            </span>
 
         </div>
 

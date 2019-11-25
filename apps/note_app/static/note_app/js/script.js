@@ -1,3 +1,36 @@
+function view_category(category){
+    $.ajax({
+        url: `/notes/${category}`,
+        method: 'get',
+        success: function(serverResponse){
+            $("#notes_component").html(serverResponse);
+
+            // Toggle open/close accordion elements
+            var list = document.getElementById("notes_component");
+            var acc = list.getElementsByClassName("accordion");
+            var i;
+
+            for (i = 0; i < acc.length; i++) {
+            acc[i].addEventListener("click", function() {
+                /* Toggle between adding and removing the "active" class, to highlight the button that controls the panel */
+                this.classList.toggle("active");
+
+                /* Toggle between hiding and showing the active panel */
+                var panel = this.nextElementSibling;
+                if (panel.style.display === "block") {
+                panel.style.display = "none";
+                localStorage.clear();
+                console.log("Clearing local storage")
+                } else {
+                panel.style.display = "block";
+                }
+            });
+            }
+        }
+    })
+}
+
+
 function edit_note(ele, event){
     var note = ele.parentNode.parentNode.parentNode.querySelector('#update_form')
     if(note.style.display == "block"){
