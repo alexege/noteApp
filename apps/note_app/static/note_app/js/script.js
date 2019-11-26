@@ -1,3 +1,142 @@
+// On add new note form submission
+$(document).on('submit', '.new_note_form', function(e){
+    e.preventDefault();
+    console.log("add_new_note_form_submitted");
+    $.ajax({
+        url:'note/add',
+        data: $(this).serialize(),
+        method: 'POST',
+        success: function(serverResponse){
+            console.log("Posted successfully");
+            $("#notes_component").html(serverResponse);
+
+            // Toggle open/close accordion elements
+            var list = document.getElementById("notes_component");
+            var acc = list.getElementsByClassName("accordion");
+            var i;
+            for (i = 0; i < acc.length; i++) {
+                acc[i].addEventListener("click", function() {
+                    /* Toggle between adding and removing the "active" class, to highlight the button that controls the panel */
+                    this.classList.toggle("active");
+
+                    /* Toggle between hiding and showing the active panel */
+                    var panel = this.nextElementSibling;
+                    if (panel.style.display === "block") {
+                    panel.style.display = "none";
+                    localStorage.clear();
+                    console.log("Clearing local storage")
+                    } else {
+                    panel.style.display = "block";
+                    }
+                });
+            }
+            
+        }
+    })
+})
+
+// On add new comment form submission
+$(document).on('submit', '.new_comment_form', function(e){
+    e.preventDefault();
+    console.log("this:", this);
+    var note_id = this.parentNode.parentNode.getAttribute('note_id');
+    $.ajax({
+        url:'comment/add/' + note_id,
+        data: $(this).serialize(),
+        method: 'POST',
+        success: function(serverResponse){
+            console.log("Posted successfully");
+            $("#notes_component").html(serverResponse);
+
+            //Set this element's active toggle to display the panel
+            var note = document.querySelector(`#note${note_id}`);
+            var isActive = note.querySelector('button').classList.contains('active');
+            note.querySelector('button').classList.toggle('active');
+            console.log("note:", note);
+            console.log("isActive:", isActive);
+            var panel = note.querySelector('.panel')
+            if(panel.style.display === "block"){
+                panel.style.display = "none";
+            } else {
+                panel.style.display = "block";
+            }
+
+            // Toggle open/close accordion elements
+            var list = document.getElementById("notes_component");
+            var acc = list.getElementsByClassName("accordion");
+            var i;
+            for (i = 0; i < acc.length; i++) {
+                acc[i].addEventListener("click", function() {
+                    /* Toggle between adding and removing the "active" class, to highlight the button that controls the panel */
+                    this.classList.toggle("active");
+
+                    /* Toggle between hiding and showing the active panel */
+                    var panel = this.nextElementSibling;
+                    if (panel.style.display === "block") {
+                    panel.style.display = "none";
+                    localStorage.clear();
+                    console.log("Clearing local storage")
+                    } else {
+                    panel.style.display = "block";
+                    }
+                });
+            }
+            
+        }
+    })
+})
+
+// On update edited comment form submission
+$(document).on('submit', '.comment_edit_form', function(e){
+    e.preventDefault();
+    var comment_id = this.parentNode.querySelector('li').getAttribute('comment_id');
+    var note_id = this.closest('.note_body').getAttribute('note_id');
+    $.ajax({
+        url:'comment/edit/' + comment_id,
+        data: $(this).serialize(),
+        method: 'POST',
+        success: function(serverResponse){
+            console.log("Posted successfully");
+            $("#notes_component").html(serverResponse);
+
+            //Set this element's active toggle to display the panel
+            var note = document.querySelector(`#note${note_id}`);
+            var isActive = note.querySelector('button').classList.contains('active');
+            note.querySelector('button').classList.toggle('active');
+            console.log("note:", note);
+            console.log("isActive:", isActive);
+            var panel = note.querySelector('.panel')
+            if(panel.style.display === "block"){
+                panel.style.display = "none";
+            } else {
+                panel.style.display = "block";
+            }
+
+            // Toggle open/close accordion elements
+            var list = document.getElementById("notes_component");
+            var acc = list.getElementsByClassName("accordion");
+            var i;
+            for (i = 0; i < acc.length; i++) {
+                acc[i].addEventListener("click", function() {
+                    /* Toggle between adding and removing the "active" class, to highlight the button that controls the panel */
+                    this.classList.toggle("active");
+
+                    /* Toggle between hiding and showing the active panel */
+                    var panel = this.nextElementSibling;
+                    if (panel.style.display === "block") {
+                    panel.style.display = "none";
+                    localStorage.clear();
+                    console.log("Clearing local storage")
+                    } else {
+                    panel.style.display = "block";
+                    }
+                });
+            }
+            
+        }
+    })
+})
+
 //Dynamically view notes of a specific category
 function view_category(category){
     $.ajax({
@@ -10,23 +149,25 @@ function view_category(category){
             var list = document.getElementById("notes_component");
             var acc = list.getElementsByClassName("accordion");
             var i;
-
             for (i = 0; i < acc.length; i++) {
-            acc[i].addEventListener("click", function() {
-                /* Toggle between adding and removing the "active" class, to highlight the button that controls the panel */
-                this.classList.toggle("active");
+                acc[i].addEventListener("click", function() {
+                    /* Toggle between adding and removing the "active" class, to highlight the button that controls the panel */
+                    this.classList.toggle("active");
 
-                /* Toggle between hiding and showing the active panel */
-                var panel = this.nextElementSibling;
-                if (panel.style.display === "block") {
-                panel.style.display = "none";
-                localStorage.clear();
-                console.log("Clearing local storage")
-                } else {
-                panel.style.display = "block";
-                }
-            });
+                    /* Toggle between hiding and showing the active panel */
+                    var panel = this.nextElementSibling;
+                    if (panel.style.display === "block") {
+                    panel.style.display = "none";
+                    localStorage.clear();
+                    console.log("Clearing local storage")
+                    } else {
+                    panel.style.display = "block";
+                    }
+                });
             }
+
+
+
         }
     })
 }
@@ -102,7 +243,6 @@ function jump(anchor){
     history.replaceState(null,null,' ');
 }
 
-
 // Drag and Drop 
 var starting_cell = null;
 var starting_element = null;
@@ -150,40 +290,8 @@ function drop(event, element) {
 
 $(document).ready(function(){
 
-    // view_category();
+    view_category();
 
-    $.ajax({
-        url:'ajax/all_notes_partial',
-        method:'get',
-        data: $(this).serialize(),
-        success: function(serverResponse){
-            $("#notes_component").html(serverResponse);
-
-            // Toggle open/close accordion elements
-                var list = document.getElementById("notes_component");
-                var acc = list.getElementsByClassName("accordion");
-                var i;
-
-                for (i = 0; i < acc.length; i++) {
-                acc[i].addEventListener("click", function() {
-                    /* Toggle between adding and removing the "active" class, to highlight the button that controls the panel */
-                    this.classList.toggle("active");
-
-                    /* Toggle between hiding and showing the active panel */
-                    var panel = this.nextElementSibling;
-                    if (panel.style.display === "block") {
-                    panel.style.display = "none";
-                    localStorage.clear();
-                    console.log("Clearing local storage")
-                    } else {
-                    panel.style.display = "block";
-                    }
-                });
-            }
-
-        }
-    });
-  
     if(localStorage.getItem('target_note') != null){
 
         target_id = localStorage.getItem('target_note');
@@ -230,6 +338,10 @@ $(document).ready(function(){
         a_tag.setAttribute('id', 'trigger');
         note.insertBefore(a_tag, note.childNodes[0]);
     });
+
+
+
+    
 
     // $(".fa-lock-open").on('click', function(e){
     //     // console.log("lock opened: ", this.parentNode.parentNode.getAttribute('category_id'))

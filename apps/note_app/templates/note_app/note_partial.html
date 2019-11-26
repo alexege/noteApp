@@ -80,8 +80,7 @@
                     {% endfor %}
                 </div>
 
-                <form action="/notes/comment/add{{note.id}}" method="POST"
-                    enctype="multipart/form-data" class="add_note_form">
+                <form action="/notes/comment/add/{{note.id}}" method="POST" enctype="multipart/form-data" class="add_note_form">
                     {% csrf_token %}
                     <textarea name="content" rows="2" cols="25" class="note_textarea"></textarea>
                     <select name="isCode" class="isCode">
@@ -144,7 +143,7 @@
 
     <!-- Add new Note -->
     <h4 class="add_new_note_tag">Add a new note</h4>
-    <form action="/notes/note/add" method="POST" class="new_note_form">
+    <form action="/notes/note/add" method="POST" class="new_note_form" id="add_note_form">
         {% csrf_token %}
         <input type="text" name="title" placeholder="Title" id="title_input">
         <select name="privacy" id="privacy_input">
