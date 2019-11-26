@@ -27,17 +27,17 @@
     <div id="mySidenav" class="sidenav" onmouseover="revealCategoryAddForm()" onmouseout="hideCategoryAddForm()">
         <a href="/notes/" class="all_notes"><i class="fas fa-home"></i></a>
     <h1>My Notebooks</h1>
-    {% for category in list_of_categories %}
+    {% for notebook in list_of_notebooks %}
         <h5 class="accordion">{{category.name}}</h5>
         <div class="panel">
             <ul>
-        {% for subcategory in list_of_subcategories %}
+        {% for category in list_of_categories %}
             {% if subcategory.parent.id == category.id %}
-            <li><a href="/notes/category/view/{{category.name}}/{{subcategory.name}}">{{subcategory.name}}</a>
-                {% if subcategory.private %}
-                <i custom_id="{{category.id}}" class="fas fa-lock-open togglePrivacy" privacy={{category.private}}></i>
+            <li><a href="/notes/notebook/view/{{category.name}}/{{subcategory.name}}">{{subcategory.name}}</a>
+                {% if subcategory.privacy %}
+                <i custom_id="{{category.id}}" class="fas fa-lock-open togglePrivacy" privacy={{category.privacy}}></i>
                 {% else %}
-                <i custom_id="{{category.id}}" class="fas fa-lock togglePrivacy" privacy={{category.private}}></i>
+                <i custom_id="{{category.id}}" class="fas fa-lock togglePrivacy" privacy={{category.privacy}}></i>
                 {% endif %}
                 <a href="/notes/subcategory/delete/{{subcategory.id}}"><i class="fas fa-trash"></i></a>
             </li>
@@ -52,7 +52,7 @@
     </div>
     {% endfor %}
     
-    <form action="/notes/category/add" method="POST" class="category_add_form">
+    <form action="/notes/notebook/add" method="POST" class="category_add_form">
         {% csrf_token %}
         <input type="text" name="name">
         <button>Add</button>
@@ -62,13 +62,13 @@
     <br><br>
     <h1>Public Notebooks</h1>
     <div class="public_notebooks">
-        {% for category in list_of_public_categories %}
+        {% for category in list_of_public_notebooks %}
         <h5 class="accordion">{{category.name}}</h5>
         <div class="panel">
             <ul>
-            {% for subcategory in list_of_subcategories %}
+            {% for category in list_of_categories %}
             {% if subcategory.parent.id == category.id %}
-            <li><a href="/notes/category/view/{{category.name}}/{{subcategory.name}}">{{subcategory.name}}</a> <a href="/notes/subcategory/delete/{{subcategory.id}}"><i class="fas fa-trash"></i></a></li>    
+            <li><a href="/notes/notebook/view/{{category.name}}/{{subcategory.name}}">{{subcategory.name}}</a> <a href="/notes/subcategory/delete/{{subcategory.id}}"><i class="fas fa-trash"></i></a></li>    
             {% endif %}
             {% endfor %}
             </ul>
@@ -110,7 +110,7 @@
                     <i class="fas fa-arrow-down"></i>
                 </a> 
             </span>
-            {{note.title}} - [<a href="/notes/category/view/{{note.category}}">{{note.category}}</a>] - {{note.content}}
+            {{note.title}} - [<a href="/notes/notebook/view/{{note.category}}">{{note.category}}</a>] - {{note.content}}
             <span class="uploaded_by">
                   {{note.created_by.first_name}} {{note.created_by.last_name}}
             </span>
@@ -118,10 +118,10 @@
                 {{note.updated_at}}
             </span>
             <span class="privacy">
-                {% if note.private %}
-                <i onclick="togglePrivacy(this, event)" class="fas fa-lock-open" privacy={{note.private}}></i>
+                {% if note.privacy %}
+                <i onclick="togglePrivacy(this, event)" class="fas fa-lock-open" privacy={{note.privacy}}></i>
                 {% else %}
-                <i onclick="togglePrivacy(this, event)" class="fas fa-lock" privacy={{note.private}}></i>
+                <i onclick="togglePrivacy(this, event)" class="fas fa-lock" privacy={{note.privacy}}></i>
                 {% endif %}
             </span>
             <a href="/notes/note/delete/{{note.id}}">
@@ -142,13 +142,13 @@
                         <span class="note_content">{{note_comment.content}}</span>
                         <a onClick="copyToClipboard(this)"><i class="fas fa-copy" style="color: white;"></i></a>
                         <a onClick="toggleCodeEdit({{note_comment.id}})"><i class="fas fa-edit"></i></a>
-                        <a href="/notes/note_comment/delete/{{note_comment.id}}"><i class="fas fa-trash"></i></a>
+                        <a href="/notes/comment/delete/{{note_comment.id}}"><i class="fas fa-trash"></i></a>
                     </li>
                     {% else %}
                     <li id="note_comment_{{note_comment.id}}">
                         <span class="note_content">{{note_comment.content}}</span>
                         <a onClick="toggleEdit({{note_comment.id}})"><i class="fas fa-edit"></i></a>
-                        <a href="/notes/category/note_comment/delete/{{note_comment.id}}/{{category_name}}/{{subcategory_name}}"><i class="fas fa-trash"></i></a>
+                        <a href="/notes/category/comment/delete/{{note_comment.id}}/{{category_name}}/{{subcategory_name}}"><i class="fas fa-trash"></i></a>
                     </li>
                     {% endif %}
                     
@@ -163,7 +163,7 @@
                         {% endif %}
                     {% endif %}
 
-                    <form action="/notes/note/edit_note_comment/{{note_comment.id}}" method="POST" style="display:none">
+                    <form action="/notes/comment/edit{{note_comment.id}}" method="POST" style="display:none">
                         {% csrf_token %}
                         <textarea name="content" style="width: 100%;" >{{note_comment.content}}</textarea>
                         <!-- <input type="text" name="content" value="{{note_comment.content}}"> -->
@@ -174,7 +174,7 @@
             {% endfor %}
             </div>
             
-            <form action="/notes/note/new_note_comment_from_category/{{note.id}}" method="POST" enctype="multipart/form-data" class="add_note_form">
+            <form action="/notes/note/new_comment_from_category/{{note.id}}" method="POST" enctype="multipart/form-data" class="add_note_form">
                 {% csrf_token %}
                 <!-- <input type="text" name="content"> -->
                 <input type="hidden" name="category_name" value="{{category_name}}">
@@ -205,11 +205,11 @@
             {% csrf_token %}
             <input type="text" name="title" id="title_input" value="{{note.title}}">
             <select name="privacy" id="privacy_input" value="{{note.privacy}}">
-                {% if note.private == True %}
+                {% if note.privacy == True %}
                     <option value="True">public</option>
-                    <option value="False">private</option>
+                    <option value="False">privacy</option>
                 {% else %}
-                    <option value="False">private</option>
+                    <option value="False">privacy</option>
                     <option value="True">public</option>
                 {% endif %}
                 </select>
@@ -218,7 +218,7 @@
                 {% if note.category != "All" %}
                 <option value="All">All</option>
                 {% endif %}
-                {% for subcategory in list_of_subcategories %}
+                {% for category in list_of_categories %}
                     {% if subcategory.name != note.category %}
                         <option value="{{subcategory.name}}">{{subcategory.name}}</option>
                     {% endif %}
@@ -234,7 +234,7 @@
             <input type="text" name="title" placeholder="Title" value="{{note.title}}">
             <select name="category" value="{{note.category}}">
                 <option value="All">All</option>
-                {% for category in list_of_categories %}
+                {% for notebook in list_of_notebooks %}
                     <option value="{{category.name}}">{{category.name}}</option>
                 {% endfor %}
             </select>
@@ -254,12 +254,12 @@
         <input type="text" name="title" placeholder="Title" id="title_input">
         <select name="privacy" id="privacy_input">
             <option value="True">public</option>
-            <option value="False">private</option>
+            <option value="False">privacy</option>
         </select>
         <select name="category" id="category_input">
             <option value="{{subcategory_name}}">{{subcategory_name}}</option>
             <option value="All">All</option>
-            {% for subcategory in list_of_subcategories %}
+            {% for category in list_of_categories %}
                 <option value="{{subcategory.name}}">{{subcategory.name}}</option>
             {% endfor %}
         </select>
@@ -272,7 +272,7 @@
         <select name="category" style="display: none;">
             <option value="All">All</option>
             <option value="none">None</option>
-            {% for category in list_of_categories %}
+            {% for notebook in list_of_notebooks %}
                 <option value="{{category}}">{{category}}</option>
             {% endfor %}
         </select>

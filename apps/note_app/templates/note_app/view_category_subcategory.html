@@ -27,13 +27,13 @@
     <div id="mySidenav" class="sidenav">
         <a href="/notes/" class="all_notes"><i class="fas fa-home"></i></a>
     <h1>NoteBooks</h1>
-    {% for category in list_of_categories %}
+    {% for notebook in list_of_notebooks %}
         <h5 class="accordion">{{category.name}}</h5>
         <div class="panel">
             <ul>
-        {% for subcategory in list_of_subcategories %}
+        {% for category in list_of_categories %}
             {% if subcategory.parent.id == category.id %}
-            <li><a href="/notes/category/view/{{subcategory.name}}">{{subcategory.name}}</a> <a href="/notes/subcategory/delete/{{subcategory.id}}"><i class="fas fa-trash"></i></a></li>    
+            <li><a href="/notes/notebook/view/{{subcategory.name}}">{{subcategory.name}}</a> <a href="/notes/subcategory/delete/{{subcategory.id}}"><i class="fas fa-trash"></i></a></li>    
             {% endif %}
         {% endfor %}
             </ul>
@@ -45,7 +45,7 @@
     </div>
     {% endfor %}
     
-    <form action="/notes/category/add" method="POST">
+    <form action="/notes/notebook/add" method="POST">
         {% csrf_token %}
         <input type="text" name="name">
         <button>Add</button>
@@ -81,7 +81,7 @@
                     <i class="fas fa-arrow-down"></i>
                 </a> 
             </span>
-            {{note.title}} - [<a href="/notes/category/view/{{note.category}}">{{note.category}}</a>] - {{note.content}} 
+            {{note.title}} - [<a href="/notes/notebook/view/{{note.category}}">{{note.category}}</a>] - {{note.content}} 
             <span class="uploaded_at">
                 {{note.updated_at}}
             </span>
@@ -102,9 +102,9 @@
                 {% if note_comment.parent == note %}
                 <ul>
                     {% if note_comment.isCode == True %}
-                    <li id="note_comment_{{note_comment.id}}" class="code_format"><span class="note_content">{{note_comment.content}}</span> <a onClick="copyToClipboard(this)"><i class="fas fa-copy" style="color: white;"></i></a>  <a onClick="toggleCodeEdit({{note_comment.id}})"><i class="fas fa-edit"></i></a>            <a href="/notes/note_comment/delete/{{note_comment.id}}"><i class="fas fa-trash"></i></a></li>
+                    <li id="note_comment_{{note_comment.id}}" class="code_format"><span class="note_content">{{note_comment.content}}</span> <a onClick="copyToClipboard(this)"><i class="fas fa-copy" style="color: white;"></i></a>  <a onClick="toggleCodeEdit({{note_comment.id}})"><i class="fas fa-edit"></i></a>            <a href="/notes/comment/delete/{{note_comment.id}}"><i class="fas fa-trash"></i></a></li>
                     {% else %}
-                    <li id="note_comment_{{note_comment.id}}"><span class="note_content">{{note_comment.content}}</span> <a onClick="toggleEdit({{note_comment.id}})"><i class="fas fa-edit"></i></a>            <a href="/notes/note_comment/delete/{{note_comment.id}}"><i class="fas fa-trash"></i></a></li>
+                    <li id="note_comment_{{note_comment.id}}"><span class="note_content">{{note_comment.content}}</span> <a onClick="toggleEdit({{note_comment.id}})"><i class="fas fa-edit"></i></a>            <a href="/notes/comment/delete/{{note_comment.id}}"><i class="fas fa-trash"></i></a></li>
                     {% endif %}
                     
                     <!-- Display an image if one was uploaded -->
@@ -112,7 +112,7 @@
                         <img src="{{note_comment.image.url}}" alt="" class="comment_image">
                     {% endif %}
 
-                    <form action="/notes/note/edit_note_comment/{{note_comment.id}}" method="POST" style="display:none">
+                    <form action="/notes/comment/edit{{note_comment.id}}" method="POST" style="display:none">
                         {% csrf_token %}
                         <textarea name="content" style="width: 100%;" >{{note_comment.content}}</textarea>
                         <!-- <input type="text" name="content" value="{{note_comment.content}}"> -->
@@ -122,7 +122,7 @@
                 {% endif %}
             {% endfor %}
             
-            <form action="/notes/note/new_note_comment/{{note.id}}" method="POST" enctype="multipart/form-data">
+            <form action="/notes/comment/add{{note.id}}" method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
                 <!-- <input type="text" name="content"> -->
                 <textarea name="content" rows="2" cols="25" class="note_textarea"></textarea>
@@ -154,7 +154,7 @@
             <select name="category" value="{{note.category}}">
                 <option value="{{subcategory_name}}">{{subcategory_name}}</option>
                 <option value="all">All</option>
-                {% for category in list_of_categories %}
+                {% for notebook in list_of_notebooks %}
                     <option value="{{category.name}}">{{category.name}}</option>
                 {% endfor %}
             </select>
@@ -171,7 +171,7 @@
         <input type="text" name="title" placeholder="Title" id="title_input">
         <select name="category" id="category_input">
             <option value="all">All</option>
-            {% for subcategory in list_of_subcategories %}
+            {% for category in list_of_categories %}
                 <option value="{{subcategory.name}}">{{subcategory.name}}</option>
             {% endfor %}
         </select>
@@ -184,7 +184,7 @@
         <select name="category" style="display: none;">
             <option value="all">All</option>
             <option value="none">None</option>
-            {% for category in list_of_categories %}
+            {% for notebook in list_of_notebooks %}
                 <option value="{{category}}">{{category}}</option>
             {% endfor %}
         </select>

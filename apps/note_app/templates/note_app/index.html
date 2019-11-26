@@ -21,23 +21,26 @@
     <div id="mySidenav" class="sidenav" onmouseover="revealCategoryAddForm()" onmouseout="hideCategoryAddForm()">
         <h1>My Notebooks</h1>
 
+        
+        <div class="notebooks" id="notebooks">
+        
         <div class="notebook">
-            <a onclick="view_category('All')">All</a>
+            <a href="/notes/">All</a>
         </div>
 
         {% for category in list_of_categories %}
         <div class="notebook">
             <h5 class="accordion">{{category.name}}
-                    {% if category.private == False %}
-                    <a href="toggle_notebook_privacy/{{category.id}}">
-                        <i custom_id="{{category.id}}" class="fas fa-lock-open" privacy={{category.private}}></i>
+                    {% if category.privacy == False %}
+                    <a href="notebook/{{category.id}}/privacy">
+                        <i custom_id="{{category.id}}" class="fas fa-lock-open" privacy={{category.privacy}}></i>
                     </a>
                     {% else %}
-                    <a href="toggle_notebook_privacy/{{category.id}}">
-                        <i custom_id="{{category.id}}" class="fas fa-lock" privacy={{category.private}}></i>
+                    <a href="notebook/{{category.id}}/privacy">
+                        <i custom_id="{{category.id}}" class="fas fa-lock" privacy={{category.privacy}}></i>
                     </a>
                     {% endif %}
-                    <a href="/notes/category/delete/{{category.id}}"><i class="fas fa-trash"></i></a>
+                    <a href="/notes/notebook/delete/{{category.id}}"><i class="fas fa-trash"></i></a>
             </h5>
             <div class="panel">
                 <ul>
@@ -45,7 +48,7 @@
                     {% if subcategory.parent.id == category.id %}
                     <li>
                         <a onclick="view_category('{{subcategory.name}}')">{{subcategory.name}}</a>
-                        <!-- <a href="/notes/category/view/{{category.name}}/{{subcategory.id}}">{{subcategory.name}}</a> -->
+                        <!-- <a href="/notes/notebook/view/{{category.name}}/{{subcategory.id}}">{{subcategory.name}}</a> -->
                         <a href="/notes/subcategory/delete/{{subcategory.id}}"><i class="fas fa-trash"></i></a>
                     </li>
                     {% endif %}
@@ -60,11 +63,12 @@
         </div>
         {% endfor %}
 
-        <form action="/notes/category/add" method="POST" class="category_add_form">
+        <form action="/notes/notebook/add" method="POST" class="category_add_form">
             {% csrf_token %}
             <input type="text" name="name">
             <button>Add</button>
         </form>
+        </div>
 
         <h1>Public Notebooks</h1>
         <div class="public_notebooks">
@@ -74,7 +78,7 @@
                 <ul>
                     {% for subcategory in list_of_subcategories %}
                         {% if subcategory.parent.name == category.name %}
-                        <li><a href="/notes/category/view/{{category.name}}/{{subcategory.id}}">{{subcategory.name}}</a>
+                        <li><a href="/notes/notebook/view/{{category.name}}/{{subcategory.id}}">{{subcategory.name}}</a>
                         <a href="/notes/subcategory/delete/{{subcategory.id}}"><i class="fas fa-trash"></i></a></li>
                         {% endif %}
                     {% endfor %}
@@ -93,9 +97,6 @@
     <p id="greeting">Welcome, {{current_user.first_name}}</p>
     <div id="main">
 
-        <!-- <button onclick="view_category('asdf')">Item</button> -->
-
-        <!--Start of SideNav Main-->
         <a href="/login/logout" class="logout"><i class="fas fa-door-open"></i></a>
 
         <!-- Toggle Sidebar -->
@@ -107,8 +108,8 @@
 
         <div class="wrapper">
 
-        <!-- Div to hold all notes -->
-        <div id="notes_component"></div>
+            <!-- Div to hold all notes -->
+            <div id="notes_component"></div>
 
         </div>
 

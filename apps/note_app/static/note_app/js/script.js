@@ -30,7 +30,6 @@ function view_category(category){
     })
 }
 
-
 function edit_note(ele, event){
     var note = ele.parentNode.parentNode.parentNode.querySelector('#update_form')
     if(note.style.display == "block"){
@@ -41,16 +40,16 @@ function edit_note(ele, event){
     event.stopPropagation();
 }
 
-function togglePrivacy(ele, event){
-    privacy = ele.getAttribute('privacy');
-    console.log("Privacy:", privacy)
-    if(privacy){
-        privacy = false;
-    } else {
-        privacy = true;
-    }
-    event.stopPropagation();
-}
+// function togglePrivacy(ele, event){
+//     privacy = ele.getAttribute('privacy');
+//     console.log("Privacy:", privacy)
+//     if(privacy){
+//         privacy = false;
+//     } else {
+//         privacy = true;
+//     }
+//     event.stopPropagation();
+// }
 
 function toggleEdit(note_comment_id){
     var parent = document.getElementById('note_comment_' + note_comment_id);
@@ -144,12 +143,13 @@ function drop(event, element) {
 
 $(document).ready(function(){
 
+    // view_category();
+
     $.ajax({
         url:'ajax/all_notes_partial',
         method:'get',
         data: $(this).serialize(),
         success: function(serverResponse){
-            console.log("Replace the component with all notes!")
             $("#notes_component").html(serverResponse);
 
             // Toggle open/close accordion elements
@@ -223,6 +223,24 @@ $(document).ready(function(){
         a_tag.setAttribute('id', 'trigger');
         note.insertBefore(a_tag, note.childNodes[0]);
     });
+
+    // $(".fa-lock-open").on('click', function(e){
+    //     // console.log("lock opened: ", this.parentNode.parentNode.getAttribute('category_id'))
+
+    //     category_id = this.getAttribute('custom_id')
+    //     console.log("category:", category_id)
+    //     $.ajax({
+    //         url: `/notes/notebook/${category_id}/privacy`,
+    //         method: 'get',
+    //         success: function(serverResponse){
+    //             $(".notebooks").html(serverResponse);
+    //             console.log("Success")
+    //             // element.setAttribute('onclick', element.getAttribute('onclick'));
+                
+    //         }
+    //     })
+
+    // })
 
 // element that will be wrapped
 var el = document.querySelectorAll('.code_format');

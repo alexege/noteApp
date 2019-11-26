@@ -16,11 +16,11 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Category',
+            name='Notebook',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=255)),
-                ('private', models.BooleanField(default=True)),
+                ('privacy', models.BooleanField(default=True)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('updated_at', models.DateTimeField(auto_now=True)),
                 ('created_by', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='categories', to='login_app.User')),
@@ -43,18 +43,18 @@ class Migration(migrations.Migration):
                 ('title', models.CharField(max_length=255)),
                 ('category', models.CharField(max_length=255)),
                 ('content', models.TextField()),
-                ('private', models.BooleanField(default=False)),
+                ('privacy', models.BooleanField(default=False)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('updated_at', models.DateTimeField(auto_now=True)),
                 ('created_by', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='notes', to='login_app.User')),
             ],
         ),
         migrations.CreateModel(
-            name='NoteComment',
+            name='Comment',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('content', models.TextField()),
-                ('private', models.BooleanField(default=False)),
+                ('privacy', models.BooleanField(default=False)),
                 ('image', models.FileField(blank=True, null=True, upload_to='')),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('updated_at', models.DateTimeField(auto_now=True)),
@@ -63,15 +63,15 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
-            name='Subcategory',
+            name='Category',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=255)),
-                ('private', models.BooleanField(default=True)),
+                ('privacy', models.BooleanField(default=True)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('updated_at', models.DateTimeField(auto_now=True)),
                 ('created_by', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='my_subcategories', to='login_app.User')),
-                ('parent', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='subcategories', to='note_app.Category')),
+                ('parent', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='subcategories', to='note_app.Notebook')),
             ],
         ),
     ]

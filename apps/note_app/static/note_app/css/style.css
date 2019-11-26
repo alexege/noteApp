@@ -364,6 +364,10 @@ a {
     /* background-color: rgb(60, 92, 143); */
   }
 
+  .notebooks {
+    /* border: 1px solid red; */
+  }
+
   .category_add_form {
     opacity: 0;
     transition: 0.5s ease-in-out;
