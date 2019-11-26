@@ -1,3 +1,4 @@
+//Dynamically view notes of a specific category
 function view_category(category){
     $.ajax({
         url: `/notes/${category}`,
@@ -30,6 +31,7 @@ function view_category(category){
     })
 }
 
+//Toggle edit form to edit a note
 function edit_note(ele, event){
     var note = ele.parentNode.parentNode.parentNode.querySelector('#update_form')
     if(note.style.display == "block"){
@@ -63,13 +65,18 @@ function toggleEdit(note_comment_id){
 }
 
 function toggleCodeEdit(note_comment_id){
-    var parent = document.getElementById('note_comment_' + note_comment_id);
-    if (parent.parentElement.nextElementSibling.style.display === "none") {
+    console.log("Toggle code edit");
+    var parent = document.getElementById('comment_' + note_comment_id);
+    console.log("Comment:", parent.parentElement)
+    var codeEditForm = parent.parentElement.querySelector('form');
+    console.log("codeEditForm:", codeEditForm)
+
+    if (codeEditForm.style.display === "none") {
         parent.style.display = "none";
-        parent.parentElement.nextElementSibling.style.display = "block";
+        codeEditForm.style.display = "block";
     } else {
         parent.style.display = "block";
-        parent.parentElement.nextElementSibling.style.display = "none";
+        codeEditForm.style.display = "none";
     }
 }
 

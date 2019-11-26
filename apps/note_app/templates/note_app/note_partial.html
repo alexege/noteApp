@@ -15,7 +15,8 @@
                             <i class="fas fa-arrow-down"></i>
                         </a>
                     </span>
-                    {{note.position_id}} - {{note.title}} - [<a href="/notes/notebook/view/{{note.category}}">{{note.category}}</a>] -
+                    <!-- {{note.position_id}} - {{note.title}} - [<a href="/notes/notebook/view/{{note.category}}">{{note.category}}</a>] - -->
+                    {{note.position_id}} - {{note.title}} - [<a onclick="view_category('{{note.category}}')">{{note.category}}</a>] -
                     {{note.content}}
                     <span class="uploaded_by">
                         {{note.created_by.first_name}} {{note.created_by.last_name}}
@@ -41,46 +42,45 @@
 
             </button>
             <div class="panel">
-                <div class="note_comments_panel">
-                    {% for note_comment in list_of_note_comments %}
-                    {% if note_comment.parent == note %}
+                <div class="comments_panel">
+                    {% for comment in list_of_comments %}
+                    {% if comment.parent == note %}
                     <ul>
-                        {% if note_comment.isCode == True %}
-                        <li id="note_comment_{{note_comment.id}}" class="code_format">
-                            <span class="note_content">{{note_comment.content}}</span>
+                        {% if comment.isCode == True %}
+                        <li id="comment_{{comment.id}}" class="code_format">
+                            <span class="note_content">{{comment.content}}</span>
                             <a onClick="copyToClipboard(this)"><i class="fas fa-copy"
                                     style="color: white;"></i></a>
-                            <a onClick="toggleCodeEdit({{note_comment.id}})"><i class="fas fa-edit"></i></a>
-                            <a href="/notes/comment/delete/{{note_comment.id}}"><i
+                            <a onClick="toggleCodeEdit({{comment.id}})"><i class="fas fa-edit"></i></a>
+                            <a href="/notes/comment/delete/{{comment.id}}"><i
                                     class="fas fa-trash"></i></a>
                         </li>
                         {% else %}
-                        <li id="note_comment_{{note_comment.id}}"><span
-                                class="note_content">{{note_comment.content}}</span> <a
-                                onClick="toggleEdit({{note_comment.id}})"><i class="fas fa-edit"></i></a> <a
-                                href="/notes/comment/delete/{{note_comment.id}}"><i
+                        <li id="comment_{{comment.id}}"><span
+                                class="note_content">{{comment.content}}</span> <a
+                                onClick="toggleEdit({{comment.id}})"><i class="fas fa-edit"></i></a> <a
+                                href="/notes/comment/delete/{{comment.id}}"><i
                                     class="fas fa-trash"></i></a></li>
                         {% endif %}
 
                         <!-- Display an image if one was uploaded -->
-                        {% if note_comment.image %}
-                        {% if note_comment.extension == '.mp4' or note_comment.extension == '.webm' or note_comment.extension == '.ogg' or note_comment.extension == '.MOV'%}
-                        <video src="{{note_comment.image.url}}" controls="controls" class="video_format"
+                        {% if comment.image %}
+                        {% if comment.extension == '.mp4' or comment.extension == '.webm' or comment.extension == '.ogg' or comment.extension == '.MOV'%}
+                        <video src="{{comment.image.url}}" controls="controls" class="video_format"
                             width="100%" height="600px"></video>
-                        {% elif note_comment.extension == '.pdf'%}
-                        <embed src="{{note_comment.image.url}}" type="application/pdf" width="100%"
+                        {% elif comment.extension == '.pdf'%}
+                        <embed src="{{comment.image.url}}" type="application/pdf" width="100%"
                             height="600px" />
                         {% else %}
-                        <img src="{{note_comment.image.url}}" alt="{{note_comment.image.url}}"
+                        <img src="{{comment.image.url}}" alt="{{comment.image.url}}"
                             class="comment_image">
                         {% endif %}
                         {% endif %}
 
-                        <form action="/notes/comment/edit{{note_comment.id}}" method="POST"
+                        <form action="/notes/comment/edit{{comment.id}}" method="POST"
                             style="display:none">
                             {% csrf_token %}
-                            <textarea name="content" style="width: 100%;">{{note_comment.content}}</textarea>
-                            <!-- <input type="text" name="content" value="{{note_comment.content}}"> -->
+                            <textarea name="content" style="width: 100%;">{{comment.content}}</textarea>
                             <button class="update_subnote_button" id="{{note.id}}">Update</button>
                         </form>
                     </ul>
@@ -91,11 +91,7 @@
                 <form action="/notes/comment/add{{note.id}}" method="POST"
                     enctype="multipart/form-data" class="add_note_form">
                     {% csrf_token %}
-                    <!-- <input type="text" name="content"> -->
                     <textarea name="content" rows="2" cols="25" class="note_textarea"></textarea>
-                    <!-- <pre><code class="language-css"></code> -->
-                    <!-- <a onclick="codeSnippet()"><button type="button">Code</button></a> -->
-                    <!-- <input type="checkbox" value="True" name="isCode">Iscode -->
                     <select name="isCode" class="isCode">
                         <option value="False">Text</option>
                         <option value="True">Code</option>
@@ -106,12 +102,6 @@
 
                     <button class="add_subnote_button" id="{{note.id}}">Add</button>
                 </form>
-
-                <!-- <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Upload</button>
-      </form> -->
             </div>
 
             <form action="/notes/note/edit/{{note.id}}" method="POST" style="display:none;" id="update_form">
@@ -131,7 +121,7 @@
                     {% if note.category != "All" %}
                     <option value="All">All</option>
                     {% endif %}
-                    {% for category in list_of_categories %}
+                    {% for category in list_of_notebooks %}
                     {% if subcategory.name != note.category %}
                     <option value="{{subcategory.name}}">{{subcategory.name}}</option>
                     {% endif %}
@@ -171,22 +161,10 @@
         </select>
         <select name="category" id="category_input">
             <option value="All">All</option>
-            {% for category in list_of_categories %}
-            <option value="{{subcategory.name}}">{{subcategory.name}}</option>
+            {% for notebook in list_of_notebooks %}
+            <option value="{{notebook.name}}">{{notebook.name}}</option>
             {% endfor %}
         </select>
         <textarea name="content" id="content_input" placeholder="Description"></textarea>
         <button id="add_note_button">Add</button>
     </form>
-
-    <!-- CSRF / Categories -->
-    <span id="csrf">
-        <select name="category" style="display: none;">
-            <option value="All">All</option>
-            <option value="none">None</option>
-            {% for notebook in list_of_notebooks %}
-            <option value="{{category}}">{{category}}</option>
-            {% endfor %}
-        </select>
-        {% csrf_token %}
-    </span>

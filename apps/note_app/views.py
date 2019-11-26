@@ -21,10 +21,10 @@ def index(request):
         active_user = User.objects.get(id=request.session['active_user'])
         context = {
             'all_notes' : Note.objects.filter(created_by=active_user).order_by('position_id'),
-            'list_of_categories' : Notebook.objects.filter(created_by=active_user),
+            'list_of_notebooks' : Notebook.objects.filter(created_by=active_user),
             'list_of_public_categories' : Notebook.objects.filter(privacy=False),
             'list_of_subcategories' : Category.objects.all(),
-            'list_of_note_comments': Comment.objects.all(),
+            'list_of_comments': Comment.objects.all(),
             'form' : DocumentForm(),
             'all_files' : Document.objects.all(),
             'current_user' : User.objects.get(id=request.session['active_user']),
@@ -38,11 +38,11 @@ def view_notebook(request, category):
         'all_notes' : Note.objects.filter(category=category).filter(created_by=active_user),
         'all_category_notes' : Note.objects.filter(category=category),
         'category' : category,
-        'list_of_categories' : Notebook.objects.filter(created_by=active_user),
+        'list_of_notebooks' : Notebook.objects.filter(created_by=active_user),
         'list_of_public_categories' : Notebook.objects.filter(privacy=False),
         'list_of_subcategories' : Category.objects.all(),
         'current_user' : User.objects.get(id=request.session['active_user']),
-        'list_of_note_comments': Comment.objects.all(),
+        'list_of_comments': Comment.objects.all(),
     }
     return render(request, "note_app/view_subcategory.html", context)
 
@@ -50,10 +50,10 @@ def all_notes_partial(request):
     active_user = User.objects.get(id=request.session['active_user'])
     context = {
         'all_notes' : Note.objects.filter(created_by=active_user).order_by('position_id'),
-        'list_of_categories' : Notebook.objects.filter(created_by=active_user),
+        'list_of_notebooks' : Notebook.objects.filter(created_by=active_user),
         'list_of_public_categories' : Notebook.objects.filter(privacy=False),
         'list_of_subcategories' : Category.objects.all(),
-        'list_of_note_comments': Comment.objects.all(),
+        'list_of_comments': Comment.objects.all(),
         'form' : DocumentForm(),
         'all_files' : Document.objects.all(),
         'current_user' : User.objects.get(id=request.session['active_user']),
@@ -69,10 +69,10 @@ def category_partial(request, category):
     active_user = User.objects.get(id=request.session['active_user'])
     context = {
         'all_notes' : Note.objects.filter(created_by=active_user, category=category).order_by('position_id'),
-        'list_of_categories' : Notebook.objects.filter(created_by=active_user),
+        'list_of_notebooks' : Notebook.objects.filter(created_by=active_user),
         'list_of_public_categories' : Notebook.objects.filter(privacy=False),
         'list_of_subcategories' : Category.objects.all(),
-        'list_of_note_comments': Comment.objects.all(),
+        'list_of_comments': Comment.objects.all(),
         'category': category,
         'form' : DocumentForm(),
         'all_files' : Document.objects.all(),

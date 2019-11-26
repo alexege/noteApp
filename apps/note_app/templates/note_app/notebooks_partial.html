@@ -18,7 +18,7 @@
             </h5>
             <div class="panel">
                 <ul>
-                    {% for category in list_of_categories %}
+                    {% for category in list_of_notebooks %}
                     {% if subcategory.parent.id == category.id %}
                     <li>
                         <a onclick="view_category('{{subcategory.name}}')">{{subcategory.name}}</a>

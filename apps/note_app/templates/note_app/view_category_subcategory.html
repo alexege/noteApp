@@ -31,7 +31,7 @@
         <h5 class="accordion">{{category.name}}</h5>
         <div class="panel">
             <ul>
-        {% for category in list_of_categories %}
+        {% for category in list_of_notebooks %}
             {% if subcategory.parent.id == category.id %}
             <li><a href="/notes/notebook/view/{{subcategory.name}}">{{subcategory.name}}</a> <a href="/notes/subcategory/delete/{{subcategory.id}}"><i class="fas fa-trash"></i></a></li>    
             {% endif %}
@@ -98,24 +98,24 @@
         </button>
         <div class="panel">
           
-            {% for note_comment in list_of_note_comments %}
-                {% if note_comment.parent == note %}
+            {% for comment in list_of_comments %}
+                {% if comment.parent == note %}
                 <ul>
-                    {% if note_comment.isCode == True %}
-                    <li id="note_comment_{{note_comment.id}}" class="code_format"><span class="note_content">{{note_comment.content}}</span> <a onClick="copyToClipboard(this)"><i class="fas fa-copy" style="color: white;"></i></a>  <a onClick="toggleCodeEdit({{note_comment.id}})"><i class="fas fa-edit"></i></a>            <a href="/notes/comment/delete/{{note_comment.id}}"><i class="fas fa-trash"></i></a></li>
+                    {% if comment.isCode == True %}
+                    <li id="note_comment_{{comment.id}}" class="code_format"><span class="note_content">{{comment.content}}</span> <a onClick="copyToClipboard(this)"><i class="fas fa-copy" style="color: white;"></i></a>  <a onClick="toggleCodeEdit({{comment.id}})"><i class="fas fa-edit"></i></a>            <a href="/notes/comment/delete/{{comment.id}}"><i class="fas fa-trash"></i></a></li>
                     {% else %}
-                    <li id="note_comment_{{note_comment.id}}"><span class="note_content">{{note_comment.content}}</span> <a onClick="toggleEdit({{note_comment.id}})"><i class="fas fa-edit"></i></a>            <a href="/notes/comment/delete/{{note_comment.id}}"><i class="fas fa-trash"></i></a></li>
+                    <li id="note_comment_{{comment.id}}"><span class="note_content">{{comment.content}}</span> <a onClick="toggleEdit({{comment.id}})"><i class="fas fa-edit"></i></a>            <a href="/notes/comment/delete/{{comment.id}}"><i class="fas fa-trash"></i></a></li>
                     {% endif %}
                     
                     <!-- Display an image if one was uploaded -->
-                    {% if note_comment.image %}
-                        <img src="{{note_comment.image.url}}" alt="" class="comment_image">
+                    {% if comment.image %}
+                        <img src="{{comment.image.url}}" alt="" class="comment_image">
                     {% endif %}
 
-                    <form action="/notes/comment/edit{{note_comment.id}}" method="POST" style="display:none">
+                    <form action="/notes/comment/edit{{comment.id}}" method="POST" style="display:none">
                         {% csrf_token %}
-                        <textarea name="content" style="width: 100%;" >{{note_comment.content}}</textarea>
-                        <!-- <input type="text" name="content" value="{{note_comment.content}}"> -->
+                        <textarea name="content" style="width: 100%;" >{{comment.content}}</textarea>
+                        <!-- <input type="text" name="content" value="{{comment.content}}"> -->
                         <button>Update</button>
                     </form>
                 </ul>
@@ -171,7 +171,7 @@
         <input type="text" name="title" placeholder="Title" id="title_input">
         <select name="category" id="category_input">
             <option value="all">All</option>
-            {% for category in list_of_categories %}
+            {% for category in list_of_notebooks %}
                 <option value="{{subcategory.name}}">{{subcategory.name}}</option>
             {% endfor %}
         </select>
