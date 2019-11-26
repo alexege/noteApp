@@ -1,3 +1,20 @@
+// Toggle Notebook Privacy
+$(document).on('click', '.fa-lock, .fa-lock-open', function(e){
+    console.log("Clicking on a lock button");
+    console.log(this.getAttribute('note_id'));
+    notebook_id = this.getAttribute('note_id')
+    e.preventDefault();
+    $.ajax({
+        url:`notebook/${notebook_id}/privacy`,
+        method: 'get',
+        success: function(serverResponse){
+            console.log("success");
+            $("#notebooks").html(serverResponse);
+        }
+    })
+
+})
+
 // On add new note form submission
 $(document).on('submit', '.new_note_form', function(e){
     e.preventDefault();
@@ -40,6 +57,7 @@ $(document).on('submit', '.new_comment_form', function(e){
     e.preventDefault();
     console.log("this:", this);
     var note_id = this.parentNode.parentNode.getAttribute('note_id');
+    console.log("note_id:", note_id)
     $.ajax({
         url:'comment/add/' + note_id,
         data: $(this).serialize(),
@@ -50,10 +68,10 @@ $(document).on('submit', '.new_comment_form', function(e){
 
             //Set this element's active toggle to display the panel
             var note = document.querySelector(`#note${note_id}`);
-            var isActive = note.querySelector('button').classList.contains('active');
+            // var isActive = note.querySelector('button').classList.contains('active');
             note.querySelector('button').classList.toggle('active');
             console.log("note:", note);
-            console.log("isActive:", isActive);
+            // console.log("isActive:", isActive);
             var panel = note.querySelector('.panel')
             if(panel.style.display === "block"){
                 panel.style.display = "none";

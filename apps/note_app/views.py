@@ -44,7 +44,7 @@ def index(request):
         }
         return render(request, "note_app/index.html", context)
 
-def notebook_partial(request, category):
+def note_partial(request, category):
     request.session['selected_category'] = category
     active_user = User.objects.get(id=request.session['active_user'])
 
@@ -70,7 +70,7 @@ def notebook_partial(request, category):
         'all_files' : Document.objects.all(),
         'current_user' : User.objects.get(id=request.session['active_user'])
     }
-    return render(request, "note_app/notebook_partial.html", context)
+    return render(request, "note_app/note_partial.html", context)
 
 def master_list(request):
     context = {
@@ -116,7 +116,7 @@ def add_note(request):
         'all_files' : Document.objects.all(),
         'current_user' : User.objects.get(id=request.session['active_user'])
     }
-    return render(request, "note_app/notebook_partial.html", context)
+    return render(request, "note_app/note_partial.html", context)
 
 
 def edit_note(request, note_id):
@@ -168,7 +168,7 @@ def add_comment(request, note_id):
                 'all_files' : Document.objects.all(),
                 'current_user' : User.objects.get(id=request.session['active_user'])
             }
-            return render(request, "note_app/notebook_partial.html", context)
+            return render(request, "note_app/note_partial.html", context)
         else:
             print("No file provided!")
             parent = Note.objects.get(id=note_id)
@@ -185,7 +185,7 @@ def add_comment(request, note_id):
                 'all_files' : Document.objects.all(),
                 'current_user' : User.objects.get(id=request.session['active_user'])
             }
-            return render(request, "note_app/notebook_partial.html", context)
+            return render(request, "note_app/note_partial.html", context)
 
 
 def edit_comment(request, note_comment_id):
@@ -218,7 +218,7 @@ def edit_comment(request, note_comment_id):
         'all_files' : Document.objects.all(),
         'current_user' : User.objects.get(id=request.session['active_user'])
     }
-    return render(request, "note_app/notebook_partial.html", context)
+    return render(request, "note_app/note_partial.html", context)
 
 def delete_comment(request, note_comment_id):
     print("delete_comment")
@@ -250,7 +250,12 @@ def togglePrivacy(request, notebook_id):
         print("True")
         category.privacy = True
         category.save()
-    return redirect('/notes/')
+    # return redirect('/notes/')
+    context = {
+        'list_of_notebooks' : Notebook.objects.filter(created_by=active_user),
+        'list_of_subcategories' : Category.objects.all(),
+    }
+    return render(request, "note_app/notebooks_partial.html", context)
 
 def add_subcategory(request, category_id):
     print("add_subcategory")

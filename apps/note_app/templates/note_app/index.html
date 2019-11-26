@@ -27,24 +27,24 @@
             <a href="/notes/">All</a>
         </div>
 
-        {% for category in list_of_notebooks %}
+        {% for notebook in list_of_notebooks %}
         <div class="notebook">
-            <h5 class="accordion">{{category.name}}
-                    {% if category.privacy == False %}
-                    <a href="notebook/{{category.id}}/privacy">
-                        <i custom_id="{{category.id}}" class="fas fa-lock-open" privacy={{category.privacy}}></i>
-                    </a>
+            <h5 class="accordion">{{notebook.name}}
+                    {% if notebook.privacy == False %}
+                    <!-- <a href="notebook/{{notebook.id}}/privacy"> -->
+                        <i note_id="{{notebook.id}}" custom_id="{{notebook.id}}" class="fas fa-lock-open" privacy={{notebook.privacy}}></i>
+                    <!-- </a> -->
                     {% else %}
-                    <a href="notebook/{{category.id}}/privacy">
-                        <i custom_id="{{category.id}}" class="fas fa-lock" privacy={{category.privacy}}></i>
+                    <a href="notebook/{{notebook.id}}/privacy">
+                        <i note_id="{{notebook.id}}" custom_id="{{notebook.id}}" class="fas fa-lock" privacy={{notebook.privacy}}></i>
                     </a>
                     {% endif %}
-                    <a href="/notes/notebook/delete/{{category.id}}"><i class="fas fa-trash"></i></a>
+                    <a href="/notes/notebook/delete/{{notebook.id}}"><i class="fas fa-trash"></i></a>
             </h5>
             <div class="panel">
                 <ul>
                     {% for subcategory in list_of_subcategories %}
-                    {% if subcategory.parent.id == category.id %}
+                    {% if subcategory.parent.id == notebook.id %}
                     <li>
                         <a onclick="view_category('{{subcategory.name}}')">{{subcategory.name}}</a>
                         <!-- <a href="/notes/notebook/view/{{category.name}}/{{subcategory.id}}">{{subcategory.name}}</a> -->
@@ -53,7 +53,7 @@
                     {% endif %}
                     {% endfor %}
                 </ul>
-                <form action="/notes/subcategory/add/{{category.id}}" method="POST">
+                <form action="/notes/subcategory/add/{{notebook.id}}" method="POST">
                     {% csrf_token %}
                     <input type="text" name="name">
                     <button>Add</button>

@@ -1,10 +1,10 @@
-<h1 style="text-align: center;">All My Notes</h1>
+<h1 style="text-align: center;">{{category}} Notes</h1>
 
 <div class="note_container">
         {% for note in all_notes %}
         {% if note.privacy == False or note.created_by == current_user%}
         <div id="note{{note.id}}_cell" ondrop="drop(event, this)" ondragover="allowDrop(event)" >
-        <div id="note{{note.id}}" note_position_id="{{note.position_id}}" ondragstart="dragStart(event, this)" draggable="true">
+        <div id="note{{note.id}}" note_id="{{note.id}}" note_position_id="{{note.position_id}}" ondragstart="dragStart(event, this)" draggable="true" class="note_body">
             <button class="accordion" id="note_layout">
                 <p id="{{note.id}}" title="{{note.title}}" content="{{note.content}}" class="note">
                     <!-- {{note.position_id}} - {{note.title}} - [<a href="/notes/notebook/view/{{note.category}}">{{note.category}}</a>] - -->
@@ -39,7 +39,7 @@
                     {% if comment.parent == note %}
                     <ul>
                         {% if comment.isCode == True %}
-                        <li id="comment_{{comment.id}}" class="code_format">
+                        <li id="comment_{{comment.id}}" comment_id="{{comment.id}}" class="code_format">
                             <span class="note_content">{{comment.content}}</span>
                             <a onClick="copyToClipboard(this)"><i class="fas fa-copy"
                                     style="color: white;"></i></a>
@@ -48,12 +48,21 @@
                                     class="fas fa-trash"></i></a>
                         </li>
                         {% else %}
-                        <li id="comment_{{comment.id}}"><span
+                        <li id="comment_{{comment.id}}" comment_id="{{comment.id}}"><span
                                 class="note_content">{{comment.content}}</span> <a
                                 onClick="toggleEdit({{comment.id}})"><i class="fas fa-edit"></i></a> <a
                                 href="/notes/comment/delete/{{comment.id}}"><i
                                     class="fas fa-trash"></i></a></li>
                         {% endif %}
+<!-- 
+                        <div style="border: 2px solid red;">
+                            {{comment.content}}<br>
+                            {{comment.parent}}<br>
+                            {{comment.privacy}}<br>
+                            {{comment.image}}<br>
+                            {{comment.isCode}}
+                        </div> -->
+                       
 
                         <!-- Display an image if one was uploaded -->
                         {% if comment.image %}
@@ -69,8 +78,7 @@
                         {% endif %}
                         {% endif %}
 
-                        <form action="/notes/comment/edit{{comment.id}}" method="POST"
-                            style="display:none">
+                        <form action="/notes/comment/edit/{{comment.id}}" method="POST" style="display:none" class="comment_edit_form">
                             {% csrf_token %}
                             <textarea name="content" style="width: 100%;">{{comment.content}}</textarea>
                             <button class="update_subnote_button" id="{{note.id}}">Update</button>
@@ -80,7 +88,7 @@
                     {% endfor %}
                 </div>
 
-                <form action="/notes/comment/add/{{note.id}}" method="POST" enctype="multipart/form-data" class="add_note_form">
+                <form action="/notes/comment/add/{{note.id}}" method="POST" enctype="multipart/form-data" class="new_comment_form">
                     {% csrf_token %}
                     <textarea name="content" rows="2" cols="25" class="note_textarea"></textarea>
                     <select name="isCode" class="isCode">
@@ -143,7 +151,7 @@
 
     <!-- Add new Note -->
     <h4 class="add_new_note_tag">Add a new note</h4>
-    <form action="/notes/note/add" method="POST" class="new_note_form" id="add_note_form">
+    <form action="/notes/note/add" method="POST" class="new_note_form">
         {% csrf_token %}
         <input type="text" name="title" placeholder="Title" id="title_input">
         <select name="privacy" id="privacy_input">
@@ -151,6 +159,7 @@
             <option value="True">private</option>
         </select>
         <select name="category" id="category_input">
+            <option value="{{category}}">{{category}}</option>
             <option value="All">All</option>
             {% for notebook in list_of_notebooks %}
             <option value="{{notebook.name}}">{{notebook.name}}</option>

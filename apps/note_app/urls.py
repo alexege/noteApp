@@ -28,5 +28,5 @@ urlpatterns = [
     #Ajax
     url(r'^ajax/drag_and_drop/(?P<starting_note_id>\d+)/(?P<ending_note_id>\d+)$', views.drag_and_drop),
     # url(r'^ajax/all_notes_partial$', views.all_notes_partial),
-    url(r'^(?P<category>[\w\s]+)$', views.notebook_partial),
+    url(r'^(?P<category>[\w\s]+)$', views.note_partial),
 ]
