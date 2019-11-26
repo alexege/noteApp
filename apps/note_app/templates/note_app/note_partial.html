@@ -7,14 +7,6 @@
         <div id="note{{note.id}}" note_position_id="{{note.position_id}}" ondragstart="dragStart(event, this)" draggable="true">
             <button class="accordion" id="note_layout">
                 <p id="{{note.id}}" title="{{note.title}}" content="{{note.content}}" class="note">
-                    <span class="arrow_container">
-                        <a href="/notes/note/move_up/{{note.id}}" style="top:2px; left:5px;">
-                            <i class="fas fa-arrow-up"></i>
-                        </a>
-                        <a href="/notes/note/move_down/{{note.id}}" style="bottom:2px; left: 5px;">
-                            <i class="fas fa-arrow-down"></i>
-                        </a>
-                    </span>
                     <!-- {{note.position_id}} - {{note.title}} - [<a href="/notes/notebook/view/{{note.category}}">{{note.category}}</a>] - -->
                     {{note.position_id}} - {{note.title}} - [<a onclick="view_category('{{note.category}}')">{{note.category}}</a>] -
                     {{note.content}}

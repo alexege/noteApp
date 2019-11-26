@@ -8,8 +8,15 @@ def index(request):
     if 'active_user' not in request.session:
         return redirect('/')
 
+    active_user = User.objects.get(id=request.session['active_user'])
+
     if 'selected_category' not in request.session:
+        all_notes = Note.objects.filter(created_by=active_user).order_by('position_id')
         request.session['selected_category'] = 'None'
+        print("no category selected:", request.session['selected_category'])
+    else:
+        all_notes = Note.objects.filter(created_by=active_user, category=request.session['selected_category']).order_by('position_id')
+        print("category selected!", request.session['selected_category'])
 
     if request.method == 'POST':
         print("Uploading a file...")
@@ -18,9 +25,8 @@ def index(request):
             form.save()
             return redirect('/notes/')
     else:
-        active_user = User.objects.get(id=request.session['active_user'])
         context = {
-            'all_notes' : Note.objects.filter(created_by=active_user).order_by('position_id'),
+            'all_notes' : all_notes,
             'list_of_notebooks' : Notebook.objects.filter(created_by=active_user),
             'list_of_public_categories' : Notebook.objects.filter(privacy=False),
             'list_of_subcategories' : Category.objects.all(),

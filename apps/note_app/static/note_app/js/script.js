@@ -54,7 +54,7 @@ function edit_note(ele, event){
 // }
 
 function toggleEdit(note_comment_id){
-    var parent = document.getElementById('note_comment_' + note_comment_id);
+    var parent = document.getElementById('comment_' + note_comment_id);
     if (parent.nextElementSibling.style.display === "none") {
         parent.style.display = "none";
         parent.nextElementSibling.style.display = "block";

@@ -107,18 +107,6 @@ a {
   border-right: 2px solid #09d6ef;
 }
 
-.arrow_container a {
-  display: block;
-  position: absolute;
-  text-decoration: none;
-  color: inherit;
-  font-size: 0.7rem;
-}
-
-.arrow_container a:hover {
-  color: red;
-}
-
 .privacy {
   position: absolute;
   right: 40px;
