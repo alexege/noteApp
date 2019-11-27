@@ -1,5 +1,7 @@
 // Toggle Notebook Privacy
 $(document).on('click', '.fa-trash', function(e){
+    // console.log("this.parent", this.closest(`.note_body`).getAttribute('note_id'));
+    var note_id = this.closest('.note_body').getAttribute('note_id');
     console.log("Clicking on a trash button");
     comment_id = this.parentNode.parentNode.getAttribute('comment_id')
     console.log("comment_id:", comment_id)
@@ -14,8 +16,23 @@ $(document).on('click', '.fa-trash', function(e){
             $("#notes_component").html(serverResponse);
             // $(".public_notebooks").html(serverResponse);
 
+
+            //Set this element's active toggle to display the panel
+            var note = document.querySelector(`#note${note_id}`);
+            // var isActive = note.querySelector('button').classList.contains('active');
+            note.querySelector('button').classList.toggle('active');
+            console.log("note:", note);
+            // console.log("isActive:", isActive);
+            var panel = note.querySelector('.panel')
+            if(panel.style.display === "block"){
+                panel.style.display = "none";
+            } else {
+                panel.style.display = "block";
+            }
+
+
             // Toggle open/close accordion elements
-            var list = document.getElementById("public_notebooks");
+            var list = document.getElementById("notes_component");
             var acc = list.getElementsByClassName("accordion");
             var i;
             for (i = 0; i < acc.length; i++) {
@@ -133,18 +150,18 @@ $(document).on('submit', '.new_comment_form', function(e){
             console.log("Posted successfully");
             $("#notes_component").html(serverResponse);
 
-            // //Set this element's active toggle to display the panel
-            // var note = document.querySelector(`#note${note_id}`);
-            // // var isActive = note.querySelector('button').classList.contains('active');
-            // note.querySelector('button').classList.toggle('active');
-            // console.log("note:", note);
-            // // console.log("isActive:", isActive);
-            // var panel = note.querySelector('.panel')
-            // if(panel.style.display === "block"){
-            //     panel.style.display = "none";
-            // } else {
-            //     panel.style.display = "block";
-            // }
+            //Set this element's active toggle to display the panel
+            var note = document.querySelector(`#note${note_id}`);
+            // var isActive = note.querySelector('button').classList.contains('active');
+            note.querySelector('button').classList.toggle('active');
+            console.log("note:", note);
+            // console.log("isActive:", isActive);
+            var panel = note.querySelector('.panel')
+            if(panel.style.display === "block"){
+                panel.style.display = "none";
+            } else {
+                panel.style.display = "block";
+            }
 
             // Toggle open/close accordion elements
             var list = document.getElementById("notes_component");
