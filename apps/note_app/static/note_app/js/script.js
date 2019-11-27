@@ -1,15 +1,82 @@
 // Toggle Notebook Privacy
+$(document).on('click', '.fa-trash', function(e){
+    console.log("Clicking on a trash button");
+    comment_id = this.parentNode.parentNode.getAttribute('comment_id')
+    console.log("comment_id:", comment_id)
+    e.preventDefault();
+    e.stopPropagation(); //Doesn't seem to work
+    $.ajax({
+        url:`comment/delete/${comment_id}`,
+        method: 'get',
+        data: $(this).serialize(),
+        success: function(serverResponse){
+            console.log("success");
+            $("#notes_component").html(serverResponse);
+            // $(".public_notebooks").html(serverResponse);
+
+            // Toggle open/close accordion elements
+            var list = document.getElementById("public_notebooks");
+            var acc = list.getElementsByClassName("accordion");
+            var i;
+            for (i = 0; i < acc.length; i++) {
+                acc[i].addEventListener("click", function() {
+                    /* Toggle between adding and removing the "active" class, to highlight the button that controls the panel */
+                    this.classList.toggle("active");
+
+                    /* Toggle between hiding and showing the active panel */
+                    var panel = this.nextElementSibling;
+                    if (panel.style.display === "block") {
+                    panel.style.display = "none";
+                    localStorage.clear();
+                    console.log("Clearing local storage")
+                    } else {
+                    panel.style.display = "block";
+                    }
+                });
+            }
+        }
+    })
+
+})
+
+// Toggle Notebook Privacy
 $(document).on('click', '.fa-lock, .fa-lock-open', function(e){
     console.log("Clicking on a lock button");
-    console.log(this.getAttribute('note_id'));
+    console.log(this.classList.contains('fa-lock-open'));
+    this.classList.toggle('fa-lock-open');
+    this.classList.toggle('fa-lock');
+    
     notebook_id = this.getAttribute('note_id')
     e.preventDefault();
+    e.stopPropagation(); //Doesn't seem to work
     $.ajax({
         url:`notebook/${notebook_id}/privacy`,
         method: 'get',
         success: function(serverResponse){
             console.log("success");
-            $("#notebooks").html(serverResponse);
+            // $("#notebooks").html(serverResponse);
+            $(".public_notebooks").html(serverResponse);
+
+            // Toggle open/close accordion elements
+            var list = document.getElementById("public_notebooks");
+            var acc = list.getElementsByClassName("accordion");
+            var i;
+            for (i = 0; i < acc.length; i++) {
+                acc[i].addEventListener("click", function() {
+                    /* Toggle between adding and removing the "active" class, to highlight the button that controls the panel */
+                    this.classList.toggle("active");
+
+                    /* Toggle between hiding and showing the active panel */
+                    var panel = this.nextElementSibling;
+                    if (panel.style.display === "block") {
+                    panel.style.display = "none";
+                    localStorage.clear();
+                    console.log("Clearing local storage")
+                    } else {
+                    panel.style.display = "block";
+                    }
+                });
+            }
         }
     })
 
@@ -66,18 +133,18 @@ $(document).on('submit', '.new_comment_form', function(e){
             console.log("Posted successfully");
             $("#notes_component").html(serverResponse);
 
-            //Set this element's active toggle to display the panel
-            var note = document.querySelector(`#note${note_id}`);
-            // var isActive = note.querySelector('button').classList.contains('active');
-            note.querySelector('button').classList.toggle('active');
-            console.log("note:", note);
-            // console.log("isActive:", isActive);
-            var panel = note.querySelector('.panel')
-            if(panel.style.display === "block"){
-                panel.style.display = "none";
-            } else {
-                panel.style.display = "block";
-            }
+            // //Set this element's active toggle to display the panel
+            // var note = document.querySelector(`#note${note_id}`);
+            // // var isActive = note.querySelector('button').classList.contains('active');
+            // note.querySelector('button').classList.toggle('active');
+            // console.log("note:", note);
+            // // console.log("isActive:", isActive);
+            // var panel = note.querySelector('.panel')
+            // if(panel.style.display === "block"){
+            //     panel.style.display = "none";
+            // } else {
+            //     panel.style.display = "block";
+            // }
 
             // Toggle open/close accordion elements
             var list = document.getElementById("notes_component");
@@ -109,6 +176,7 @@ $(document).on('submit', '.comment_edit_form', function(e){
     e.preventDefault();
     var comment_id = this.parentNode.querySelector('li').getAttribute('comment_id');
     var note_id = this.closest('.note_body').getAttribute('note_id');
+    console.log("note_id:", note_id);
     $.ajax({
         url:'comment/edit/' + comment_id,
         data: $(this).serialize(),
@@ -119,6 +187,7 @@ $(document).on('submit', '.comment_edit_form', function(e){
 
             //Set this element's active toggle to display the panel
             var note = document.querySelector(`#note${note_id}`);
+            console.log("note:", note)
             var isActive = note.querySelector('button').classList.contains('active');
             note.querySelector('button').classList.toggle('active');
             console.log("note:", note);

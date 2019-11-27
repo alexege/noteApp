@@ -16,7 +16,7 @@
                     <span class="uploaded_at">
                         {{note.updated_at}}
                     </span>
-                    <span class="privacy">
+                    <!-- <span class="privacy">
                         {% if note.privacy %}
                         <i onclick="togglePrivacy(this, event)" class="fas fa-lock-open"
                             privacy={{note.privacy}}></i>
@@ -24,7 +24,7 @@
                         <i onclick="togglePrivacy(this, event)" class="fas fa-lock"
                             privacy={{note.privacy}}></i>
                         {% endif %}
-                    </span>
+                    </span> -->
                     <a href="/notes/note/delete/{{note.id}}">
                         <i class="fas fa-trash"></i>
                     </a>
@@ -41,18 +41,16 @@
                         {% if comment.isCode == True %}
                         <li id="comment_{{comment.id}}" comment_id="{{comment.id}}" class="code_format">
                             <span class="note_content">{{comment.content}}</span>
-                            <a onClick="copyToClipboard(this)"><i class="fas fa-copy"
-                                    style="color: white;"></i></a>
+                            <a onClick="copyToClipboard(this)"><i class="fas fa-copy" style="color: white;"></i></a>
                             <a onClick="toggleCodeEdit({{comment.id}})"><i class="fas fa-edit"></i></a>
-                            <a href="/notes/comment/delete/{{comment.id}}"><i
-                                    class="fas fa-trash"></i></a>
+                            <a href="/notes/comment/delete/{{comment.id}}"><i class="fas fa-trash"></i></a>
                         </li>
                         {% else %}
-                        <li id="comment_{{comment.id}}" comment_id="{{comment.id}}"><span
-                                class="note_content">{{comment.content}}</span> <a
-                                onClick="toggleEdit({{comment.id}})"><i class="fas fa-edit"></i></a> <a
-                                href="/notes/comment/delete/{{comment.id}}"><i
-                                    class="fas fa-trash"></i></a></li>
+                        <li id="comment_{{comment.id}}" comment_id="{{comment.id}}">
+                            <span class="note_content">{{comment.content}}</span>
+                            <a onClick="toggleEdit({{comment.id}})"><i class="fas fa-edit"></i></a> 
+                            <a href="/notes/comment/delete/{{comment.id}}"><i class="fas fa-trash"></i></a>
+                        </li>
                         {% endif %}
 <!-- 
                         <div style="border: 2px solid red;">

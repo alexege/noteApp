@@ -70,9 +70,17 @@
         </div>
 
         <h1>Public Notebooks</h1>
-        <div class="public_notebooks">
+        <div class="public_notebooks" id="public_notebooks">
             {% for category in list_of_public_categories %}
-            <h5 class="accordion">{{category.name}}</h5>
+            <!-- <h5 class="accordion">{{category.name}}</h5> -->
+            <h5 class="accordion">{{category.name}}
+                    {% if category.privacy == False and category.created_by == active_user%}
+                    <!-- <a href="category/{{category.id}}/privacy"> -->
+                        <i note_id="{{category.id}}" custom_id="{{category.id}}" class="fas fa-lock-open" privacy={{category.privacy}}></i>
+                    <!-- </a> -->
+                    <a href="/notes/notebook/delete/{{category.id}}"><i class="fas fa-trash"></i></a>
+                    {% endif %}
+            </h5>
             <div class="panel">
                 <ul>
                     {% for subcategory in list_of_subcategories %}

@@ -2,17 +2,13 @@
     <a href="/notes/">All</a>
 </div>
 
-{% for notebook in list_of_notebooks %}
+{% for notebook in list_of_public_notebooks %}
 <div class="notebook">
     <h5 class="accordion">{{notebook.name}}
-            {% if notebook.privacy == False %}
+            {% if notebook.privacy == False and notebook.created_by == active_user%}
             <!-- <a href="notebook/{{notebook.id}}/privacy"> -->
                 <i note_id="{{notebook.id}}" custom_id="{{notebook.id}}" class="fas fa-lock-open" privacy={{notebook.privacy}}></i>
             <!-- </a> -->
-            {% else %}
-            <a href="notebook/{{notebook.id}}/privacy">
-                <i note_id="{{notebook.id}}" custom_id="{{notebook.id}}" class="fas fa-lock" privacy={{notebook.privacy}}></i>
-            </a>
             {% endif %}
             <a href="/notes/notebook/delete/{{notebook.id}}"><i class="fas fa-trash"></i></a>
     </h5>

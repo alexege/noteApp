@@ -41,6 +41,7 @@ def index(request):
             'form' : DocumentForm(),
             'all_files' : Document.objects.all(),
             'current_user' : User.objects.get(id=request.session['active_user']),
+            'active_user' : active_user
         }
         return render(request, "note_app/index.html", context)
 
@@ -52,7 +53,7 @@ def note_partial(request, category):
         category = 'All'
         request.session['selected_category'] = 'All'
         all_notes = Note.objects.filter(privacy=False).order_by('position_id')
-    elif category == 'ALL':
+    elif category == 'All':
         all_notes = Note.objects.filter(privacy=False).order_by('position_id')
     else:
         all_notes = Note.objects.filter(created_by=active_user, category=category).order_by('position_id')
@@ -145,7 +146,7 @@ def add_comment(request, note_id):
             category = 'All'
             request.session['selected_category'] = 'All'
             all_notes = Note.objects.filter(privacy=False).order_by('position_id')
-        elif category == 'ALL':
+        elif category == 'All':
             all_notes = Note.objects.filter(privacy=False).order_by('position_id')
         else:
             all_notes = Note.objects.filter(created_by=active_user, category=category).order_by('position_id')
@@ -197,14 +198,17 @@ def edit_comment(request, note_comment_id):
 
     category = request.session['selected_category']
     active_user = User.objects.get(id=request.session['active_user'])
-
+    print("Category is: [" + category + "]")
     if category == 'undefined':
         category = 'All'
         request.session['selected_category'] = 'All'
         all_notes = Note.objects.filter(privacy=False).order_by('position_id')
-    elif category == 'ALL':
+        print("-------undefined--------")
+    elif category == 'All':
         all_notes = Note.objects.filter(privacy=False).order_by('position_id')
+        print("-------All--------")
     else:
+        print("-------else--------")
         all_notes = Note.objects.filter(created_by=active_user, category=category).order_by('position_id')
 
     context = {
@@ -224,7 +228,32 @@ def delete_comment(request, note_comment_id):
     print("delete_comment")
     note_comment_to_delete = Comment.objects.get(id=note_comment_id)
     note_comment_to_delete.delete()
-    return redirect('/notes/')
+    # return redirect('/notes/')
+
+    category = request.session['selected_category']
+    active_user = User.objects.get(id=request.session['active_user'])
+
+    if category == 'undefined':
+        category = 'All'
+        request.session['selected_category'] = 'All'
+        all_notes = Note.objects.filter(privacy=False).order_by('position_id')
+    elif category == 'All':
+        all_notes = Note.objects.filter(privacy=False).order_by('position_id')
+    else:
+        all_notes = Note.objects.filter(created_by=active_user, category=category).order_by('position_id')
+
+    context = {
+        'all_notes' : all_notes,
+        'list_of_notebooks' : Notebook.objects.filter(created_by=active_user),
+        'list_of_public_categories' : Notebook.objects.filter(privacy=False),
+        'list_of_subcategories' : Category.objects.all(),
+        'list_of_comments': Comment.objects.all(),
+        'category': category,
+        'form' : DocumentForm(),
+        'all_files' : Document.objects.all(),
+        'current_user' : User.objects.get(id=request.session['active_user'])
+    }
+    return render(request, "note_app/note_partial.html", context)
 
 def add_notebook(request):
     print("add_notebook")
@@ -252,7 +281,8 @@ def togglePrivacy(request, notebook_id):
         category.save()
     # return redirect('/notes/')
     context = {
-        'list_of_notebooks' : Notebook.objects.filter(created_by=active_user),
+        'active_user': active_user,
+        'list_of_public_notebooks' : Notebook.objects.filter(privacy=False),
         'list_of_subcategories' : Category.objects.all(),
     }
     return render(request, "note_app/notebooks_partial.html", context)
