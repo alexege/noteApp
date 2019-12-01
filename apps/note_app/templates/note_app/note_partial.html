@@ -39,11 +39,11 @@
                     {% if comment.parent == note %}
                     <ul>
                         {% if comment.isCode == True %}
-                        <li id="comment_{{comment.id}}" comment_id="{{comment.id}}" class="code_format">
-                            <span class="note_content">{{comment.content}}</span>
+                        <li id="comment_{{comment.id}}" comment_id="{{comment.id}}" >
                             <a onClick="copyToClipboard(this)"><i class="fas fa-copy" style="color: white;"></i></a>
                             <a onClick="toggleCodeEdit({{comment.id}})"><i class="fas fa-edit"></i></a>
                             <a href="/notes/comment/delete/{{comment.id}}"><i class="fas fa-trash"></i></a>
+                            <span class="note_content code_format">{{comment.content}}</span>
                         </li>
                         {% else %}
                         <li id="comment_{{comment.id}}" comment_id="{{comment.id}}">
@@ -60,7 +60,6 @@
                             {{comment.image}}<br>
                             {{comment.isCode}}
                         </div> -->
-                       
 
                         <!-- Display an image if one was uploaded -->
                         {% if comment.image %}

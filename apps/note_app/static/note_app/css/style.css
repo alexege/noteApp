@@ -8,6 +8,7 @@ body {
     /* background-color: #1e1e1e; */
     /* background-color: #DEDEDE; */
     background-color: #232331;
+    background-color: black;
     /* background-color: #1e1e1e; */
 }
 
@@ -161,6 +162,7 @@ a {
   background-color:#1e1e1e;
   color: lime;
   text-shadow: none;
+  white-space: pre-wrap;
 }
 
 /* Style the buttons that are used to open and close the accordion panel */
@@ -267,11 +269,13 @@ a {
   .note_textarea {
     width: 50%;
     height: 24px;
+    margin-top: 10px;
   }
 
   .isCode {
     height: 26px;
     vertical-align: top;
+    margin-top: 10px;
   }
 
   .comment_image {
@@ -281,10 +285,20 @@ a {
     margin-right: 45px;
   }
 
-  #add_subnote_button {
+  .add_subnote_button {
     vertical-align: top;
-    padding: 3px;
+    padding: 4px 15px;
+    margin: 10px;
+    color: #09d6ef;
+    background-color: black;
+    border: none;
     /* width: 6%; */
+  }
+
+  .add_subnote_button:hover {
+    color: white;
+    background-color: #09d6ef;
+    border: 1px solid white;
   }
   
   /* SIDENAV */

@@ -138,6 +138,7 @@ def delete_note(request, note_id):
 
 def add_comment(request, note_id):
     print("add_note_comment")
+    print("request.FILES:", request.FILES)
     if request.method == 'POST':
         category = request.session['selected_category']
         active_user = User.objects.get(id=request.session['active_user'])
@@ -157,7 +158,6 @@ def add_comment(request, note_id):
             image = request.FILES['myfile']
             Comment.objects.create(content=request.POST['content'], parent=parent, isCode=request.POST['isCode'], image=image)
             # return redirect('/notes/')
-
             context = {
                 'all_notes' : all_notes,
                 'list_of_notebooks' : Notebook.objects.filter(created_by=active_user),

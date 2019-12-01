@@ -142,9 +142,21 @@ $(document).on('submit', '.new_comment_form', function(e){
     console.log("this:", this);
     var note_id = this.parentNode.parentNode.getAttribute('note_id');
     console.log("note_id:", note_id)
+
+
+    console.log("file:", $('.new_comment_form')[0])
+    // var form_data = new FormData($('.new_comment_form').get(0))
+    // form_data.append('file', $('.new_comment_form')[0])
+    // var formData = new FormData();
+    // formData.append('file1', myFile); 
+    // const data_ = JSON.stringify(data)
+    // formData.append('data', data_);
+    // console.log("form_data:", form_data);
+    
     $.ajax({
         url:'comment/add/' + note_id,
         data: $(this).serialize(),
+        // data: form_data,
         method: 'POST',
         success: function(serverResponse){
             console.log("Posted successfully");
