@@ -73,6 +73,34 @@ def note_partial(request, category):
     }
     return render(request, "note_app/note_partial.html", context)
 
+def public_note_partial(request, category):
+    request.session['selected_category'] = category
+    active_user = User.objects.get(id=request.session['active_user'])
+
+    if category == 'undefined':
+        category = 'All'
+        request.session['selected_category'] = 'All'
+        all_notes = Note.objects.filter(privacy=False).order_by('position_id')
+    elif category == 'All':
+        all_notes = Note.objects.filter(privacy=False).order_by('position_id')
+    else:
+        all_notes = Note.objects.filter(category=category).order_by('position_id')
+
+    print(request.session['selected_category'])
+
+    context = {
+        'all_notes' : all_notes,
+        'list_of_notebooks' : Notebook.objects.filter(created_by=active_user),
+        'list_of_public_categories' : Notebook.objects.filter(privacy=False),
+        'list_of_subcategories' : Category.objects.all(),
+        'list_of_comments': Comment.objects.all(),
+        'category': category,
+        'form' : DocumentForm(),
+        'all_files' : Document.objects.all(),
+        'current_user' : User.objects.get(id=request.session['active_user'])
+    }
+    return render(request, "note_app/note_partial.html", context)
+
 def master_list(request):
     context = {
         'all_public_notes' : Note.objects.filter(privacy=False).order_by('title'),

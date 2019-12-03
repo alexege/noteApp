@@ -86,7 +86,7 @@
                     {% for subcategory in list_of_subcategories %}
                         {% if subcategory.parent.name == category.name %}
                         <li>
-                        <a onclick="view_category('{{subcategory.name}}')">{{subcategory.name}}</a>
+                        <a onclick="view_public_category('{{subcategory.name}}')">{{subcategory.name}}</a>
                         <!-- <li><a href="/notes/notebook/view/{{category.name}}">{{subcategory.name}}</a> -->
                         <a href="/notes/subcategory/delete/{{subcategory.id}}"><i class="fas fa-trash"></i></a></li>
                         </li>
