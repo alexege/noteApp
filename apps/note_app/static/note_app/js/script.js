@@ -5,12 +5,6 @@ function searchFunction() {
     var list = document.getElementById("notes_component");
     var items = list.getElementsByClassName("accordion");
 
-    console.log("searchbox:", searchbox);
-    console.log("filter", filter);
-    console.log("list:", list);
-    console.log("items:", items);
-
-
     for (i = 0; i < items.length; i++) {
         var a = items[i].getElementsByClassName("note")[0];
         txtValue = a.textContent || a.innerText;

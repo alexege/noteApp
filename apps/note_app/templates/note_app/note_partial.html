@@ -3,7 +3,7 @@
 <div class="note_container">
         {% for note in all_notes %}
         {% if note.privacy == False or note.created_by == current_user%}
-        <div id="note{{note.id}}_cell" ondrop="drop(event, this)" ondragover="allowDrop(event)" >
+        <div id="note{{note.id}}_cell" class="note_cell" ondrop="drop(event, this)" ondragover="allowDrop(event)" >
         
         
             <div id="note{{note.id}}" note_id="{{note.id}}" note_position_id="{{note.position_id}}" ondragstart="dragStart(event, this);" draggable="true" class="note_body">
@@ -80,7 +80,7 @@
                     <!-- Simple File Upload --><br>
                     <input type="file" name="myfile">
 
-                    <button class="add_subnote_button" id="{{note.id}}">Add</button>
+                    <button class="add_subnote_button add_button" id="{{note.id}}">Add</button>
                 </form>
             </div>
 
@@ -108,7 +108,7 @@
                     {% endfor %}
                 </select>
                 <textarea name="content" id="content_input" value="{{note.content}}">{{note.content}}</textarea>
-                <button id="add_note_button">Update</button>
+                <button id="add_note_button" class="add_button">Update</button>
             </form>
 
             </p>

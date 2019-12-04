@@ -4,14 +4,14 @@
 }
 
 body {
-    background-color: #1e1e1e;
+    background-color: var(--bg-color);
     background: url(" ../images/bay.jpg") no-repeat center center fixed;
     background-color: var(--bg-color);
     color: var(--font-color);
 }
 
 .screen {
-  background-color: #09d6ef;
+  background-color: var(--primary-color);
   background-color: var(--bg-color);
   opacity: 0.45;
   width: 100vw;
@@ -22,7 +22,7 @@ body {
 }
 
 a {
-  color: white;
+  color: var(--font-color);
   text-decoration: none;
 }
 
@@ -36,10 +36,10 @@ a {
 }
 
 .new_note_form {
-  background-color: #1e1e1e;
-  color: #09d6ef;
-  border-left: 2px solid #09d6ef;
-  border-right: 2px solid #09d6ef;
+  background-color: var(--bg-color);
+  color: var(--primary-color);
+  border-left: 2px solid var(--primary-color);
+  border-right: 2px solid var(--primary-color);
 
   padding: 10px;
 }
@@ -47,18 +47,20 @@ a {
 /* Toggle Colors */
 @import url(https://fonts.googleapis.com/css?family=Lato:400,400italic,700|Sansita+One);
  :root {
-	 --primary-color: #09d6ef;
-	 --secondary-color: red;
-	 --font-color: white;
-	 --bg-color: #383a38;
-	 --heading-color: #07fcd7;
+  --primary-color: #07fcd7;
+  --secondary-color: red;
+  --font-color: white;
+  --bg-color: #383a38;
+  --alt-bg-color:#283231;
+  --heading-color: #07fcd7;
 }
  [data-theme="dark"] {
-	 --primary-color: #07fcd7;
-	 --secondary-color: #818cab;
-	 --font-color: #e1e1ff;
-	 --bg-color: #161625;
-	 --heading-color: #07fcd7;
+   --primary-color: #09d6ef;
+	 --secondary-color: red;
+	 --font-color: white;
+   --bg-color: white;
+   --alt-bg-color:#283231;
+	 --heading-color: #09d6ef;
 }
 
 h1 {
@@ -87,7 +89,7 @@ a {
 }
  a:hover, a:focus {
    /* border-bottom: 3px solid currentColor; */
-   /* color: white; */
+   /* color: var(--font-color); */
 }
  section {
 	 max-width: 68%;
@@ -122,7 +124,7 @@ a {
   
   /* Handle */
   ::-webkit-scrollbar-thumb {
-    background: #09d6ef;
+    background: var(--primary-color);
     /* border: 3px solid black; */
   }
 
@@ -185,16 +187,21 @@ a {
 .note {
     padding: 10px;
     position: relative;
-    background-color: #1e1e1e;
-    border: 2px solid black;
-    color: #09d6ef;
+    background-color: var(--bg-color);
+    /* border: 2px solid black; */
+    color: var(--primary-color);
 }
 
 .note:hover {
   /* background-color: #f1f1f1; */
   /* background-color: black; */
-  border-left: 2px solid #09d6ef;
-  border-right: 2px solid #09d6ef;
+  background-color: #283231;
+  border-left: 2px solid var(--primary-color);
+  border-right: 2px solid var(--primary-color);
+}
+
+.note_cell {
+  margin-bottom: 2px;
 }
 
 .privacy {
@@ -210,7 +217,7 @@ a {
 .fa-trash {
   margin-left: 0.5rem;
   float: right;
-  color: white;
+  color: var(--font-color);
 }
 
 .fa-trash:hover{
@@ -219,7 +226,7 @@ a {
 
 .fa-lock, .fa-lock-open {
   position: absolute;
-  color: #09d6ef;
+  color: var(--primary-color);
   right: 3px;
 }
 
@@ -256,7 +263,7 @@ a {
 }
 
 #update_form {
-  background-color: #1e1e1e;
+  background-color: var(--bg-color);
 }
 
 /* ============================================================= */
@@ -304,7 +311,7 @@ a {
 }
 input:checked + .slider {
   /* background-color: #66bb6a; */
-  background-color: #09d6ef;
+  background-color: var(--primary-color);
 }
 input:checked + .slider:before {
   transform: translateX(26px);
@@ -317,7 +324,7 @@ input:checked + .slider:before {
 }
 
 .settings_cog i{
- color: white;
+ color: var(--font-color);
  background-color: transparent;
  padding: 0.8rem;
  font-size: 26px;
@@ -340,7 +347,7 @@ input:checked + .slider:before {
  font-size: 40px;
  left: calc(50% - 132px);
  margin: 0; 
- color: white;
+ color: var(--font-color);
 }
 
 .searchbar {
@@ -350,7 +357,7 @@ input:checked + .slider:before {
  background-color: transparent;
  border: none;
  /* border-bottom: 2px solid white; */
- border-bottom: 1px solid #09d6ef;
+ border-bottom: 1px solid var(--primary-color);
  border-radius: 3px;
 }
 
@@ -363,7 +370,7 @@ input:checked + .slider:before {
 .navbar a {
   float: left;
   font-size: 16px;
-  color: white;
+  color: var(--font-color);
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
@@ -380,7 +387,7 @@ input:checked + .slider:before {
   font-size: 16px;  
   border: none;
   outline: none;
-  color: white;
+  color: var(--font-color);
   padding: 14px 16px;
   background-color: inherit;
   font-family: inherit;
@@ -388,7 +395,7 @@ input:checked + .slider:before {
 }
 
 .navbar a:hover, .dropdown:hover .dropbtn, .dropbtn:focus {
-  background-color: white;
+  background-color: var(--font-color);
   color: black;
 }
 
@@ -430,13 +437,13 @@ input:checked + .slider:before {
   left: 0;
   /* background-color: #111; */
   /* background-color: #2d3748; */
-  background-color: #1e1e1e;
+  background-color: var(--alt-bg-color);
   /* box-shadow: 2px 2px 10px black; */
 
   overflow-x: hidden;
   transition: 0.5s;
   padding-top: 60px;
-  color: white;
+  color: var(--font-color);
   text-align: center;
 }
 
@@ -449,7 +456,7 @@ input:checked + .slider:before {
   /* padding: 8px 8px 8px 32px; */
   text-decoration: none;
   /* font-size: 25px; */
-  color: white;
+  color: var(--font-color);
   /* display: block; */
   transition: 0.3s;
 }
@@ -487,6 +494,7 @@ input:checked + .slider:before {
 
 .notebook {
   margin: 5px;
+  background-color: #333;
 }
 
 .notebooks {
@@ -529,7 +537,7 @@ input:checked + .slider:before {
 }
 
 .code_format {
-  background-color:#1e1e1e;
+  background-color: black;
   color: lime;
   text-shadow: none;
   white-space: pre-wrap;
@@ -551,9 +559,12 @@ input:checked + .slider:before {
   }
   
   /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
-  .active, .accordion:hover {
-    background-color: var(--bg-color);
+  .active, .sidenav .accordion:hover {
+    /* background-color: var(--bg-color); */
+    background-color: #333333;
     color: var(--font-color);
+    border-left: 2px solid var(--primary-color);
+    transition: 0.25s;
   }
 
   .sidenav .active, .sidenav .accordion:hover{
@@ -600,8 +611,8 @@ input:checked + .slider:before {
     color: var(--primary-color);
   }
 
-  .panel form {
-      margin-left: 45px;
+  #notes_component .panel form {
+    margin-left: 5%;
   }
 
 
@@ -622,13 +633,14 @@ input:checked + .slider:before {
 
 
   .category {
-    color: white;
+    color: var(--font-color);
   }
 
   #title_input, #privacy_input, #category_input, #content_input, #sidenav_category_input {
-    background-color: #09d6ef;
-    background-color: #383a38;
-    color: rgba(7, 252, 215, 0.25);
+    background-color: var(--primary-color);
+    background-color: #283231;
+    /* color: rgba(7, 252, 215, 0.25); */
+    color: #07fcd7;
     font-weight: bold;
     border: 1px solid black;
   }
@@ -672,7 +684,16 @@ input:checked + .slider:before {
   #add_note_button {
     vertical-align: top;
     padding: 2px;
-    width: 6%;
+    /* width: 6%; */
+    width: 100%;
+    color: #07fcd7;
+    background-color: #283231;
+    border: none;
+  }
+
+  #add_note_button:hover {
+    background-color: #07fcd7;
+    color: #283231;
   }
 
   .add_button {
@@ -716,19 +737,18 @@ input:checked + .slider:before {
     margin-right: 45px;
   }
 
-  .add_subnote_button {
+  /* .add_subnote_button {
     vertical-align: top;
     padding: 4px 15px;
     margin: 10px;
-    color: #09d6ef;
+    color: var(--primary-color);
     background-color: black;
     border: none;
-    /* width: 6%; */
     border-radius: 25px;
     border-bottom: 2px solid transparent;
   }
 
   .add_subnote_button:hover {
-    color: white;
+    color: var(--font-color);
     border-bottom: 2px solid white;
-  }
+  } */
