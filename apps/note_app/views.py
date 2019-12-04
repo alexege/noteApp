@@ -52,9 +52,9 @@ def note_partial(request, category):
     if category == 'undefined':
         category = 'All'
         request.session['selected_category'] = 'All'
-        all_notes = Note.objects.filter(privacy=False).order_by('position_id')
+        all_notes = Note.objects.filter(created_by=active_user, privacy=False).order_by('position_id')
     elif category == 'All':
-        all_notes = Note.objects.filter(privacy=False).order_by('position_id')
+        all_notes = Note.objects.filter(created_by=active_user, privacy=False).order_by('position_id')
     else:
         all_notes = Note.objects.filter(created_by=active_user, category=category).order_by('position_id')
 
@@ -162,7 +162,36 @@ def delete_note(request, note_id):
     print("delete_note")
     note_to_delete = Note.objects.get(id=note_id)
     note_to_delete.delete()
-    return redirect('/notes/')
+    # return redirect('/notes/')
+
+    category = request.session['selected_category']
+    active_user = User.objects.get(id=request.session['active_user'])
+    print("Category is: [" + category + "]")
+    if category == 'undefined':
+        category = 'All'
+        request.session['selected_category'] = 'All'
+        all_notes = Note.objects.filter(privacy=False).order_by('position_id')
+        print("-------undefined--------")
+    elif category == 'All':
+        all_notes = Note.objects.filter(privacy=False).order_by('position_id')
+        print("-------All--------")
+    else:
+        print("-------else--------")
+        all_notes = Note.objects.filter(created_by=active_user, category=category).order_by('position_id')
+
+    context = {
+        'all_notes' : all_notes,
+        'list_of_notebooks' : Notebook.objects.filter(created_by=active_user),
+        'list_of_public_categories' : Notebook.objects.filter(privacy=False),
+        'list_of_subcategories' : Category.objects.all(),
+        'list_of_comments': Comment.objects.all(),
+        'category': category,
+        'form' : DocumentForm(),
+        'all_files' : Document.objects.all(),
+        'current_user' : User.objects.get(id=request.session['active_user'])
+    }
+    return render(request, "note_app/note_partial.html", context)
+
 
 def add_comment(request, note_id):
     print("add_note_comment")

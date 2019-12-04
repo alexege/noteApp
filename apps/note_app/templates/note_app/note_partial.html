@@ -1,14 +1,14 @@
-<h1 style="text-align: center;">{{category}} Notes</h1>
+<h1 id="title">{{category}} Notes</h1>
 
 <div class="note_container">
         {% for note in all_notes %}
         {% if note.privacy == False or note.created_by == current_user%}
         <div id="note{{note.id}}_cell" ondrop="drop(event, this)" ondragover="allowDrop(event)" >
-        <div id="note{{note.id}}" note_id="{{note.id}}" note_position_id="{{note.position_id}}" ondragstart="dragStart(event, this)" draggable="true" class="note_body">
+        <div id="note{{note.id}}" note_id="{{note.id}}" note_position_id="{{note.position_id}}" ondragstart="dragStart(event, this);" draggable="true" class="note_body">
             <button class="accordion" id="note_layout">
                 <p id="{{note.id}}" title="{{note.title}}" content="{{note.content}}" class="note">
                     <!-- {{note.position_id}} - {{note.title}} - [<a href="/notes/notebook/view/{{note.category}}">{{note.category}}</a>] - -->
-                    {{note.position_id}} - {{note.title}} - [<a onclick="view_category('{{note.category}}')">{{note.category}}</a>] -
+                    {{note.title}} - [<a onclick="view_category('{{note.category}}')">{{note.category}}</a>] -
                     {{note.content}}
                     <span class="uploaded_by">
                         {{note.created_by.first_name}} {{note.created_by.last_name}}
@@ -26,7 +26,7 @@
                         {% endif %}
                     </span> -->
                     <a href="/notes/note/delete/{{note.id}}">
-                        <i class="fas fa-trash"></i>
+                        <i class="fas fa-trash note_trashcan"></i>
                     </a>
                     <a onClick="edit_note(this, event)">
                         <i class="fas fa-edit"></i>

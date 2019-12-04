@@ -10,7 +10,9 @@
                 <i note_id="{{notebook.id}}" custom_id="{{notebook.id}}" class="fas fa-lock-open" privacy={{notebook.privacy}}></i>
             <!-- </a> -->
             {% endif %}
+            {% if notebook.created_by == active_user %}
             <a href="/notes/notebook/delete/{{notebook.id}}"><i class="fas fa-trash"></i></a>
+            {% endif %}
     </h5>
     <div class="panel">
         <ul>
@@ -19,7 +21,9 @@
             <li>
                 <a onclick="view_category('{{subcategory.name}}')">{{subcategory.name}}</a>
                 <!-- <a href="/notes/notebook/view/{{category.name}}/{{subcategory.id}}">{{subcategory.name}}</a> -->
+                {% if subcategory.created_by == active_user %}
                 <a href="/notes/subcategory/delete/{{subcategory.id}}"><i class="fas fa-trash"></i></a>
+                {% endif %}
             </li>
             {% endif %}
             {% endfor %}

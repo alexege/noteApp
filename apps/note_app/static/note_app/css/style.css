@@ -10,6 +10,20 @@ body {
     background-color: #232331;
     background-color: #1e1e1e;
     /* background-color: #1e1e1e; */
+    background: url(" ../images/bay.jpg") no-repeat center center fixed;
+    background-color: var(--bg-color);
+    color: var(--font-color);
+}
+
+.screen {
+  background-color: #09d6ef;
+  background-color: var(--bg-color);
+  opacity: 0.45;
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  z-index: -1;
+  top: 0;
 }
 
 h1 {
@@ -41,6 +55,142 @@ a {
 
   padding: 10px;
 }
+
+/* Toggle Colors */
+
+@import url(https://fonts.googleapis.com/css?family=Lato:400,400italic,700|Sansita+One);
+ :root {
+	 --primary-color: #302ae6;
+	 --secondary-color: #536390;
+	 --font-color: #424242;
+	 --bg-color: #fff;
+	 --heading-color: #292922;
+}
+ [data-theme="dark"] {
+	 --primary-color: #9a97f3;
+	 --secondary-color: #818cab;
+	 --font-color: #e1e1ff;
+	 --bg-color: #161625;
+	 --heading-color: #818cab;
+}
+
+#test_div {
+  color: var(--font-color);
+  width: 200px;
+  height: 200px;
+  background-color: var(--bg-color);
+}
+
+ h1 {
+	 color: var(--heading-color);
+	 font-family: "Sansita One", serif;
+	 font-size: 2rem;
+	 margin-bottom: 1vh;
+}
+ a {
+	 color: var(--primary-color);
+	 text-decoration: none;
+	 border-bottom: 3px solid transparent;
+	 font-weight: bold;
+}
+ a:hover, a:focus {
+	 border-bottom: 3px solid currentColor;
+}
+ section {
+	 max-width: 68%;
+	 margin: 0 auto;
+}
+ .post-meta {
+	 font-size: 1rem;
+	 font-style: italic;
+	 display: block;
+	 margin-bottom: 4vh;
+	 color: var(--secondary-color);
+}
+ nav {
+	 display: flex;
+	 justify-content: flex-end;
+	 padding: 20px 0;
+}
+/*slider switch css */
+ .theme-switch-wrapper {
+	 display: flex;
+	 align-items: center;
+}
+ .theme-switch-wrapper em {
+	 margin-left: 10px;
+	 font-size: 1rem;
+}
+ .theme-switch {
+	 display: inline-block;
+	 height: 34px;
+	 position: relative;
+	 width: 60px;
+}
+ .theme-switch input {
+	 display: none;
+}
+ .slider {
+	 background-color: #ccc;
+	 bottom: 0;
+	 cursor: pointer;
+	 left: 0;
+	 position: absolute;
+	 right: 0;
+	 top: 0;
+	 transition: 0.4s;
+}
+ .slider:before {
+	 background-color: #fff;
+	 bottom: 4px;
+	 content: "";
+	 height: 26px;
+	 left: 4px;
+	 position: absolute;
+	 transition: 0.4s;
+	 width: 26px;
+}
+ input:checked + .slider {
+	 background-color: #66bb6a;
+}
+ input:checked + .slider:before {
+	 transform: translateX(26px);
+}
+ .slider.round {
+	 border-radius: 34px;
+}
+ .slider.round:before {
+	 border-radius: 50%;
+}
+ 
+
+
+
+/* ScrollBar  */
+
+  /* width */
+  ::-webkit-scrollbar {
+    width: 10px;
+    background-color: transparent;
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+    /* box-shadow: inset 0 0 35px black; */
+    /* border-radius: 10px;  */
+    background-color: black;
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #09d6ef;
+    /* border: 3px solid black; */
+  }
+
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: white; 
+  }
 
 .note_container {
   /* border: 2px solid red; */
@@ -84,25 +234,32 @@ a {
   top: 10px;
 }
 
+#title {
+  text-align: center;
+  color: black;
+  font-size: 40px;
+  padding: 20px;
+}
+
 .all_notes {
   position: absolute;
   left: 10px;
   top: 10px;
 }
 
+/* ---------- Note Style ---------- */
+
 .note {
-    border-bottom: 0.25px solid black;
-    /* border: 1px solid black; */
     padding: 10px;
     position: relative;
-    /* background-color: white; */
-    background-color: #2d3748;
+    background-color: #1e1e1e;
+    border: 2px solid black;
     color: #09d6ef;
 }
 
 .note:hover {
   /* background-color: #f1f1f1; */
-  background-color: black;
+  /* background-color: black; */
   border-left: 2px solid #09d6ef;
   border-right: 2px solid #09d6ef;
 }
@@ -143,6 +300,36 @@ a {
   position: absolute;
   right: 200px;
 }
+
+
+
+
+.topnav {
+  overflow: hidden;
+  background-color: #333;
+}
+
+.topnav a {
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.topnav a.active {
+  background-color: #4CAF50;
+  color: white;
+}
+
+
+
 
 .sidenav i {
   font-size: 12px;
@@ -203,12 +390,14 @@ a {
     /* padding: 0 18px; */
     /* padding: 10px;   */
     /* background-color: rgba(243, 237, 237, 0.774); */
-    background-color: #09d6ef;
+    background-color: rgba(41, 41, 41, 0.219);
+    background-color: rgba(42, 42, 42, 0.89);
     /* border: 1px solid black; */
     display: none;
     overflow: hidden;
     text-align: left;
-    color: #232331;
+    /* color: #232331; */
+    color: #08fdd8;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   }
 
@@ -232,10 +421,37 @@ a {
       margin-left: 45px;
   }
 
+
+
+
+  ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: black;
+    opacity: 0.5; /* Firefox */
+  }
+  
+  :-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: black;
+  }
+  
+  ::-ms-input-placeholder { /* Microsoft Edge */
+    color: black;
+  }
+
+
+  #title_input, #privacy_input, #category_input, #content_input {
+    background-color: #09d6ef;
+    color: black;
+    font-weight: bold;
+    border: 1px solid black;
+  }
+
+
   #title_input {
     height: 20px;
     width: 15%;
     vertical-align: top;
+    color: black;
+    background-color: #09d6ef;
   }
 
   #privacy_input {
@@ -256,6 +472,7 @@ a {
     height: 100px;
     width: 100%;
     /* width: auto; */
+    padding: 5px;
   }
 
   #add_note_button {
@@ -293,12 +510,13 @@ a {
     background-color: black;
     border: none;
     /* width: 6%; */
+    border-radius: 25px;
+    border-bottom: 2px solid transparent;
   }
 
   .add_subnote_button:hover {
     color: white;
-    background-color: #09d6ef;
-    border: 1px solid white;
+    border-bottom: 2px solid white;
   }
   
   /* SIDENAV */
@@ -311,7 +529,7 @@ a {
     left: 0;
     /* background-color: #111; */
     background-color: #2d3748;
-    box-shadow: 2px 2px 10px black;
+    /* box-shadow: 2px 2px 10px black; */
 
     overflow-x: hidden;
     transition: 0.5s;
@@ -376,7 +594,7 @@ a {
   
   #main {
     transition: margin-left .5s;
-    padding: 16px;
+    /* padding: 16px; */
   }
   
   @media screen and (max-height: 450px) {

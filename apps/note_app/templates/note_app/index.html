@@ -10,9 +10,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="{% static 'note_app/js/script.js' %}"></script>
     <link href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" rel="stylesheet">
-
-    <!-- Code Snippet Link -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.0/themes/prism.min.css" />
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> <!-- Animated Modal -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.0/themes/prism.min.css" /> <!-- Code Snippet Link -->
     <title>All Notes</title>
 </head>
 
@@ -78,7 +77,9 @@
                     <!-- <a href="category/{{category.id}}/privacy"> -->
                         <i note_id="{{category.id}}" custom_id="{{category.id}}" class="fas fa-lock-open" privacy={{category.privacy}}></i>
                     <!-- </a> -->
+                    {% if category.created_by == current_user %}
                     <a href="/notes/notebook/delete/{{category.id}}"><i class="fas fa-trash"></i></a>
+                    {% endif %}
                     {% endif %}
             </h5>
             <div class="panel">
@@ -88,7 +89,9 @@
                         <li>
                         <a onclick="view_public_category('{{subcategory.name}}')">{{subcategory.name}}</a>
                         <!-- <li><a href="/notes/notebook/view/{{category.name}}">{{subcategory.name}}</a> -->
+                        {% if subcategory.created_by == current_user %}
                         <a href="/notes/subcategory/delete/{{subcategory.id}}"><i class="fas fa-trash"></i></a></li>
+                        {% endif %}
                         </li>
                         {% endif %}
                     {% endfor %}
@@ -107,14 +110,91 @@
     <p id="greeting">Welcome, {{current_user.first_name}}</p>
     <div id="main">
 
-        <a href="/login/logout" class="logout"><i class="fas fa-door-open"></i></a>
+        <!-- TopNavBar -->
+        <div class="topnav">
+            <!-- Toggle Sidebar -->
+            <a href="#" onclick="openNav()" class="toggle_a_tag">
+                <div id="toggle_button" class="toggle_eye">
+                    <i class="fas fa-chevron-right" id="toggle_button"></i>
+                </div>
+            </a>
+            <a class="active" href="#home">Home</a>
+            <a href="#news">News</a>
+            <a href="#contact">Contact</a>
+            <a href="#about">About</a>
+            <a href="">
+                <h1>{{category}} Notes</h1>
+            </a>
+                <button onclick="document.getElementById('id01').style.display='block'" class="w3-button w3-green w3-large"><i class="fas fa-cog"></i></button>
+        </div>
 
-        <!-- Toggle Sidebar -->
-        <a href="#" onclick="openNav()" class="toggle_a_tag">
-            <div id="toggle_button" class="toggle_eye">
-                <i class="fas fa-chevron-right" id="toggle_button"></i>
-            </div>
-        </a>
+
+        <div class="theme-switch-wrapper">
+                <label class="theme-switch" for="checkbox">
+             <input type="checkbox" id="checkbox" />
+             <div class="slider round"></div>
+           </label>
+             <em>Enable Dark Mode!</em>
+           </div>
+
+           <div id="test_div">testdiv</div>
+
+        <div class="w3-container">              
+                <div id="id01" class="w3-modal">
+                  <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:600px">
+              
+                    <div class="w3-center"><br>
+                      <span onclick="document.getElementById('id01').style.display='none'" class="w3-button w3-xlarge w3-hover-red w3-display-topright" title="Close Modal">&times;</span>
+                    </div>
+
+                    <label for="font-color">Font-Color:</label>
+                    <select name="font-color" id="font-color" onchange="changeFontColor(this.options[this.selectedIndex].text)">
+                        <option value="red">red</option>
+                        <option value="blue">blue</option>
+                        <option value="green">green</option>
+                    </select><br>
+                    
+                    <label for="Primary-color">Primary-Color:</label>
+                    <select name="Primary-color" id="Primary-color" onchange="changePrimaryColor(this.options[this.selectedIndex].text)">
+                        <option value="red">red</option>
+                        <option value="blue">blue</option>
+                        <option value="green">green</option>
+                    </select><br>
+                    
+                    <label for="Secondary-color">Secondary-Color:</label>
+                    <select name="Secondary-color" id="Secondary-color" onchange="changeSecondaryColor(this.options[this.selectedIndex].text)">
+                        <option value="red">red</option>
+                        <option value="blue">blue</option>
+                        <option value="green">green</option>
+                    </select><br>
+                    
+                    <label for="Background-color">Background-Color:</label>
+                    <select name="Background-color" id="Background-color" onchange="changeBackgroundColor(this.options[this.selectedIndex].text)">
+                        <option value="red">red</option>
+                        <option value="blue">blue</option>
+                        <option value="green">green</option>
+                    </select><br>
+                    
+                    <label for="Heading-color">Heading-Color:</label>
+                    <select name="Heading-color" id="Heading-color" onchange="changeHeadingColor(this.options[this.selectedIndex].text)">
+                        <option value="red">red</option>
+                        <option value="blue">blue</option>
+                        <option value="green">green</option>
+                    </select><br>
+              
+                    <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
+                      <button onclick="document.getElementById('id01').style.display='none'" type="button" class="w3-button w3-red">Cancel</button>
+                      <span class="w3-right w3-padding w3-hide-small">Forgot <a href="#">password?</a></span>
+                    </div>
+              
+                  </div>
+                </div>
+              </div>
+
+
+
+
+        <a href="/login/logout" class="logout"><i class="fas fa-door-open"></i></a>
 
         <div class="wrapper">
 
@@ -124,6 +204,7 @@
         </div>
 
     </div>
+    <div class="screen"></div>
     <!--End of SideNav-->
 
     <!-- Code Snippet Script -->

@@ -1,9 +1,111 @@
-// Toggle Notebook Privacy
+// Style
+function getColorScheme(){
+    var list_of_colors = ['font-color', 'primary-color', 'secondary-color', 'heading-color', 'background-color'];
+    var list_of_default_colors = ['red', 'white', 'blue', 'purple', 'green'];
+    //Check to see if all the colors stored in localStorage are null. If so, set them to their default colors.
+    for(var i = 0; i < list_of_colors.length; i++){
+        if(localStorage.getItem(`${list_of_colors[i]}`) == null){
+            localStorage.setItem(`${list_of_colors[i]}`, `${list_of_default_colors[i]}`);
+        }
+    }
+}
+
+function changeFontColor(color){
+    localStorage.setItem("font-color", color)
+}
+function changePrimaryColor(color){
+    localStorage.setItem("primary-color", color)
+}
+function changeSecondaryColor(color){
+    localStorage.setItem("secondary-color", color)
+}
+function changeheadingColor(color){
+    localStorage.setItem("heading-color", color)
+}
+function changeBackgroundColor(color){
+    localStorage.setItem("background-color", color)
+}
+
+// Toggle Light/Dark Mode
+function toggleLightDark(){
+
+    const toggleSwitch = document.querySelector('.theme-switch input[type="checkbox"]');
+    const currentTheme = localStorage.getItem('theme');
+
+    if (currentTheme) {
+        document.documentElement.setAttribute('data-theme', currentTheme);
+    
+        if (currentTheme === 'dark') {
+            toggleSwitch.checked = true;
+        }
+    }
+
+    function switchTheme(e) {
+        if (e.target.checked) {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            localStorage.setItem('theme', 'dark');
+        }
+        else {        document.documentElement.setAttribute('data-theme', 'light');
+            localStorage.setItem('theme', 'light');
+        }    
+    }
+
+    toggleSwitch.addEventListener('change', switchTheme, false);
+}
+
+// Delete Note
+$(document).on('click', '.note_trashcan', function(e){
+    // console.log("this.parent", this.closest(`.note_body`).getAttribute('note_id'));
+    var note_id = this.closest('.note_body').getAttribute('note_id');
+    console.log("note_id:", note_id);    
+    e.preventDefault();
+    e.stopPropagation(); //Doesn't seem to work
+    $.ajax({
+        url:`note/delete/${note_id}`,
+        method: 'get',
+        data: $(this).serialize(),
+        success: function(serverResponse){
+            console.log("success");
+            $("#notes_component").html(serverResponse);
+            // $(".public_notebooks").html(serverResponse);
+
+            // Toggle open/close accordion elements
+            var list = document.getElementById("notes_component");
+            var acc = list.getElementsByClassName("accordion");
+            var i;
+            for (i = 0; i < acc.length; i++) {
+                acc[i].addEventListener("click", function() {
+                    /* Toggle between adding and removing the "active" class, to highlight the button that controls the panel */
+                    this.classList.toggle("active");
+
+                    /* Toggle between hiding and showing the active panel */
+                    var panel = this.nextElementSibling;
+                    if (panel.style.display === "block") {
+                    panel.style.display = "none";
+                    localStorage.clear();
+                    console.log("Clearing local storage")
+                    } else {
+                    panel.style.display = "block";
+                    }
+                });
+            }
+
+        }
+    })
+
+})
+
+// Delete Comment
 $(document).on('click', '.fa-trash', function(e){
     // console.log("this.parent", this.closest(`.note_body`).getAttribute('note_id'));
     var note_id = this.closest('.note_body').getAttribute('note_id');
     console.log("Clicking on a trash button");
     comment_id = this.parentNode.parentNode.getAttribute('comment_id')
+    var note = this.closest('.note_body');
+    console.log("note:", note);
+    if(!comment_id){
+        comment_id = note.getAttribute('note_id');
+    }
     console.log("comment_id:", comment_id)
     e.preventDefault();
     e.stopPropagation(); //Doesn't seem to work
@@ -438,9 +540,9 @@ function drop(event, element) {
 }
 
 //-------- Wait for page to load --------
-
 $(document).ready(function(){
-
+    getColorScheme();
+    toggleLightDark();
     view_category();
 
     if(localStorage.getItem('target_note') != null){
