@@ -26,10 +26,6 @@ body {
   top: 0;
 }
 
-h1 {
-  color: #09d6ef;
-}
-
 a {
   color: white;
   text-decoration: none;
@@ -62,7 +58,7 @@ a {
  :root {
 	 --primary-color: #302ae6;
 	 --secondary-color: #536390;
-	 --font-color: #424242;
+	 --font-color: #09d6ef;
 	 --bg-color: #fff;
 	 --heading-color: #292922;
 }
@@ -74,10 +70,17 @@ a {
 	 --heading-color: #818cab;
 }
 
- h1 {
-	 color: var(--heading-color);
+h1 {
+	 color: var(--font-color);
 	 font-family: "Sansita One", serif;
 	 font-size: 2rem;
+	 margin-bottom: 1vh;
+}
+
+h2 {
+	 color: var(--font-color);
+	 font-family: "Sansita One", serif;
+	 font-size: 1rem;
 	 margin-bottom: 1vh;
 }
  a {
@@ -108,7 +111,8 @@ a {
 /*slider switch css */
  .theme-switch-wrapper {
 	 display: flex;
-	 align-items: center;
+   align-items: center;
+   margin: 11px 0px;
 }
  .theme-switch-wrapper em {
 	 margin-left: 10px;
@@ -134,7 +138,7 @@ a {
 	 transition: 0.4s;
 }
  .slider:before {
-	 background-color: #fff;
+	 background-color: #333;
 	 bottom: 4px;
 	 content: "";
 	 height: 26px;
@@ -144,7 +148,8 @@ a {
 	 width: 26px;
 }
  input:checked + .slider {
-	 background-color: #66bb6a;
+	 /* background-color: #66bb6a; */
+	 background-color: #09d6ef;
 }
  input:checked + .slider:before {
 	 transform: translateX(26px);
@@ -167,7 +172,11 @@ a {
   background: none;
   border: none;
 }
- 
+
+.nav-right-item {
+  float: left;
+  margin-left: 5px;
+}
 
 
 
@@ -305,6 +314,10 @@ a {
 .uploaded_by {
   position: absolute;
   right: 200px;
+}
+
+#update_form {
+  background-color: #1e1e1e;
 }
 
 

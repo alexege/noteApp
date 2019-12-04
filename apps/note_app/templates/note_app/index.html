@@ -7,10 +7,10 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     {% load static %}
     <link rel="stylesheet" href="{% static 'note_app/css/style.css' %}">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> <!-- Animated Modal -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="{% static 'note_app/js/script.js' %}"></script>
     <link href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> <!-- Animated Modal -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.0/themes/prism.min.css" /> <!-- Code Snippet Link -->
     <title>All Notes</title>
 </head>
@@ -110,7 +110,7 @@
     <div id="main">
 
         <!-- navbar2 -->
-        <div class="navbar">
+        <div class="navbar" style="text-align: center;">
                 <!-- Toggle Sidebar -->
                 <a href="#" onclick="openNav()" class="toggle_a_tag">
                     <div id="toggle_button" class="toggle_eye">
@@ -119,25 +119,35 @@
                 </a>
                 <a href="#home">Slick Notes</a>
                 <a href="#news">All</a>
-                <div style="float: right!important;">
-                    <div class="dropdown" style="float: left;">
-                    <button class="dropbtn" onclick="myFunction()">{{current_user.first_name}}
-                        <i class="fa fa-caret-down"></i>
-                    </button>
-                    <div class="dropdown-content" id="myDropdown" style="float: left;">
-                        <a href="#">Switch Users</a>
-                        <a href="#">Logout</a>
-                    </div>
-                    </div>
 
-                    <div class="theme-switch-wrapper" style="float: left;">
-                        <label class="theme-switch" for="checkbox">
-                            <input type="checkbox" id="checkbox" />
-                            <div class="slider round"></div>
-                        </label>
+                <h2 style="display: inline-block; margin: 0; color: white;">Slick Notes</h2>
+
+                <div style="float: right!important;">
+                    <div class="nav-right-item">
+                        <div class="dropdown">
+                        <button class="dropbtn" onclick="myFunction()">{{current_user.first_name}}
+                            <i class="fa fa-caret-down"></i>
+                        </button>
+                        <div class="dropdown-content" id="myDropdown">
+                            <a href="#">Switch Users</a>
+                            <a href="#">Logout</a>
+                        </div>
+                        </div>
                     </div>
-                    <button onclick="document.getElementById('id01').style.display='block'" class="settings_cog" style="float: left;"><i class="fas fa-cog"></i></button>
-                    <a href="/login/logout" style="float: left;"><i class="fas fa-door-open"></i></a>
+                    <div class="nav-right-item">
+                        <div class="theme-switch-wrapper">
+                            <label class="theme-switch" for="checkbox">
+                                <input type="checkbox" id="checkbox" />
+                                <div class="slider round"></div>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="nav-right-item">
+                        <button onclick="document.getElementById('id01').style.display='block'" class="settings_cog"><i class="fas fa-cog"></i></button>
+                    </div>
+                    <div class="nav-right-item">
+                        <a href="/login/logout"><i class="fas fa-door-open"></i></a>
+                    </div>
                 </div>
               </div>
 
@@ -149,11 +159,7 @@
               
                     <h1 style="text-align: center;">Settings</h1>
                     <ul>
-                        <li>Option 1</li>
-                        <li>Option 2</li>
-                        <li>Option 3</li>
-                        <li>Option 4</li>
-                        <li>Option 5</li>
+                        <li>This is where I plan to add additional customization such as colors, font styles, etc.</li>
                     </ul>
 
                     <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
