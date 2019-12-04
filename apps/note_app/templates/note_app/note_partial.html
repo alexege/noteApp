@@ -4,33 +4,25 @@
         {% for note in all_notes %}
         {% if note.privacy == False or note.created_by == current_user%}
         <div id="note{{note.id}}_cell" ondrop="drop(event, this)" ondragover="allowDrop(event)" >
-        <div id="note{{note.id}}" note_id="{{note.id}}" note_position_id="{{note.position_id}}" ondragstart="dragStart(event, this);" draggable="true" class="note_body">
+        
+        
+            <div id="note{{note.id}}" note_id="{{note.id}}" note_position_id="{{note.position_id}}" ondragstart="dragStart(event, this);" draggable="true" class="note_body">
             <button class="accordion" id="note_layout">
                 <p id="{{note.id}}" title="{{note.title}}" content="{{note.content}}" class="note">
-                    <!-- {{note.position_id}} - {{note.title}} - [<a href="/notes/notebook/view/{{note.category}}">{{note.category}}</a>] - -->
                     {{note.title}} - [<a onclick="view_category('{{note.category}}')" class="category">{{note.category}}</a>] -
                     {{note.content}}
-                    <span class="uploaded_by">
-                        {{note.created_by.first_name}} {{note.created_by.last_name}}
-                    </span>
-                    <span class="uploaded_at">
-                        {{note.updated_at}}
-                    </span>
-                    <!-- <span class="privacy">
-                        {% if note.privacy %}
-                        <i onclick="togglePrivacy(this, event)" class="fas fa-lock-open"
-                            privacy={{note.privacy}}></i>
-                        {% else %}
-                        <i onclick="togglePrivacy(this, event)" class="fas fa-lock"
-                            privacy={{note.privacy}}></i>
-                        {% endif %}
-                    </span> -->
                     <a href="/notes/note/delete/{{note.id}}">
                         <i class="fas fa-trash note_trashcan"></i>
                     </a>
                     <a onClick="edit_note(this, event)">
                         <i class="fas fa-edit"></i>
                     </a>
+                    <span class="uploaded_at">
+                        {{note.updated_at}}
+                    </span>
+                    <span class="uploaded_by">
+                        {{note.created_by.first_name}} {{note.created_by.last_name}}
+                    </span>
 
             </button>
             <div class="panel">
@@ -40,26 +32,18 @@
                     <ul>
                         {% if comment.isCode == True %}
                         <li id="comment_{{comment.id}}" comment_id="{{comment.id}}" >
-                            <a onClick="copyToClipboard(this)"><i class="fas fa-copy" style="color: white;"></i></a>
-                            <a onClick="toggleCodeEdit({{comment.id}})"><i class="fas fa-edit"></i></a>
                             <a href="/notes/comment/delete/{{comment.id}}"><i class="fas fa-trash"></i></a>
+                            <a onClick="toggleCodeEdit({{comment.id}})"><i class="fas fa-edit"></i></a>
+                            <a onClick="copyToClipboard(this)"><i class="fas fa-copy"></i></a>
                             <span class="note_content code_format">{{comment.content}}</span>
                         </li>
                         {% else %}
                         <li id="comment_{{comment.id}}" comment_id="{{comment.id}}">
                             <span class="note_content">{{comment.content}}</span>
-                            <a onClick="toggleEdit({{comment.id}})"><i class="fas fa-edit"></i></a> 
                             <a href="/notes/comment/delete/{{comment.id}}"><i class="fas fa-trash"></i></a>
+                            <a onClick="toggleEdit({{comment.id}})"><i class="fas fa-edit"></i></a> 
                         </li>
                         {% endif %}
-<!-- 
-                        <div style="border: 2px solid red;">
-                            {{comment.content}}<br>
-                            {{comment.parent}}<br>
-                            {{comment.privacy}}<br>
-                            {{comment.image}}<br>
-                            {{comment.isCode}}
-                        </div> -->
 
                         <!-- Display an image if one was uploaded -->
                         {% if comment.image %}

@@ -1,19 +1,25 @@
 // // Search bar functionality
 function searchFunction() {
-    // var input, filter, ul, li, a, i, txtValue;
-    // input = document.getElementById("myInput");
-    // filter = input.value.toUpperCase();
-    // list = document.getElementById("list");
-    // li = list.getElementsByClassName("accordion")
-    // for (i = 0; i < li.length; i++) {
-    //     a = li[i].getElementsByClassName("toggle")[0];
-    //     txtValue = a.textContent || a.innerText;
-    //     if (txtValue.toUpperCase().indexOf(filter) > -1) {
-    //         li[i].style.display = "";
-    //     } else {
-    //         li[i].style.display = "none";
-    //     }
-    // }
+    var searchbox = document.getElementById("myInput");
+    var filter = searchbox.value.toUpperCase();
+    var list = document.getElementById("notes_component");
+    var items = list.getElementsByClassName("accordion");
+
+    console.log("searchbox:", searchbox);
+    console.log("filter", filter);
+    console.log("list:", list);
+    console.log("items:", items);
+
+
+    for (i = 0; i < items.length; i++) {
+        var a = items[i].getElementsByClassName("note")[0];
+        txtValue = a.textContent || a.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            items[i].style.display = "";
+        } else {
+            items[i].style.display = "none";
+        }
+    }
 }
 
 
