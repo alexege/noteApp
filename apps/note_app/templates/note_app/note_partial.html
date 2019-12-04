@@ -8,7 +8,7 @@
             <button class="accordion" id="note_layout">
                 <p id="{{note.id}}" title="{{note.title}}" content="{{note.content}}" class="note">
                     <!-- {{note.position_id}} - {{note.title}} - [<a href="/notes/notebook/view/{{note.category}}">{{note.category}}</a>] - -->
-                    {{note.title}} - [<a onclick="view_category('{{note.category}}')">{{note.category}}</a>] -
+                    {{note.title}} - [<a onclick="view_category('{{note.category}}')" class="category">{{note.category}}</a>] -
                     {{note.content}}
                     <span class="uploaded_by">
                         {{note.created_by.first_name}} {{note.created_by.last_name}}

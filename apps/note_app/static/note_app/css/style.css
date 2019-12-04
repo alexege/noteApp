@@ -4,12 +4,7 @@
 }
 
 body {
-    /* background-color: rgb(163, 162, 162); */
-    /* background-color: #1e1e1e; */
-    /* background-color: #DEDEDE; */
-    background-color: #232331;
     background-color: #1e1e1e;
-    /* background-color: #1e1e1e; */
     background: url(" ../images/bay.jpg") no-repeat center center fixed;
     background-color: var(--bg-color);
     color: var(--font-color);
@@ -36,11 +31,8 @@ a {
     margin: 0 auto;
 }
 
-.add_new_note_tag {
-  text-align: center;
-  width: 100%;
-  color: black;
-  padding: 3px;
+::placeholder {
+  color: #07fcd7;
 }
 
 .new_note_form {
@@ -53,27 +45,26 @@ a {
 }
 
 /* Toggle Colors */
-
 @import url(https://fonts.googleapis.com/css?family=Lato:400,400italic,700|Sansita+One);
  :root {
-	 --primary-color: #302ae6;
-	 --secondary-color: #536390;
-	 --font-color: #09d6ef;
-	 --bg-color: #fff;
-	 --heading-color: #292922;
+	 --primary-color: #09d6ef;
+	 --secondary-color: red;
+	 --font-color: #010202;
+	 --bg-color: #383a38;
+	 --heading-color: #07fcd7;
 }
  [data-theme="dark"] {
-	 --primary-color: #9a97f3;
+	 --primary-color: #07fcd7;
 	 --secondary-color: #818cab;
 	 --font-color: #e1e1ff;
 	 --bg-color: #161625;
-	 --heading-color: #818cab;
+	 --heading-color: #07fcd7;
 }
 
 h1 {
-	 color: var(--font-color);
-	 font-family: "Sansita One", serif;
-	 font-size: 2rem;
+	 color: var(--heading-color);
+	 font-family: 'Courier New', Courier, monospace;
+	 font-size: 1.5rem;
 	 margin-bottom: 1vh;
 }
 
@@ -83,14 +74,20 @@ h2 {
 	 font-size: 1rem;
 	 margin-bottom: 1vh;
 }
- a {
+
+h5 {
+  margin: 0;
+}
+
+a {
 	 color: var(--primary-color);
 	 text-decoration: none;
-	 border-bottom: 3px solid transparent;
+	 /* border-bottom: 3px solid transparent; */
 	 font-weight: bold;
 }
  a:hover, a:focus {
-	 border-bottom: 3px solid currentColor;
+   /* border-bottom: 3px solid currentColor; */
+   /* color: white; */
 }
  section {
 	 max-width: 68%;
@@ -103,82 +100,10 @@ h2 {
 	 margin-bottom: 4vh;
 	 color: var(--secondary-color);
 }
- nav {
-	 display: flex;
-	 justify-content: flex-end;
-	 padding: 20px 0;
-}
-/*slider switch css */
- .theme-switch-wrapper {
-	 display: flex;
-   align-items: center;
-   margin: 11px 0px;
-}
- .theme-switch-wrapper em {
-	 margin-left: 10px;
-	 font-size: 1rem;
-}
- .theme-switch {
-	 display: inline-block;
-	 height: 34px;
-	 position: relative;
-	 width: 60px;
-}
- .theme-switch input {
-	 display: none;
-}
- .slider {
-	 background-color: #ccc;
-	 bottom: 0;
-	 cursor: pointer;
-	 left: 0;
-	 position: absolute;
-	 right: 0;
-	 top: 0;
-	 transition: 0.4s;
-}
- .slider:before {
-	 background-color: #333;
-	 bottom: 4px;
-	 content: "";
-	 height: 26px;
-	 left: 4px;
-	 position: absolute;
-	 transition: 0.4s;
-	 width: 26px;
-}
- input:checked + .slider {
-	 /* background-color: #66bb6a; */
-	 background-color: #09d6ef;
-}
- input:checked + .slider:before {
-	 transform: translateX(26px);
-}
- .slider.round {
-	 border-radius: 34px;
-}
- .slider.round:before {
-	 border-radius: 50%;
-}
 
-.settings_cog i{
-  color: white;
-  background-color: transparent;
-  padding: 1rem;
-  font-size: 26px;
-}
-
-.settings_cog {
-  background: none;
-  border: none;
-}
-
-.nav-right-item {
-  float: left;
-  margin-left: 5px;
-}
-
-
+/* ============================================================= */
+/* ---------------------------Scrollbar------------------------- */
+/* ============================================================= */
 
 /* ScrollBar  */
 
@@ -231,29 +156,20 @@ h2 {
   padding: 10px;
 }
 
-/* :not(pre)>code[class*=language-]{
-  padding: 0;
-} */
-
-/* .logout {
-  color: white;
-  position: absolute;
-  right: 10px;
-  top: 10px;
-} */
-
-/* #greeting {
-  position: absolute;
-  color: white;
-  right: 50px;
-  top: 10px;
-} */
-
 #title {
   text-align: center;
-  color: black;
+  color: var(--heading-color);
   font-size: 40px;
-  padding: 20px;
+  padding: 10px;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.add_new_note_tag {
+  text-align: center;
+  width: 100%;
+  color: var(--heading-color);
+  padding: 3px;
+  font-family: 'Courier New', Courier, monospace;
 }
 
 .all_notes {
@@ -262,7 +178,9 @@ h2 {
   top: 10px;
 }
 
-/* ---------- Note Style ---------- */
+/* ============================================================= */
+/* ---------------------------Notes----------------------------- */
+/* ============================================================= */
 
 .note {
     padding: 10px;
@@ -292,6 +210,11 @@ h2 {
 .fa-trash {
     position: absolute;
     right: 5px;
+    color: white;
+}
+
+.fa-trash:hover{
+  color: var(--secondary-color);
 }
 
 .fa-lock, .fa-lock-open {
@@ -320,11 +243,99 @@ h2 {
   background-color: #1e1e1e;
 }
 
+/* ============================================================= */
+/* -------------------------TopNavbar--------------------------- */
+/* ============================================================= */
 
+/*slider switch css */
+.theme-switch-wrapper {
+  display: flex;
+  align-items: center;
+  margin: 11px 0px;
+}
+.theme-switch-wrapper em {
+  margin-left: 10px;
+  font-size: 1rem;
+}
+.theme-switch {
+  display: inline-block;
+  height: 34px;
+  position: relative;
+  width: 60px;
+}
+.theme-switch input {
+  display: none;
+}
+.slider {
+  background-color: #ccc;
+  bottom: 0;
+  cursor: pointer;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  transition: 0.4s;
+}
+.slider:before {
+  background-color: #333;
+  bottom: 4px;
+  content: "";
+  height: 26px;
+  left: 4px;
+  position: absolute;
+  transition: 0.4s;
+  width: 26px;
+}
+input:checked + .slider {
+  /* background-color: #66bb6a; */
+  background-color: #09d6ef;
+}
+input:checked + .slider:before {
+  transform: translateX(26px);
+}
+.slider.round {
+  border-radius: 34px;
+}
+.slider.round:before {
+  border-radius: 50%;
+}
 
+.settings_cog i{
+ color: white;
+ background-color: transparent;
+ padding: 0.8rem;
+ font-size: 26px;
+}
 
+.settings_cog {
+ background: none;
+ border: none;
+}
 
-/* Top Navbar */
+.nav-right-item {
+ float: left;
+ margin-left: 5px;
+}
+
+#brand {
+ position: absolute;
+ display: inline-block;
+ font-family: 'Courier New', Courier, monospace;
+ font-size: 40px;
+ left: calc(50% - 132px);
+ margin: 0; 
+ color: white;
+}
+
+.searchbar {
+ padding: 5px;
+ margin: 9px 0;
+ background-color: transparent;
+ border: none;
+ /* border-bottom: 2px solid white; */
+ border-bottom: 1px solid #09d6ef;
+ border-radius: 3px;
+}
 
 .navbar {
   overflow: hidden;
@@ -375,7 +386,6 @@ h2 {
 
 .dropdown-content a {
   float: none;
-  color: black;
   padding: 12px 16px;
   text-decoration: none;
   display: block;
@@ -390,7 +400,93 @@ h2 {
   display: block;
 }
 
-/* SideNav */
+/* ============================================================= */
+/* ---------------------------SideNav--------------------------- */
+/* ============================================================= */
+
+.sidenav {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  /* background-color: #111; */
+  /* background-color: #2d3748; */
+  background-color: #1e1e1e;
+  /* box-shadow: 2px 2px 10px black; */
+
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+  color: white;
+  text-align: center;
+}
+
+.sidenav h5 {
+  padding-left: 25px;
+}
+
+.sidenav a {
+  /* margin-left: 10px; */
+  /* padding: 8px 8px 8px 32px; */
+  text-decoration: none;
+  /* font-size: 25px; */
+  color: white;
+  /* display: block; */
+  transition: 0.3s;
+}
+
+.sidenav a:hover {
+  color: var(--secondary-color);
+}
+
+.sidenav .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+.sidenav form {
+  margin-top: 20px;
+}
+
+.sidenav .panel {
+  background-color: var(--bg-color);
+  color: var(--font-color);
+}
+
+.sidenav .panel a {
+  color: var(--primary-color);
+}
+
+.sidenav div {
+  /* background-color: rgb(37, 37, 37); */
+  /* background-color: #232331; */
+  /* background-color: rgb(60, 92, 143); */
+}
+
+.notebooks {
+  /* border: 1px solid red; */
+}
+
+.category_add_form {
+  opacity: 0;
+  transition: 0.5s ease-in-out;
+}
+
+#main {
+  transition: margin-left .5s;
+  /* padding: 16px; */
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+
 
 .sidenav i {
   font-size: 12px;
@@ -415,10 +511,7 @@ h2 {
 
 /* Style the buttons that are used to open and close the accordion panel */
 .accordion {
-    /* background-color: red; */
-    /* color: #444; */
     cursor: pointer;
-    /* padding: 18px; */
     width: 100%;
     text-align: left;
     border: none;
@@ -433,17 +526,13 @@ h2 {
   
   /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
   .active, .accordion:hover {
-    background-color: #232331;
-    /* border-left: 2px solid #09d6ef; */
-    /* border-right: 2px solid #09d6ef; */
-    /* border-bottom: 2px solid #09d6ef; */
-    /* border: 2px solid #09d6ef; */
-    /* margin-left: 15px; */
-    color: #09d6ef;
+    background-color: var(--bg-color);
+    color: var(--font-color);
   }
 
   .sidenav .active, .sidenav .accordion:hover{
     /* margin-left: 5px; */
+    color: #07fcd7;
   }
   
   /* Style the accordion panel. Note: hidden by default */
@@ -471,7 +560,9 @@ h2 {
       /* white-space: pre-wrap; */
       /* border-top: 2px solid black; */
       padding: 5px;
-      margin: 0 45px;
+      /* margin: 0 45px; */
+      margin-left: 4rem;
+      margin-right: 1rem;
   }
 
   .sidenav ul li:hover {
@@ -485,23 +576,28 @@ h2 {
 
 
 
-  ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  /* ::placeholder {
     color: black;
-    opacity: 0.5; /* Firefox */
+    opacity: 0.5;
   }
   
-  :-ms-input-placeholder { /* Internet Explorer 10-11 */
+  :-ms-input-placeholder {
     color: black;
   }
   
-  ::-ms-input-placeholder { /* Microsoft Edge */
+  ::-ms-input-placeholder {
     color: black;
-  }
+  } */
 
+
+  .category {
+    color: white;
+  }
 
   #title_input, #privacy_input, #category_input, #content_input {
     background-color: #09d6ef;
-    color: black;
+    background-color: #383a38;
+    color: #09d6ef;
     font-weight: bold;
     border: 1px solid black;
   }
@@ -511,8 +607,6 @@ h2 {
     height: 20px;
     width: 15%;
     vertical-align: top;
-    color: black;
-    background-color: #09d6ef;
   }
 
   #privacy_input {
@@ -578,88 +672,4 @@ h2 {
   .add_subnote_button:hover {
     color: white;
     border-bottom: 2px solid white;
-  }
-  
-  /* SIDENAV */
-  .sidenav {
-    height: 100%;
-    width: 0;
-    position: fixed;
-    z-index: 1;
-    top: 0;
-    left: 0;
-    /* background-color: #111; */
-    /* background-color: #2d3748; */
-    background-color: #1e1e1e;
-    /* box-shadow: 2px 2px 10px black; */
-
-    overflow-x: hidden;
-    transition: 0.5s;
-    padding-top: 60px;
-    color: white;
-    text-align: center;
-  }
-
-  .sidenav h5 {
-    padding-left: 25px;
-  }
-  
-  .sidenav a {
-    /* margin-left: 10px; */
-    /* padding: 8px 8px 8px 32px; */
-    text-decoration: none;
-    /* font-size: 25px; */
-    color: white;
-    /* display: block; */
-    transition: 0.3s;
-  }
-  
-  .sidenav a:hover {
-    color: #f1f1f1;
-  }
-  
-  .sidenav .closebtn {
-    position: absolute;
-    top: 0;
-    right: 25px;
-    font-size: 36px;
-    margin-left: 50px;
-  }
-
-  .sidenav form {
-    margin-top: 20px;
-  }
-
-  .sidenav .panel {
-    background-color: #232331;
-    color: white;
-  }
-
-  .sidenav .panel a {
-    color: #09d6ef;
-  }
-  
-  .sidenav div {
-    /* background-color: rgb(37, 37, 37); */
-    /* background-color: #232331; */
-    /* background-color: rgb(60, 92, 143); */
-  }
-
-  .notebooks {
-    /* border: 1px solid red; */
-  }
-
-  .category_add_form {
-    opacity: 0;
-    transition: 0.5s ease-in-out;
-  }
-  
-  #main {
-    transition: margin-left .5s;
-    /* padding: 16px; */
-  }
-  
-  @media screen and (max-height: 450px) {
-    .sidenav {padding-top: 15px;}
-    .sidenav a {font-size: 18px;}
   }

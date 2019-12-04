@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     {% load static %}
-    <link rel="stylesheet" href="{% static 'note_app/css/style.css' %}">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> <!-- Animated Modal -->
+    <link rel="stylesheet" href="{% static 'note_app/css/style.css' %}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="{% static 'note_app/js/script.js' %}"></script>
     <link href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" rel="stylesheet">
@@ -118,11 +118,14 @@
                     </div>
                 </a>
                 <a href="#home">Slick Notes</a>
-                <a href="#news">All</a>
+                <a href="#all" onclick="view_category('All')">All</a>
 
-                <h2 style="display: inline-block; margin: 0; color: white;">Slick Notes</h2>
+                <h2 id="brand">Slick Notes</h2>
 
                 <div style="float: right!important;">
+                    <div class="nav-right-item">
+                        <input type="text" placeholder="Search.." class="searchbar">
+                    </div>
                     <div class="nav-right-item">
                         <div class="dropdown">
                         <button class="dropbtn" onclick="myFunction()">{{current_user.first_name}}
@@ -130,7 +133,7 @@
                         </button>
                         <div class="dropdown-content" id="myDropdown">
                             <a href="#">Switch Users</a>
-                            <a href="#">Logout</a>
+                            <a href="/login/logout">Logout</a>
                         </div>
                         </div>
                     </div>
