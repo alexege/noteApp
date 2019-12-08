@@ -30,8 +30,8 @@
                     {% for comment in list_of_comments %}
                     {% if comment.parent == note %}
                     <ul>
-                        <span class="comment_menu">[ <i class="fas fa-outdent"></i> | <i class="fas fa-indent"></i> | <i class="far fa-copyright" onclick="copyToClipboard(this)"></i> | <i class="fas fa-user-edit" onclick="toggleEdit({{comment.id}})"></i> | <i class="fas fa-trash-restore-alt"></i> ]</span>
                         <li id="comment_{{comment.id}}" comment_id="{{comment.id}}" class='indent{{comment.indentLevel}} comment' onmouseenter="showIndent(this)" onmouseleave="showOutdent(this)">
+                        <span class="comment_menu">[ <i class="fas fa-outdent"></i> | <i class="fas fa-indent"></i> | <i class="far fa-copyright" onclick="copyToClipboard(this)"></i> | <i class="fas fa-user-edit" onclick="toggleEdit({{comment.id}})"></i> | <i class="fas fa-trash"></i> ]</span>
                         {% if comment.isCode == True %}
                             <span class="note_content code_format">{{comment.content}}</span>
                             {% else %}

@@ -137,6 +137,10 @@ a {
   font-size: 11px;
 }
 
+.comment_menu {
+  display: none;
+}
+
 /* ============================================================= */
 /* ---------------------------Scrollbar------------------------- */
 /* ============================================================= */
@@ -256,9 +260,13 @@ a {
     float: right;
 }
 
-.fa-trash {
+.accordion .fa-trash {
   margin-left: 0.5rem;
   float: right;
+  color: var(--font-color);
+}
+
+.fa-trash {
   color: var(--font-color);
 }
 
@@ -686,7 +694,6 @@ input:checked + .slider:before {
     font-weight: bold;
     border: 1px solid black;
   }
-
 
   #title_input {
     height: 20px;

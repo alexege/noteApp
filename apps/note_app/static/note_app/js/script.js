@@ -18,7 +18,6 @@ function searchFunction() {
 
 //Indent
 function showIndent(comment){
-    console.log("child:", comment.parentNode.querySelector('.comment_menu'))
     comment.parentNode.querySelector('.comment_menu').style.display = "block";
 
     // comment.style.display = "block";
@@ -50,7 +49,7 @@ function showOutdent(comment){
 
 //Indent comment
 $(document).on('click', '.fa-indent', function(e){
-    var comment_id = this.parentElement.querySelector('li').getAttribute('comment_id')
+    var comment_id = this.closest('.comment').getAttribute('comment_id')
     console.log("comment_id:", comment_id);
     var note_id = this.closest('.note_body').getAttribute('note_id');
 
@@ -106,7 +105,7 @@ $(document).on('click', '.fa-indent', function(e){
 
 //outdent comment
 $(document).on('click', '.fa-outdent', function(e){
-    var comment_id = this.parentElement.querySelector('li').getAttribute('comment_id')
+    var comment_id = this.closest('.comment').getAttribute('comment_id')
     console.log("comment_id:", comment_id);
     var note_id = this.closest('.note_body').getAttribute('note_id');
 
@@ -477,8 +476,10 @@ $(document).on('submit', '.new_comment_form', function(e){
                     panel.style.display = "block";
                     }
                 });
+
+                //Focus new comment textarea
+                document.getElementById('note' + note_id).querySelector('.note_textarea').focus();
             }
-            
         }
     })
 })
@@ -658,7 +659,9 @@ function toggleEdit(note_comment_id){
 // https://hackernoon.com/copying-text-to-clipboard-with-javascript-df4d4988697f
 function copyToClipboard(ele){
     const el = document.createElement('textarea');
-    el.value = ele.parentNode.querySelector('li').innerText;
+    // console.log("element:", ele.closest('.comment'));
+    // el.value = ele.parentNode.querySelector('li').innerText;
+    el.value = ele.closest('.comment').querySelector('.note_content').innerText;
     document.body.appendChild(el);
     el.select();
     document.execCommand('copy');
