@@ -16,55 +16,41 @@ function searchFunction() {
     }
 }
 
+//Indent
 function showIndent(comment){
-    left = comment.getElementsByClassName('fa-angle-double-left')[0]
-    right = comment.getElementsByClassName('fa-angle-double-right')[0]
-    // console.log("left:", left.length);
-    // console.log("right:", right.length);
+    console.log("child:", comment.parentNode.querySelector('.comment_menu'))
+    comment.parentNode.querySelector('.comment_menu').style.display = "block";
 
-    left.classList.add('visible');
-    right.classList.add('visible');
+    // comment.style.display = "block";
+    // console.log("comment:", comment);
+    // left = comment.getElementsByClassName('fa-indent')[0];
+    // right = comment.getElementsByClassName('fa-outdent')[0];
+    // left.classList.add('visible');
+    // right.classList.add('visible');
+    // console.log("left:", left);
+    // console.log("right:", right);
+
+    // comment_menu
 }
 
-function hideIndent(comment){
-    left = comment.getElementsByClassName('fa-angle-double-left')[0];
-    right = comment.getElementsByClassName('fa-angle-double-right')[0];
+// Outdent
+function showOutdent(comment){
+    comment.parentNode.querySelector('.comment_menu').style.display = "none";
+    // comment.style.display = "none";
+    // // console.log("comment:", comment);
+    // left = comment.getElementsByClassName('fa-indent')[0];
+    // right = comment.getElementsByClassName('fa-outdent')[0];
 
-    if(left.classList.contains("visible") || right.classList.contains("visible")){
-        left.classList.toggle('visible');
-        right.classList.toggle('visible');
-    }
-    // left.style.opacity = 0;
-    // right.style.opacity = 0;
-    // console.log("Left classlist:", left.classList);
-    // if (left.classList.contains('visible')) {
-    //     console.log("Hiding left:");
-    //     left.classList.toggle('hidden');
+    // if(left.classList.contains("visible") || right.classList.contains("visible")){
+    //     left.classList.toggle('visible');
+    //     right.classList.toggle('visible');
     // }
-    // if (right.classList.contains('visible')) {
-    //     console.log("Hiding right:");
-    //     right.classList.toggle('hidden');
-    // }
-    // left.classList.toggle('hidden');
-    // right.classList.toggle('hidden');
-    // console.log("Contains?", left.classList.contains('visible'))
 }
-
-// show/hide indent buttons
-$(document).on('hover', '.fa-angle-double-right .fa-angle-double-left', function(e){
-    console.log("You're hovering on one of these");
-})
-
-$(document).on('hover', '.comment', function(){
-    console.log("hovering over a comment");
-    this.style.opacity = 0;
-})
 
 
 //Indent comment
-$(document).on('click', '.fa-angle-double-right', function(e){
-    console.log("this:", this);
-    var comment_id = this.closest('li').getAttribute('comment_id');
+$(document).on('click', '.fa-indent', function(e){
+    var comment_id = this.parentElement.querySelector('li').getAttribute('comment_id')
     console.log("comment_id:", comment_id);
     var note_id = this.closest('.note_body').getAttribute('note_id');
 
@@ -119,8 +105,8 @@ $(document).on('click', '.fa-angle-double-right', function(e){
 })
 
 //outdent comment
-$(document).on('click', '.fa-angle-double-left', function(e){
-    var comment_id = this.closest('li').getAttribute('comment_id');
+$(document).on('click', '.fa-outdent', function(e){
+    var comment_id = this.parentElement.querySelector('li').getAttribute('comment_id')
     console.log("comment_id:", comment_id);
     var note_id = this.closest('.note_body').getAttribute('note_id');
 
@@ -147,8 +133,6 @@ $(document).on('click', '.fa-angle-double-left', function(e){
             } else {
                 panel.style.display = "block";
             }
-
-
 
             // Toggle open/close accordion elements
             var list = document.getElementById("notes_component");
@@ -655,26 +639,26 @@ function toggleEdit(note_comment_id){
     }
 }
 
-function toggleCodeEdit(note_comment_id){
-    console.log("Toggle code edit");
-    var parent = document.getElementById('comment_' + note_comment_id);
-    console.log("Comment:", parent.parentElement)
-    var codeEditForm = parent.parentElement.querySelector('form');
-    console.log("codeEditForm:", codeEditForm)
+// function toggleCodeEdit(note_comment_id){
+//     console.log("Toggle code edit");
+//     var parent = document.getElementById('comment_' + note_comment_id);
+//     console.log("Comment:", parent.parentElement)
+//     var codeEditForm = parent.parentElement.querySelector('form');
+//     console.log("codeEditForm:", codeEditForm)
 
-    if (codeEditForm.style.display === "none") {
-        parent.style.display = "none";
-        codeEditForm.style.display = "block";
-    } else {
-        parent.style.display = "block";
-        codeEditForm.style.display = "none";
-    }
-}
+//     if (codeEditForm.style.display === "none") {
+//         parent.style.display = "none";
+//         codeEditForm.style.display = "block";
+//     } else {
+//         parent.style.display = "block";
+//         codeEditForm.style.display = "none";
+//     }
+// }
 
 // https://hackernoon.com/copying-text-to-clipboard-with-javascript-df4d4988697f
 function copyToClipboard(ele){
     const el = document.createElement('textarea');
-    el.value = ele.parentNode.innerText;
+    el.value = ele.parentNode.querySelector('li').innerText;
     document.body.appendChild(el);
     el.select();
     document.execCommand('copy');

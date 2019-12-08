@@ -126,8 +126,15 @@ a {
   opacity: 0;
 }
 
+.fa-indent, .fa-outdent {
+  font-size: 11px;
+  /* opacity: 0; */
+}
+
 .visible {
+  color: var(--secondary-color);
   opacity: 1;
+  font-size: 11px;
 }
 
 /* ============================================================= */
