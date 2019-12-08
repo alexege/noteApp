@@ -24,14 +24,19 @@
                         {{note.created_by.first_name}} {{note.created_by.last_name}}
                     </span>
 
-            </button>
+            </button>                
+
             <div class="panel">
                 <div class="comments_panel">
                     {% for comment in list_of_comments %}
                     {% if comment.parent == note %}
                     <ul>
                         <li id="comment_{{comment.id}}" comment_id="{{comment.id}}" class='indent{{comment.indentLevel}} comment' onmouseenter="showIndent(this)" onmouseleave="showOutdent(this)">
-                        <span class="comment_menu">[ <i class="fas fa-outdent"></i> | <i class="fas fa-indent"></i> | <i class="far fa-copyright" onclick="copyToClipboard(this)"></i> | <i class="fas fa-user-edit" onclick="toggleEdit({{comment.id}})"></i> | <i class="fas fa-trash"></i> ]</span>
+                        <span class="comment_menu">[ <i class="fas fa-outdent"></i> | <i class="fas fa-indent"></i> 
+                            <label class="tooltip"><i class="far fa-copyright" onclick="copyToClipboard(this)"></i>
+                                <input type="checkbox"><span>copied</span></label> 
+                            <i class="fas fa-user-edit" onclick="toggleEdit({{comment.id}})"></i> <i class="fas fa-trash"></i> ]
+                        </span>
                         {% if comment.isCode == True %}
                             <span class="note_content code_format">{{comment.content}}</span>
                             {% else %}
@@ -53,11 +58,17 @@
                         {% endif %}
                         {% endif %}
 
-                        <form action="/notes/comment/edit/{{comment.id}}" method="POST" style="display:none" class="comment_edit_form">
+                        <form action="/notes/comment/edit/{{comment.id}}" method="POST" style="display:none;" class="comment_edit_form">
                             {% csrf_token %}
-                            <textarea name="content" style="width: 100%;">{{comment.content}}</textarea>
-                            <button class="update_subnote_button" id="{{note.id}}">Update</button>
+                            <textarea name="content" style="width: 100%;" class="content_input" rows="5">{{comment.content}}</textarea>
+                            <select name="isCode" class="isCode">
+                                <option value="False">Text</option>
+                                <option value="True">Code</option>
+                            </select>
+                            <button class="update_subnote_button add_button" id="{{note.id}}">Update</button>
+                            <button type="button" class="cancel_button" onclick="hideEditForm({{comment.id}})">Cancel</button>
                         </form>
+
                     </ul>
                     {% endif %}
                     {% endfor %}

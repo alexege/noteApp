@@ -137,9 +137,65 @@ a {
   font-size: 11px;
 }
 
+/* .comment:hover {
+  background-color: var(--alt-bg-color);
+} */
+
 .comment_menu {
   display: none;
+  font-size: 12px;
 }
+
+.comment_menu i {
+  margin: 0 5px;
+  color: var(--font-color);
+}
+
+.comment_menu i:hover {
+  color: var(--secondary-color);
+}
+
+/* ============================================================= */
+/* ---------------------------ToolTip--------------------------- */
+/* ============================================================= */
+.tooltip {
+  position: relative;
+  border-bottom: 1px dotted black;
+}
+.tooltip span {
+  visibility: hidden;
+  width: 10em;
+  background-color: #000;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 9;
+  top: -1em;
+  left:  100%;
+  margin-left:1em;
+  opacity: 0;
+  transition: opacity 1s;
+}
+.tooltip span::after {
+  content: "";
+  position: absolute;
+  top: 1.5em;
+  right: 100%;
+  margin-top: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent black transparent transparent;
+}
+.tooltip input {
+  display:none;
+}
+.tooltip input:checked+span {
+  visibility: visible;
+  opacity: 1;
+}
+
 
 /* ============================================================= */
 /* ---------------------------Scrollbar------------------------- */
@@ -662,7 +718,7 @@ input:checked + .slider:before {
   }
 
   #notes_component .panel form {
-    margin-left: 5%;
+    margin-left: 4rem;
   }
 
 
@@ -693,6 +749,16 @@ input:checked + .slider:before {
     color: #07fcd7;
     font-weight: bold;
     border: 1px solid black;
+  }
+
+  .content_input {
+    background-color: var(--primary-color);
+    background-color: #283231;
+    /* color: rgba(7, 252, 215, 0.25); */
+    color: #07fcd7;
+    font-weight: bold;
+    border: 1px solid black;
+    padding: 5px;
   }
 
   #title_input {
@@ -756,6 +822,22 @@ input:checked + .slider:before {
   .add_button:hover {
     color: var(--bg-color);
     border: 1px solid var(--bg-color);
+    background-color: var(--primary-color);
+    padding: 0.01rem 0.5rem;
+    display: inline-block;
+  }
+
+  .cancel_button {
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+    background-color: var(--secondary-color);
+    padding: 0.01rem 0.5rem;
+    display: inline-block;
+  }
+
+  .cancel_button:hover {
+    color: var(--bg-color);
+    border: 1px solid var(--secondary-color);
     background-color: var(--primary-color);
     padding: 0.01rem 0.5rem;
     display: inline-block;

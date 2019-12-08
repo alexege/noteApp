@@ -31,11 +31,11 @@
             <h5 class="accordion">{{notebook.name}}
                     {% if notebook.privacy == False %}
                     <!-- <a href="notebook/{{notebook.id}}/privacy"> -->
-                        <i note_id="{{notebook.id}}" custom_id="{{notebook.id}}" class="fas fa-lock-open" privacy={{notebook.privacy}}></i>
+                        <i note_id="{{notebook.id}}" custom_id="{{notebook.id}}" class="fas fa-lock-open" onclick= "StopEventPropagation(event);" privacy={{notebook.privacy}}></i>
                     <!-- </a> -->
                     {% else %}
                     <a href="notebook/{{notebook.id}}/privacy">
-                        <i note_id="{{notebook.id}}" custom_id="{{notebook.id}}" class="fas fa-lock" privacy={{notebook.privacy}}></i>
+                        <i note_id="{{notebook.id}}" custom_id="{{notebook.id}}" class="fas fa-lock" onclick= "StopEventPropagation(event);" privacy={{notebook.privacy}}></i>
                     </a>
                     {% endif %}
                     <a href="/notes/notebook/delete/{{notebook.id}}"><i class="fas fa-trash"></i></a>

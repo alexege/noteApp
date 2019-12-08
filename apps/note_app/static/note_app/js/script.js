@@ -1,3 +1,14 @@
+function StopEventPropagation(event) { 
+    if (event.stopPropagation) { 
+        event.stopPropagation(); 
+    } 
+    else if(window.event) { 
+        window.event.cancelBubble=true; 
+    } 
+}   
+
+
+
 // // Search bar functionality
 function searchFunction() {
     var searchbox = document.getElementById("myInput");
@@ -15,6 +26,7 @@ function searchFunction() {
         }
     }
 }
+
 
 //Indent
 function showIndent(comment){
@@ -45,7 +57,6 @@ function showOutdent(comment){
     //     right.classList.toggle('visible');
     // }
 }
-
 
 //Indent comment
 $(document).on('click', '.fa-indent', function(e){
@@ -413,7 +424,12 @@ $(document).on('submit', '.new_note_form', function(e){
                     }
                 });
             }
-            
+
+            //Focus new note textarea
+            window.setTimeout(function ()
+            {
+                document.getElementById('title_input').focus();
+            }, 2000);
         }
     })
 })
@@ -532,7 +548,6 @@ $(document).on('submit', '.comment_edit_form', function(e){
                     }
                 });
             }
-            
         }
     })
 })
@@ -632,12 +647,19 @@ function edit_note(ele, event){
 function toggleEdit(note_comment_id){
     var parent = document.getElementById('comment_' + note_comment_id);
     if (parent.nextElementSibling.style.display === "none") {
-        parent.style.display = "none";
+        parent.querySelector('.note_content').style.display = "none";
         parent.nextElementSibling.style.display = "block";
     } else {
-        parent.style.display = "block";
+        // parent.style.display = "block";
+        parent.querySelector('.note_content').style.display = "block";
         parent.nextElementSibling.style.display = "none";
     }
+}
+
+function hideEditForm(note_comment_id){
+    var parent = document.getElementById('comment_' + note_comment_id);
+    parent.querySelector('.note_content').style.display = "block";
+    parent.nextElementSibling.style.display = "none";
 }
 
 // function toggleCodeEdit(note_comment_id){
