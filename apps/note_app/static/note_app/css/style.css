@@ -51,7 +51,7 @@ a {
   --secondary-color: red;
   --font-color: white;
   --bg-color: #383a38;
-  --alt-bg-color:#283231;
+  --alt-bg-color:black;
   --heading-color: #07fcd7;
 }
  [data-theme="dark"] {
@@ -101,6 +101,33 @@ a {
 	 display: block;
 	 margin-bottom: 4vh;
 	 color: var(--secondary-color);
+}
+
+/* ============================================================= */
+/* ------------------------Indent Level------------------------- */
+/* ============================================================= */
+.indent1 {
+  margin-left: 80px !important;
+}
+
+.indent2 {
+  margin-left: 120px !important;
+}
+
+.indent3 {
+  margin-left: 160px !important;
+}
+
+.indent4 {
+  margin-left: 200px !important;
+}
+
+.fa-angle-double-left, .fa-angle-double-right {
+  opacity: 0;
+}
+
+.visible {
+  opacity: 1;
 }
 
 /* ============================================================= */

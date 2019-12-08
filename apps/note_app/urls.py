@@ -30,4 +30,6 @@ urlpatterns = [
     # url(r'^ajax/all_notes_partial$', views.all_notes_partial),
     url(r'^(?P<category>[\w\s]+)$', views.note_partial),
     url(r'^public/(?P<category>[\w\s]+)$', views.public_note_partial),
+    url(r'^comment/(?P<comment_id>\d+)/indent$', views.indent_comment),
+    url(r'^comment/(?P<comment_id>\d+)/outdent$', views.outdent_comment),
 ]

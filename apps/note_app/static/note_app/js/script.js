@@ -16,6 +16,166 @@ function searchFunction() {
     }
 }
 
+function showIndent(comment){
+    left = comment.getElementsByClassName('fa-angle-double-left')[0]
+    right = comment.getElementsByClassName('fa-angle-double-right')[0]
+    // console.log("left:", left.length);
+    // console.log("right:", right.length);
+
+    left.classList.add('visible');
+    right.classList.add('visible');
+}
+
+function hideIndent(comment){
+    left = comment.getElementsByClassName('fa-angle-double-left')[0];
+    right = comment.getElementsByClassName('fa-angle-double-right')[0];
+
+    if(left.classList.contains("visible") || right.classList.contains("visible")){
+        left.classList.toggle('visible');
+        right.classList.toggle('visible');
+    }
+    // left.style.opacity = 0;
+    // right.style.opacity = 0;
+    // console.log("Left classlist:", left.classList);
+    // if (left.classList.contains('visible')) {
+    //     console.log("Hiding left:");
+    //     left.classList.toggle('hidden');
+    // }
+    // if (right.classList.contains('visible')) {
+    //     console.log("Hiding right:");
+    //     right.classList.toggle('hidden');
+    // }
+    // left.classList.toggle('hidden');
+    // right.classList.toggle('hidden');
+    // console.log("Contains?", left.classList.contains('visible'))
+}
+
+// show/hide indent buttons
+$(document).on('hover', '.fa-angle-double-right .fa-angle-double-left', function(e){
+    console.log("You're hovering on one of these");
+})
+
+$(document).on('hover', '.comment', function(){
+    console.log("hovering over a comment");
+    this.style.opacity = 0;
+})
+
+
+//Indent comment
+$(document).on('click', '.fa-angle-double-right', function(e){
+    console.log("this:", this);
+    var comment_id = this.closest('li').getAttribute('comment_id');
+    console.log("comment_id:", comment_id);
+    var note_id = this.closest('.note_body').getAttribute('note_id');
+
+    e.preventDefault();
+    $.ajax({
+        // url:`note/delete/${note_id}`,
+        url: `comment/${comment_id}/indent`,
+        method: 'get',
+        data: $(this).serialize(),
+        success: function(serverResponse){
+            console.log("success");
+            $("#notes_component").html(serverResponse);
+            // $(".public_notebooks").html(serverResponse);
+
+            //Set this element's active toggle to display the panel
+            var note = document.querySelector(`#note${note_id}`);
+            // var isActive = note.querySelector('button').classList.contains('active');
+            note.querySelector('button').classList.toggle('active');
+            console.log("note:", note);
+            // console.log("isActive:", isActive);
+            var panel = note.querySelector('.panel')
+            if(panel.style.display === "block"){
+                panel.style.display = "none";
+            } else {
+                panel.style.display = "block";
+            }
+
+            // Toggle open/close accordion elements
+            var list = document.getElementById("notes_component");
+            var acc = list.getElementsByClassName("accordion");
+            var i;
+            for (i = 0; i < acc.length; i++) {
+                acc[i].addEventListener("click", function() {
+                    /* Toggle between adding and removing the "active" class, to highlight the button that controls the panel */
+                    this.classList.toggle("active");
+
+                    /* Toggle between hiding and showing the active panel */
+                    var panel = this.nextElementSibling;
+                    if (panel.style.display === "block") {
+                    panel.style.display = "none";
+                    localStorage.clear();
+                    console.log("Clearing local storage")
+                    } else {
+                    panel.style.display = "block";
+                    }
+                });
+            }
+
+        }
+    })
+
+})
+
+//outdent comment
+$(document).on('click', '.fa-angle-double-left', function(e){
+    var comment_id = this.closest('li').getAttribute('comment_id');
+    console.log("comment_id:", comment_id);
+    var note_id = this.closest('.note_body').getAttribute('note_id');
+
+    e.preventDefault();
+    $.ajax({
+        url: `comment/${comment_id}/outdent`,
+        method: 'get',
+        data: $(this).serialize(),
+        success: function(serverResponse){
+            console.log("success");
+            $("#notes_component").html(serverResponse);
+            // $(".public_notebooks").html(serverResponse);
+
+
+            //Set this element's active toggle to display the panel
+            var note = document.querySelector(`#note${note_id}`);
+            // var isActive = note.querySelector('button').classList.contains('active');
+            note.querySelector('button').classList.toggle('active');
+            console.log("note:", note);
+            // console.log("isActive:", isActive);
+            var panel = note.querySelector('.panel')
+            if(panel.style.display === "block"){
+                panel.style.display = "none";
+            } else {
+                panel.style.display = "block";
+            }
+
+
+
+            // Toggle open/close accordion elements
+            var list = document.getElementById("notes_component");
+            var acc = list.getElementsByClassName("accordion");
+            var i;
+            for (i = 0; i < acc.length; i++) {
+                acc[i].addEventListener("click", function() {
+                    /* Toggle between adding and removing the "active" class, to highlight the button that controls the panel */
+                    this.classList.toggle("active");
+
+                    /* Toggle between hiding and showing the active panel */
+                    var panel = this.nextElementSibling;
+                    if (panel.style.display === "block") {
+                    panel.style.display = "none";
+                    localStorage.clear();
+                    console.log("Clearing local storage")
+                    } else {
+                    panel.style.display = "block";
+                    }
+                });
+            }
+
+        }
+    })
+
+})
+
 
 // Show/Hide Navbar Dropdown
 

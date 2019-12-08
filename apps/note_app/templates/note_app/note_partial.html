@@ -31,17 +31,21 @@
                     {% if comment.parent == note %}
                     <ul>
                         {% if comment.isCode == True %}
-                        <li id="comment_{{comment.id}}" comment_id="{{comment.id}}" >
+                        <li id="comment_{{comment.id}}" comment_id="{{comment.id}}" class='indent{{comment.indentLevel}} comment'>
+                            <i class="fas fa-angle-double-left"></i>
                             <a href="/notes/comment/delete/{{comment.id}}"><i class="fas fa-trash"></i></a>
                             <a onClick="toggleCodeEdit({{comment.id}})"><i class="fas fa-edit"></i></a>
                             <a onClick="copyToClipboard(this)"><i class="fas fa-copy"></i></a>
                             <span class="note_content code_format">{{comment.content}}</span>
+                            <i class="fas fa-angle-double-right"></i>
                         </li>
                         {% else %}
-                        <li id="comment_{{comment.id}}" comment_id="{{comment.id}}">
+                        <li id="comment_{{comment.id}}" comment_id="{{comment.id}}" class='indent{{comment.indentLevel}} comment' onmouseenter="showIndent(this)" onmouseleave="hideIndent(this)">
+                            <i class="fas fa-angle-double-left"></i>
                             <span class="note_content">{{comment.content}}</span>
                             <a href="/notes/comment/delete/{{comment.id}}"><i class="fas fa-trash"></i></a>
                             <a onClick="toggleEdit({{comment.id}})"><i class="fas fa-edit"></i></a> 
+                            <i class="fas fa-angle-double-right"></i>
                         </li>
                         {% endif %}
 
@@ -49,13 +53,13 @@
                         {% if comment.image %}
                         {% if comment.extension == '.mp4' or comment.extension == '.webm' or comment.extension == '.ogg' or comment.extension == '.MOV'%}
                         <video src="{{comment.image.url}}" controls="controls" class="video_format"
-                            width="100%" height="600px"></video>
+                            width="100%" height="600px" class='indent{{comment.indentLevel}} comment'></video>
                         {% elif comment.extension == '.pdf'%}
                         <embed src="{{comment.image.url}}" type="application/pdf" width="100%"
-                            height="600px" />
+                            height="600px" class='indent{{comment.indentLevel}}'/>
                         {% else %}
                         <img src="{{comment.image.url}}" alt="{{comment.image.url}}"
-                            class="comment_image">
+                            class="comment_image indent{{comment.indentLevel}} comment">
                         {% endif %}
                         {% endif %}
 

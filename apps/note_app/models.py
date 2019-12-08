@@ -36,6 +36,7 @@ class Comment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     isCode = models.BooleanField(default=False)
+    indentLevel = models.IntegerField(default=0)
     
     def extension(self):
         name, extension = os.path.splitext(self.image.name)
