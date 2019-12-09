@@ -26,13 +26,12 @@ function searchFunction() {
     }
 }
 
-
-//Indent
+//Indent comment
 function showIndent(comment){
     comment.parentNode.querySelector('.comment_menu').style.display = "block";
 }
 
-// Outdent
+// Outdent comment
 function showOutdent(comment){
     comment.parentNode.querySelector('.comment_menu').style.display = "none";
 }
@@ -567,6 +566,7 @@ function deleteCategory(e){
             // Toggle open/close accordion elements
             var list = document.getElementById("public_notebooks");
             var acc = list.getElementsByClassName("accordion");
+            console.log("There are " + acc.length + " items to open.")
             var i;
             for (i = 0; i < acc.length; i++) {
                 acc[i].addEventListener("click", function() {
