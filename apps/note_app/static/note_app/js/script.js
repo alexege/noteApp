@@ -5,8 +5,7 @@ function StopEventPropagation(event) {
     else if(window.event) { 
         window.event.cancelBubble=true; 
     } 
-}   
-
+}
 
 
 // // Search bar functionality
@@ -31,31 +30,11 @@ function searchFunction() {
 //Indent
 function showIndent(comment){
     comment.parentNode.querySelector('.comment_menu').style.display = "block";
-
-    // comment.style.display = "block";
-    // console.log("comment:", comment);
-    // left = comment.getElementsByClassName('fa-indent')[0];
-    // right = comment.getElementsByClassName('fa-outdent')[0];
-    // left.classList.add('visible');
-    // right.classList.add('visible');
-    // console.log("left:", left);
-    // console.log("right:", right);
-
-    // comment_menu
 }
 
 // Outdent
 function showOutdent(comment){
     comment.parentNode.querySelector('.comment_menu').style.display = "none";
-    // comment.style.display = "none";
-    // // console.log("comment:", comment);
-    // left = comment.getElementsByClassName('fa-indent')[0];
-    // right = comment.getElementsByClassName('fa-outdent')[0];
-
-    // if(left.classList.contains("visible") || right.classList.contains("visible")){
-    //     left.classList.toggle('visible');
-    //     right.classList.toggle('visible');
-    // }
 }
 
 //Indent comment
@@ -349,10 +328,124 @@ $(document).on('click', '.fa-trash', function(e){
 
 })
 
+//Add new Notebook
+$(document).on('submit', '.category_add_form', function(e){
+    e.preventDefault();
+    $.ajax({
+        url: `notebook/add`,
+        method: 'POST',
+        data: $(this).serialize(),
+        success: function(serverResponse){
+            console.log("Added a new notebook");
+            $('#mySidenav').html(serverResponse);
+            
+            // Toggle open/close accordion elements
+            var list = document.getElementById("notebooks");
+            var acc = list.getElementsByClassName("accordion");
+            var i;
+            for (i = 0; i < acc.length; i++) {
+                acc[i].addEventListener("click", function() {
+                    /* Toggle between adding and removing the "active" class, to highlight the button that controls the panel */
+                    this.classList.toggle("active");
+
+                    /* Toggle between hiding and showing the active panel */
+                    var panel = this.nextElementSibling;
+                    if (panel.style.display === "block") {
+                    panel.style.display = "none";
+                    localStorage.clear();
+                    console.log("Clearing local storage")
+                    } else {
+                    panel.style.display = "block";
+                    }
+                });
+            }
+            
+            // Toggle open/close accordion elements
+            var list = document.getElementById("public_notebooks");
+            var acc = list.getElementsByClassName("accordion");
+            var i;
+            for (i = 0; i < acc.length; i++) {
+                acc[i].addEventListener("click", function() {
+                    /* Toggle between adding and removing the "active" class, to highlight the button that controls the panel */
+                    this.classList.toggle("active");
+
+                    /* Toggle between hiding and showing the active panel */
+                    var panel = this.nextElementSibling;
+                    if (panel.style.display === "block") {
+                    panel.style.display = "none";
+                    localStorage.clear();
+                    console.log("Clearing local storage")
+                    } else {
+                    panel.style.display = "block";
+                    }
+                });
+            }
+        }
+    })
+})
+
+//Edit Notebook
+
+//Delete Notebook
+function delete_notebook(e){
+    console.log("element:", e.closest('.notebook').getAttribute('id'));
+    notebook_id = e.closest('.notebook').getAttribute('id');
+    console.log("notebook_id", notebook_id);
+    $.ajax({
+        url: `/notes/notebook/delete/${notebook_id}`,
+        method: 'get',
+        // data: $(this).serialize(),
+        success: function(serverResponse){
+            console.log("Added a new notebook");
+            $('#mySidenav').html(serverResponse);
+            
+            // Toggle open/close accordion elements
+            var list = document.getElementById("notebooks");
+            var acc = list.getElementsByClassName("accordion");
+            var i;
+            for (i = 0; i < acc.length; i++) {
+                acc[i].addEventListener("click", function() {
+                    /* Toggle between adding and removing the "active" class, to highlight the button that controls the panel */
+                    this.classList.toggle("active");
+
+                    /* Toggle between hiding and showing the active panel */
+                    var panel = this.nextElementSibling;
+                    if (panel.style.display === "block") {
+                    panel.style.display = "none";
+                    localStorage.clear();
+                    console.log("Clearing local storage")
+                    } else {
+                    panel.style.display = "block";
+                    }
+                });
+            }
+            
+            // Toggle open/close accordion elements
+            var list = document.getElementById("public_notebooks");
+            var acc = list.getElementsByClassName("accordion");
+            var i;
+            for (i = 0; i < acc.length; i++) {
+                acc[i].addEventListener("click", function() {
+                    /* Toggle between adding and removing the "active" class, to highlight the button that controls the panel */
+                    this.classList.toggle("active");
+
+                    /* Toggle between hiding and showing the active panel */
+                    var panel = this.nextElementSibling;
+                    if (panel.style.display === "block") {
+                    panel.style.display = "none";
+                    localStorage.clear();
+                    console.log("Clearing local storage")
+                    } else {
+                    panel.style.display = "block";
+                    }
+                });
+            }
+        }
+    })
+}
+
 // Toggle Notebook Privacy
 $(document).on('click', '.fa-lock, .fa-lock-open', function(e){
-    console.log("Clicking on a lock button");
-    console.log(this.classList.contains('fa-lock-open'));
     this.classList.toggle('fa-lock-open');
     this.classList.toggle('fa-lock');
     

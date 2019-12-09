@@ -23,22 +23,22 @@
         <div class="notebooks" id="notebooks">
         
         <div class="notebook">
-            <a href="/notes/">All</a>
+            <a href="/notes/">All Notebooks</a>
         </div>
 
         {% for notebook in list_of_notebooks %}
-        <div class="notebook">
+        <div class="notebook" id="{{notebook.id}}">
             <h5 class="accordion">{{notebook.name}}
                     {% if notebook.privacy == False %}
                     <!-- <a href="notebook/{{notebook.id}}/privacy"> -->
-                        <i note_id="{{notebook.id}}" custom_id="{{notebook.id}}" class="fas fa-lock-open" onclick= "StopEventPropagation(event);" privacy={{notebook.privacy}}></i>
+                        <i note_id="{{notebook.id}}" custom_id="{{notebook.id}}" class="fas fa-lock-open" onclick="StopEventPropagation(event);" privacy={{notebook.privacy}}></i>
                     <!-- </a> -->
                     {% else %}
                     <a href="notebook/{{notebook.id}}/privacy">
-                        <i note_id="{{notebook.id}}" custom_id="{{notebook.id}}" class="fas fa-lock" onclick= "StopEventPropagation(event);" privacy={{notebook.privacy}}></i>
+                        <i note_id="{{notebook.id}}" custom_id="{{notebook.id}}" class="fas fa-lock" onclick="StopEventPropagation(event);" privacy={{notebook.privacy}}></i>
                     </a>
                     {% endif %}
-                    <a href="/notes/notebook/delete/{{notebook.id}}"><i class="fas fa-trash"></i></a>
+                    <a onclick="delete_notebook(this)"><i class="fas fa-minus-circle"></i></a>
             </h5>
             <div class="panel">
                 <ul>
@@ -164,6 +164,7 @@
               
                     <h1 style="text-align: center;">Settings</h1>
                     <p>Reserved for future settings options.</p>
+                    Total Notes: {{all_notes.count}}
 
                     <div class="w3-container w3-border-top w3-padding-16 modal">
                         <button onclick="document.getElementById('id01').style.display='none'" type="button" class="w3-button w3-red">Cancel</button>

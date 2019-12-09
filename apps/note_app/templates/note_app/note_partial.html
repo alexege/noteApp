@@ -24,7 +24,7 @@
                         {{note.created_by.first_name}} {{note.created_by.last_name}}
                     </span>
 
-            </button>                
+            </button>
 
             <div class="panel">
                 <div class="comments_panel">
@@ -62,8 +62,13 @@
                             {% csrf_token %}
                             <textarea name="content" style="width: 100%;" class="content_input" rows="5">{{comment.content}}</textarea>
                             <select name="isCode" class="isCode">
+                                {% if comment.isCode %}
+                                <option value="True">Code</option>
+                                <option value="False">Text</option>
+                                {% else %}
                                 <option value="False">Text</option>
                                 <option value="True">Code</option>
+                                {% endif %}
                             </select>
                             <button class="update_subnote_button add_button" id="{{note.id}}">Update</button>
                             <button type="button" class="cancel_button" onclick="hideEditForm({{comment.id}})">Cancel</button>
@@ -77,14 +82,12 @@
                 <form action="/notes/comment/add/{{note.id}}" method="POST" enctype="multipart/form-data" class="new_comment_form">
                     {% csrf_token %}
                     <textarea name="content" rows="2" cols="25" class="note_textarea"></textarea>
+                    <!-- Simple File Upload --><br>
+                    <input type="file" name="myfile" class="input">
                     <select name="isCode" class="isCode">
                         <option value="False">Text</option>
                         <option value="True">Code</option>
                     </select>
-
-                    <!-- Simple File Upload --><br>
-                    <input type="file" name="myfile">
-
                     <button class="add_subnote_button add_button" id="{{note.id}}">Add</button>
                 </form>
             </div>

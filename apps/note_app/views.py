@@ -250,6 +250,7 @@ def edit_comment(request, note_comment_id):
     print("edit_comment")
     note_comment_to_edit = Comment.objects.get(id=note_comment_id)
     note_comment_to_edit.content = request.POST['content']
+    note_comment_to_edit.isCode = request.POST['isCode']
     note_comment_to_edit.save()
     # return redirect('/notes/')
 
@@ -379,13 +380,35 @@ def add_notebook(request):
     print("add_notebook")
     category = Notebook.objects.create(name=request.POST['name'], created_by=User.objects.get(id=request.session['active_user']))
     Category.objects.create(name=request.POST['name'], parent=category, created_by=User.objects.get(id=request.session['active_user']))
-    return redirect('/notes/')
+    
+    active_user = User.objects.get(id=request.session['active_user'])
+
+    context = {
+        'active_user': active_user,
+        'list_of_public_notebooks' : Notebook.objects.filter(privacy=False),
+        'list_of_subcategories' : Category.objects.all(),
+        'list_of_notebooks' : Notebook.objects.filter(created_by=active_user),
+    }
+    
+    return render(request, "note_app/sidenav_partial.html", context)
+    # return redirect('/notes/')
 
 def delete_category(request, category_id):
     print("delete_category")
     category_to_delete = Notebook.objects.get(id=category_id)
     category_to_delete.delete()
-    return redirect('/notes/')
+
+    active_user = User.objects.get(id=request.session['active_user'])
+
+    context = {
+        'active_user': active_user,
+        'list_of_public_notebooks' : Notebook.objects.filter(privacy=False),
+        'list_of_subcategories' : Category.objects.all(),
+        'list_of_notebooks' : Notebook.objects.filter(created_by=active_user),
+    }
+    
+    return render(request, "note_app/sidenav_partial.html", context)
+    # return redirect('/notes/')
 
 def togglePrivacy(request, notebook_id):
     print("privacyToggle")
