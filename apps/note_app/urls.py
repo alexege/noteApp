@@ -22,7 +22,7 @@ urlpatterns = [
     url(r'^notebook/(?P<notebook_id>\d+)/privacy$', views.togglePrivacy),
 
     #Category
-    url(r'^subcategory/add/(?P<category_id>\d+)$', views.add_subcategory),
+    url(r'^category/add/(?P<category_id>\d+)$', views.add_category),
     url(r'^subcategory/delete/(?P<subcategory_id>\d+)$', views.delete_subcategory),
 
     #Ajax

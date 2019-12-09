@@ -432,10 +432,19 @@ def togglePrivacy(request, notebook_id):
     # return render(request, "note_app/notebooks_partial.html", context)
     return render(request, "note_app/sidenav_partial.html", context)
 
-def add_subcategory(request, category_id):
+def add_category(request, category_id):
     print("add_subcategory")
     Category.objects.create(name=request.POST['name'], parent=Notebook.objects.get(id=category_id), created_by=User.objects.get(id=request.session['active_user']))
-    return redirect('/notes/')
+    # return redirect('/notes/')
+    active_user = User.objects.get(id=request.session['active_user'])
+
+    context = {
+        'active_user': active_user,
+        'list_of_notebooks' : Notebook.objects.filter(created_by=active_user),
+        'list_of_public_notebooks' : Notebook.objects.filter(privacy=False),
+        'list_of_subcategories' : Category.objects.all(),
+    }
+    return render(request, "note_app/sidenav_partial.html", context)
 
 def delete_subcategory(request, subcategory_id):
     print("delete_subcategory")
