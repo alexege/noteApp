@@ -23,7 +23,7 @@ urlpatterns = [
 
     #Category
     url(r'^category/add/(?P<category_id>\d+)$', views.add_category),
-    url(r'^subcategory/delete/(?P<subcategory_id>\d+)$', views.delete_subcategory),
+    url(r'^category/delete/(?P<category_id>\d+)$', views.delete_category),
 
     #Ajax
     url(r'^ajax/drag_and_drop/(?P<starting_note_id>\d+)/(?P<ending_note_id>\d+)$', views.drag_and_drop),

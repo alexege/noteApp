@@ -23,7 +23,7 @@
                     <li>
                         <a onclick="view_category('{{subcategory.name}}')">{{subcategory.name}}</a>
                         <!-- <a href="/notes/notebook/view/{{category.name}}/{{subcategory.id}}">{{subcategory.name}}</a> -->
-                        <a href="/notes/subcategory/delete/{{subcategory.id}}"><i class="fas fa-trash"></i></a>
+                        <i class="fas fa-minus-circle" onclick="deleteCategory(this)" id="{{subcategory.id}}"></i>
                     </li>
                     {% endif %}
                     {% endfor %}
@@ -57,7 +57,7 @@
                         <i note_id="{{category.id}}" custom_id="{{category.id}}" class="fas fa-lock-open" onclick="togglePrivacy(this)" privacy={{category.privacy}}></i>
                     <!-- </a> -->
                     {% if category.created_by == current_user %}
-                    <a href="/notes/notebook/delete/{{category.id}}"><i class="fas fa-trash"></i></a>
+                    <i class="fas fa-trash"></i>
                     {% endif %}
                     {% endif %}
             </h5>
@@ -69,7 +69,7 @@
                         <a onclick="view_public_category('{{subcategory.name}}')">{{subcategory.name}}</a>
                         <!-- <li><a href="/notes/notebook/view/{{category.name}}">{{subcategory.name}}</a> -->
                         {% if subcategory.created_by == current_user %}
-                        <a href="/notes/subcategory/delete/{{subcategory.id}}"><i class="fas fa-trash"></i></a></li>
+                        <i class="fas fa-minus-circle" onclick="deleteCategory(this)" id="{{subcategory.id}}"></i></li>
                         {% endif %}
                         </li>
                         {% endif %}

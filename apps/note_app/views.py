@@ -433,7 +433,7 @@ def togglePrivacy(request, notebook_id):
     return render(request, "note_app/sidenav_partial.html", context)
 
 def add_category(request, category_id):
-    print("add_subcategory")
+    print("add_category")
     Category.objects.create(name=request.POST['name'], parent=Notebook.objects.get(id=category_id), created_by=User.objects.get(id=request.session['active_user']))
     # return redirect('/notes/')
     active_user = User.objects.get(id=request.session['active_user'])
@@ -446,12 +446,21 @@ def add_category(request, category_id):
     }
     return render(request, "note_app/sidenav_partial.html", context)
 
-def delete_subcategory(request, subcategory_id):
-    print("delete_subcategory")
-    subcategory_to_delete = Category.objects.get(id=subcategory_id)
-    subcategory_to_delete.delete()
-    return redirect('/notes/')
+def delete_category(request, category_id):
+    print("delete_category")
+    category_to_delete = Category.objects.get(id=category_id)
+    category_to_delete.delete()
+    
+    active_user = User.objects.get(id=request.session['active_user'])
 
+    context = {
+        'active_user': active_user,
+        'list_of_notebooks' : Notebook.objects.filter(created_by=active_user),
+        'list_of_public_notebooks' : Notebook.objects.filter(privacy=False),
+        'list_of_subcategories' : Category.objects.all(),
+    }
+    return render(request, "note_app/sidenav_partial.html", context)
+    
 def drag_and_drop(request, starting_note_id, ending_note_id):
 
     starting_note = Note.objects.get(position_id=starting_note_id)

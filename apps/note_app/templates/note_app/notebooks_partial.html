@@ -22,7 +22,7 @@
                 <a onclick="view_category('{{subcategory.name}}')">{{subcategory.name}}</a>
                 <!-- <a href="/notes/notebook/view/{{category.name}}/{{subcategory.id}}">{{subcategory.name}}</a> -->
                 {% if subcategory.created_by == active_user %}
-                <a href="/notes/subcategory/delete/{{subcategory.id}}"><i class="fas fa-trash"></i></a>
+                <a href="/notes/category/delete/{{subcategory.id}}"><i class="fas fa-trash"></i></a>
                 {% endif %}
             </li>
             {% endif %}

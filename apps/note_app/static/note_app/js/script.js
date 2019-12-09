@@ -528,6 +528,88 @@ $(document).on('submit', '.category_add_form', function(e){
     })
 })
 
+//Delete category
+function deleteCategory(e){
+    console.log("this:", e.closest('.notebook').getAttribute('id'));
+    notebook_id = e.closest('.notebook').getAttribute('id');
+    category_id = e.getAttribute('id');
+    // console.log("notebook_id:", notebook_id);
+    console.log("Deleting category");
+    $.ajax({
+        url: `category/delete/${category_id}`,
+        method: 'get',
+        data: $(this).serialize(),
+        success: function(serverResponse){
+            console.log("Added a new notebook");
+            $('#mySidenav').html(serverResponse);
+            
+            // Toggle open/close accordion elements
+            var list = document.getElementById("notebooks");
+            var acc = list.getElementsByClassName("accordion");
+            var i;
+            for (i = 0; i < acc.length; i++) {
+                acc[i].addEventListener("click", function() {
+                    /* Toggle between adding and removing the "active" class, to highlight the button that controls the panel */
+                    this.classList.toggle("active");
+
+                    /* Toggle between hiding and showing the active panel */
+                    var panel = this.nextElementSibling;
+                    if (panel.style.display === "block") {
+                    panel.style.display = "none";
+                    localStorage.clear();
+                    console.log("Clearing local storage")
+                    } else {
+                    panel.style.display = "block";
+                    }
+                });
+            }
+            
+            // Toggle open/close accordion elements
+            var list = document.getElementById("public_notebooks");
+            var acc = list.getElementsByClassName("accordion");
+            var i;
+            for (i = 0; i < acc.length; i++) {
+                acc[i].addEventListener("click", function() {
+                    /* Toggle between adding and removing the "active" class, to highlight the button that controls the panel */
+                    this.classList.toggle("active");
+
+                    /* Toggle between hiding and showing the active panel */
+                    var panel = this.nextElementSibling;
+                    if (panel.style.display === "block") {
+                    panel.style.display = "none";
+                    localStorage.clear();
+                    console.log("Clearing local storage")
+                    } else {
+                    panel.style.display = "block";
+                    }
+                });
+            }
+
+            console.log("notebok:", document.getElementsByClassName(`notebook${notebook_id}`));
+            elements = document.getElementsByClassName(`notebook${notebook_id}`);
+            for(var i = 0; i < elements.length; i++){
+                elements[i].querySelector('.accordion').classList.toggle('active');
+            }
+
+            //Toggle acitve elements to be open
+            var sidenav = document.getElementById('mySidenav');
+            var notebooks = sidenav.querySelectorAll('.active');
+            console.log("notebooks:", notebooks);
+            for(var i = 0; i < notebooks.length; i++){
+                console.log("noteboks[i]", notebooks[i].nextElementSibling);
+                if(notebooks[i].nextElementSibling.style.display === 'block'){
+                    notebooks[i].nextElementSibling.style.display = 'none';
+                } else {
+                    notebooks[i].nextElementSibling.style.display = 'block';
+                }
+            }
+
+            // // //Give focus to category input
+            // $('#sidenav_category_input').focus();
+        }
+    })
+}
+
 function togglePrivacy(e){
     console.log("this:", e);
     console.log("this:", e.classList)
