@@ -425,10 +425,12 @@ def togglePrivacy(request, notebook_id):
     # return redirect('/notes/')
     context = {
         'active_user': active_user,
+        'list_of_notebooks' : Notebook.objects.filter(created_by=active_user),
         'list_of_public_notebooks' : Notebook.objects.filter(privacy=False),
         'list_of_subcategories' : Category.objects.all(),
     }
-    return render(request, "note_app/notebooks_partial.html", context)
+    # return render(request, "note_app/notebooks_partial.html", context)
+    return render(request, "note_app/sidenav_partial.html", context)
 
 def add_subcategory(request, category_id):
     print("add_subcategory")

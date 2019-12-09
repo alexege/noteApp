@@ -380,6 +380,9 @@ $(document).on('submit', '.category_add_form', function(e){
                     }
                 });
             }
+
+            //Give focus to category input
+            $('#add_notebook_button').focus();
         }
     })
 })
@@ -444,46 +447,88 @@ function delete_notebook(e){
     })
 }
 
-// Toggle Notebook Privacy
-$(document).on('click', '.fa-lock, .fa-lock-open', function(e){
-    this.classList.toggle('fa-lock-open');
-    this.classList.toggle('fa-lock');
-    
-    notebook_id = this.getAttribute('note_id')
-    e.preventDefault();
-    e.stopPropagation(); //Doesn't seem to work
+function togglePrivacy(e){
+    console.log("this:", e);
+    console.log("this:", e.classList)
+    e.classList.toggle('fa-lock-open');
+    e.classList.toggle('fa-lock');
+
+    notebook_id = e.getAttribute('note_id');
+    console.log("notebook_id:", notebook_id);
+
     $.ajax({
         url:`notebook/${notebook_id}/privacy`,
-        method: 'get',
+        method:'get',
         success: function(serverResponse){
-            console.log("success");
-            // $("#notebooks").html(serverResponse);
-            $(".public_notebooks").html(serverResponse);
-
-            // Toggle open/close accordion elements
-            var list = document.getElementById("public_notebooks");
-            var acc = list.getElementsByClassName("accordion");
-            var i;
-            for (i = 0; i < acc.length; i++) {
-                acc[i].addEventListener("click", function() {
-                    /* Toggle between adding and removing the "active" class, to highlight the button that controls the panel */
-                    this.classList.toggle("active");
-
-                    /* Toggle between hiding and showing the active panel */
-                    var panel = this.nextElementSibling;
-                    if (panel.style.display === "block") {
-                    panel.style.display = "none";
-                    localStorage.clear();
-                    console.log("Clearing local storage")
-                    } else {
-                    panel.style.display = "block";
-                    }
-                });
-            }
+            console.log("Toggled Privacy");
+            $('#mySidenav').html(serverResponse);
         }
     })
 
-})
+}
+
+// // Toggle Notebook Privacy
+// $(document).on('click', '.fa-lock, .fa-lock-open', function(e){
+//     e.preventDefault();
+//     e.stopPropagation(); //Doesn't seem to work
+//     this.classList.toggle('fa-lock-open');
+//     this.classList.toggle('fa-lock');
+    
+//     notebook_id = this.getAttribute('note_id')
+//     $.ajax({
+//         url:`notebook/${notebook_id}/privacy`,
+//         method: 'get',
+//         success: function(serverResponse){
+//             console.log("success");
+//             // $("#notebooks").html(serverResponse);
+//             // $(".public_notebooks").html(serverResponse);
+//             $("#mySidenav").html(serverResponse);
+
+//             // Toggle open/close accordion elements
+//             var list = document.getElementById("notebooks");
+//             var acc = list.getElementsByClassName("accordion");
+//             var i;
+//             for (i = 0; i < acc.length; i++) {
+//                 acc[i].addEventListener("click", function() {
+//                     /* Toggle between adding and removing the "active" class, to highlight the button that controls the panel */
+//                     this.classList.toggle("active");
+
+//                     /* Toggle between hiding and showing the active panel */
+//                     var panel = this.nextElementSibling;
+//                     if (panel.style.display === "block") {
+//                     panel.style.display = "none";
+//                     localStorage.clear();
+//                     console.log("Clearing local storage")
+//                     } else {
+//                     panel.style.display = "block";
+//                     }
+//                 });
+//             }
+
+//             // Toggle open/close accordion elements
+//             var list = document.getElementById("public_notebooks");
+//             var acc = list.getElementsByClassName("accordion");
+//             var i;
+//             for (i = 0; i < acc.length; i++) {
+//                 acc[i].addEventListener("click", function() {
+//                     /* Toggle between adding and removing the "active" class, to highlight the button that controls the panel */
+//                     this.classList.toggle("active");
+
+//                     /* Toggle between hiding and showing the active panel */
+//                     var panel = this.nextElementSibling;
+//                     if (panel.style.display === "block") {
+//                     panel.style.display = "none";
+//                     localStorage.clear();
+//                     console.log("Clearing local storage")
+//                     } else {
+//                     panel.style.display = "block";
+//                     }
+//                 });
+//             }
+//         }
+//     })
+
+// })
 
 // On add new note form submission
 $(document).on('submit', '.new_note_form', function(e){

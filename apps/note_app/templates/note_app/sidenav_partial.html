@@ -10,13 +10,9 @@
         <div class="notebook" id="{{notebook.id}}">
             <h5 class="accordion">{{notebook.name}}
                     {% if notebook.privacy == False %}
-                    <!-- <a href="notebook/{{notebook.id}}/privacy"> -->
-                        <i note_id="{{notebook.id}}" custom_id="{{notebook.id}}" class="fas fa-lock-open" onclick="StopEventPropagation(event);" privacy={{notebook.privacy}}></i>
-                    <!-- </a> -->
+                        <i note_id="{{notebook.id}}" custom_id="{{notebook.id}}" class="fas fa-lock-open" onclick="togglePrivacy(this)" privacy={{notebook.privacy}}></i>
                     {% else %}
-                    <a href="notebook/{{notebook.id}}/privacy">
-                        <i note_id="{{notebook.id}}" custom_id="{{notebook.id}}" class="fas fa-lock" onclick="StopEventPropagation(event);" privacy={{notebook.privacy}}></i>
-                    </a>
+                        <i note_id="{{notebook.id}}" custom_id="{{notebook.id}}" class="fas fa-lock" onclick="togglePrivacy(this)" privacy={{notebook.privacy}}></i>
                     {% endif %}
                     <a onclick="delete_notebook(this)"><i class="fas fa-minus-circle"></i></a>
             </h5>
@@ -45,7 +41,7 @@
 
         <form action="/notes/notebook/add" method="POST" class="category_add_form">
             {% csrf_token %}
-            <input type="text" name="name">
+            <input type="text" name="name" id="add_notebook_button">
             <button class="add_button">Add</button>
         </form>
         </div>
@@ -57,7 +53,7 @@
             <h5 class="accordion">{{category.name}}
                     {% if category.privacy == False and category.created_by == active_user%}
                     <!-- <a href="category/{{category.id}}/privacy"> -->
-                        <i note_id="{{category.id}}" custom_id="{{category.id}}" class="fas fa-lock-open" privacy={{category.privacy}}></i>
+                        <i note_id="{{category.id}}" custom_id="{{category.id}}" class="fas fa-lock-open" onclick="togglePrivacy(this)" privacy={{category.privacy}}></i>
                     <!-- </a> -->
                     {% if category.created_by == current_user %}
                     <a href="/notes/notebook/delete/{{category.id}}"><i class="fas fa-trash"></i></a>
