@@ -8,7 +8,7 @@
 
         {% for notebook in list_of_notebooks %}
         <div class="notebook notebook{{notebook.id}}" id="{{notebook.id}}">
-            <h5 class="accordion">{{notebook.name}}
+            <h5 class="accordion">{{notebook.id}} {{notebook.name}}
 
                     <i class="far fa-edit" onclick="edit_notebook(this);event.stopPropagation();" id="notebook{{notebook.id}}"></i>
 
@@ -85,7 +85,7 @@
                 <form action="/notes/category/add/{{notebook.id}}" method="POST" class="category_add_form">
                     {% csrf_token %}
                     <div class="add_new_category">
-                    <input type="text" name="name" id="public_category_input_{{notebook.id}}">
+                    <input type="text" name="name" id="private_category_input_{{notebook.id}}">
                     <button class="add_button">Add</button>
                     </div>
                 </form>
