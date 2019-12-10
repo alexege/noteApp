@@ -1,3 +1,4 @@
+//Prevent elements from propagating
 function StopEventPropagation(event) { 
     if (event.stopPropagation) { 
         event.stopPropagation(); 
@@ -7,8 +8,7 @@ function StopEventPropagation(event) {
     } 
 }
 
-
-// // Search bar functionality
+// Search bar functionality
 function searchFunction() {
     var searchbox = document.getElementById("myInput");
     var filter = searchbox.value.toUpperCase();
@@ -26,133 +26,54 @@ function searchFunction() {
     }
 }
 
-//Indent comment
-function showIndent(comment){
+// Display comment configuration menu
+function showMenu(comment){
     comment.parentNode.querySelector('.comment_menu').style.display = "block";
 }
 
-// Outdent comment
-function showOutdent(comment){
+// Hide comment configuration menu
+function hideMenu(comment){
     comment.parentNode.querySelector('.comment_menu').style.display = "none";
 }
 
-//Indent comment
+// Indent comment
 $(document).on('click', '.fa-indent', function(e){
     var comment_id = this.closest('.comment').getAttribute('comment_id')
-    console.log("comment_id:", comment_id);
     var note_id = this.closest('.note_body').getAttribute('note_id');
-
     e.preventDefault();
     $.ajax({
-        // url:`note/delete/${note_id}`,
         url: `comment/${comment_id}/indent`,
         method: 'get',
         data: $(this).serialize(),
         success: function(serverResponse){
-            console.log("success");
             $("#notes_component").html(serverResponse);
-            // $(".public_notebooks").html(serverResponse);
 
-            //Set this element's active toggle to display the panel
-            var note = document.querySelector(`#note${note_id}`);
-            // var isActive = note.querySelector('button').classList.contains('active');
-            note.querySelector('button').classList.toggle('active');
-            console.log("note:", note);
-            // console.log("isActive:", isActive);
-            var panel = note.querySelector('.panel')
-            if(panel.style.display === "block"){
-                panel.style.display = "none";
-            } else {
-                panel.style.display = "block";
-            }
-
-            // Toggle open/close accordion elements
-            var list = document.getElementById("notes_component");
-            var acc = list.getElementsByClassName("accordion");
-            var i;
-            for (i = 0; i < acc.length; i++) {
-                acc[i].addEventListener("click", function() {
-                    /* Toggle between adding and removing the "active" class, to highlight the button that controls the panel */
-                    this.classList.toggle("active");
-
-                    /* Toggle between hiding and showing the active panel */
-                    var panel = this.nextElementSibling;
-                    if (panel.style.display === "block") {
-                    panel.style.display = "none";
-                    localStorage.clear();
-                    console.log("Clearing local storage")
-                    } else {
-                    panel.style.display = "block";
-                    }
-                });
-            }
-
+            togglePanelDisplay(note_id);
+            addClickListener();
         }
     })
-
 })
 
-//outdent comment
+// Outdent comment
 $(document).on('click', '.fa-outdent', function(e){
     var comment_id = this.closest('.comment').getAttribute('comment_id')
-    console.log("comment_id:", comment_id);
     var note_id = this.closest('.note_body').getAttribute('note_id');
-
     e.preventDefault();
     $.ajax({
         url: `comment/${comment_id}/outdent`,
         method: 'get',
         data: $(this).serialize(),
         success: function(serverResponse){
-            console.log("success");
             $("#notes_component").html(serverResponse);
-            // $(".public_notebooks").html(serverResponse);
 
-
-            //Set this element's active toggle to display the panel
-            var note = document.querySelector(`#note${note_id}`);
-            // var isActive = note.querySelector('button').classList.contains('active');
-            note.querySelector('button').classList.toggle('active');
-            console.log("note:", note);
-            // console.log("isActive:", isActive);
-            var panel = note.querySelector('.panel')
-            if(panel.style.display === "block"){
-                panel.style.display = "none";
-            } else {
-                panel.style.display = "block";
-            }
-
-            // Toggle open/close accordion elements
-            var list = document.getElementById("notes_component");
-            var acc = list.getElementsByClassName("accordion");
-            var i;
-            for (i = 0; i < acc.length; i++) {
-                acc[i].addEventListener("click", function() {
-                    /* Toggle between adding and removing the "active" class, to highlight the button that controls the panel */
-                    this.classList.toggle("active");
-
-                    /* Toggle between hiding and showing the active panel */
-                    var panel = this.nextElementSibling;
-                    if (panel.style.display === "block") {
-                    panel.style.display = "none";
-                    localStorage.clear();
-                    console.log("Clearing local storage")
-                    } else {
-                    panel.style.display = "block";
-                    }
-                });
-            }
-
+            togglePanelDisplay(note_id);
+            addClickListener();
         }
     })
-
 })
 
 
 // Show/Hide Navbar Dropdown
-
-/* When the user clicks on the button, 
-toggle between hiding and showing the dropdown content */
 function myFunction() {
     document.getElementById("myDropdown").classList.toggle("show");
   }
@@ -167,43 +88,13 @@ function myFunction() {
     }
   }
 
-// Style
-function getColorScheme(){
-    var list_of_colors = ['font-color', 'primary-color', 'secondary-color', 'heading-color', 'background-color'];
-    var list_of_default_colors = ['red', 'white', 'blue', 'purple', 'green'];
-    //Check to see if all the colors stored in localStorage are null. If so, set them to their default colors.
-    for(var i = 0; i < list_of_colors.length; i++){
-        if(localStorage.getItem(`${list_of_colors[i]}`) == null){
-            localStorage.setItem(`${list_of_colors[i]}`, `${list_of_default_colors[i]}`);
-        }
-    }
-}
-
-function changeFontColor(color){
-    localStorage.setItem("font-color", color)
-}
-function changePrimaryColor(color){
-    localStorage.setItem("primary-color", color)
-}
-function changeSecondaryColor(color){
-    localStorage.setItem("secondary-color", color)
-}
-function changeheadingColor(color){
-    localStorage.setItem("heading-color", color)
-}
-function changeBackgroundColor(color){
-    localStorage.setItem("background-color", color)
-}
-
 // Toggle Light/Dark Mode
 function toggleLightDark(){
-
     const toggleSwitch = document.querySelector('.theme-switch input[type="checkbox"]');
     const currentTheme = localStorage.getItem('theme');
 
     if (currentTheme) {
         document.documentElement.setAttribute('data-theme', currentTheme);
-    
         if (currentTheme === 'dark') {
             toggleSwitch.checked = true;
         }
@@ -216,116 +107,71 @@ function toggleLightDark(){
         }
         else {        document.documentElement.setAttribute('data-theme', 'light');
             localStorage.setItem('theme', 'light');
-        }    
+        }
     }
-
     toggleSwitch.addEventListener('change', switchTheme, false);
 }
 
-// Delete Note
-$(document).on('click', '.note_trashcan', function(e){
-    // console.log("this.parent", this.closest(`.note_body`).getAttribute('note_id'));
-    var note_id = this.closest('.note_body').getAttribute('note_id');
-    console.log("note_id:", note_id);    
-    e.preventDefault();
-    e.stopPropagation(); //Doesn't seem to work
+//Delete Note
+function delete_note(event, element){
+    event.stopPropagation();
+    var note_id = element.closest('.note_body').getAttribute('note_id');
     $.ajax({
-        url:`note/delete/${note_id}`,
+        url: `note/delete/${note_id}`,
         method: 'get',
         data: $(this).serialize(),
         success: function(serverResponse){
-            console.log("success");
-            $("#notes_component").html(serverResponse);
-            // $(".public_notebooks").html(serverResponse);
-
-            // Toggle open/close accordion elements
-            var list = document.getElementById("notes_component");
-            var acc = list.getElementsByClassName("accordion");
-            var i;
-            for (i = 0; i < acc.length; i++) {
-                acc[i].addEventListener("click", function() {
-                    /* Toggle between adding and removing the "active" class, to highlight the button that controls the panel */
-                    this.classList.toggle("active");
-
-                    /* Toggle between hiding and showing the active panel */
-                    var panel = this.nextElementSibling;
-                    if (panel.style.display === "block") {
-                    panel.style.display = "none";
-                    localStorage.clear();
-                    console.log("Clearing local storage")
-                    } else {
-                    panel.style.display = "block";
-                    }
-                });
-            }
-
+            $('#notes_component').html(serverResponse);
+            addClickListener();
         }
     })
-
-})
+}
 
 // Delete Comment
-$(document).on('click', '.fa-trash', function(e){
-    // console.log("this.parent", this.closest(`.note_body`).getAttribute('note_id'));
-    var note_id = this.closest('.note_body').getAttribute('note_id');
-    console.log("Clicking on a trash button");
-    comment_id = this.parentNode.parentNode.getAttribute('comment_id')
-    var note = this.closest('.note_body');
-    console.log("note:", note);
+function delete_comment(event, element){
+    event.stopPropagation();
+    var note_id = element.closest('.note_body').getAttribute('note_id');
+    var comment_id = element.parentNode.parentNode.getAttribute('comment_id')
+    var note = element.closest('.note_body');
+
     if(!comment_id){
         comment_id = note.getAttribute('note_id');
     }
-    console.log("comment_id:", comment_id)
-    e.preventDefault();
-    e.stopPropagation(); //Doesn't seem to work
+
     $.ajax({
         url:`comment/delete/${comment_id}`,
         method: 'get',
         data: $(this).serialize(),
         success: function(serverResponse){
-            console.log("success");
             $("#notes_component").html(serverResponse);
-            // $(".public_notebooks").html(serverResponse);
 
-
-            //Set this element's active toggle to display the panel
-            var note = document.querySelector(`#note${note_id}`);
-            // var isActive = note.querySelector('button').classList.contains('active');
-            note.querySelector('button').classList.toggle('active');
-            console.log("note:", note);
-            // console.log("isActive:", isActive);
-            var panel = note.querySelector('.panel')
-            if(panel.style.display === "block"){
-                panel.style.display = "none";
-            } else {
-                panel.style.display = "block";
-            }
-
-
-            // Toggle open/close accordion elements
-            var list = document.getElementById("notes_component");
-            var acc = list.getElementsByClassName("accordion");
-            var i;
-            for (i = 0; i < acc.length; i++) {
-                acc[i].addEventListener("click", function() {
-                    /* Toggle between adding and removing the "active" class, to highlight the button that controls the panel */
-                    this.classList.toggle("active");
-
-                    /* Toggle between hiding and showing the active panel */
-                    var panel = this.nextElementSibling;
-                    if (panel.style.display === "block") {
-                    panel.style.display = "none";
-                    localStorage.clear();
-                    console.log("Clearing local storage")
-                    } else {
-                    panel.style.display = "block";
-                    }
-                });
-            }
+            togglePanelDisplay(note_id);
+            addClickListener();
         }
     })
+}
 
-})
+function openCloseAccordion(source){
+    // Toggle open/close accordion elements
+    var list = document.getElementById(`${source}`);
+    var acc = list.getElementsByClassName("accordion");
+    var i;
+    for (i = 0; i < acc.length; i++) {
+        acc[i].addEventListener("click", function() {
+            this.classList.toggle("active");
+
+            /* Toggle between hiding and showing the active panel */
+            var panel = this.nextElementSibling;
+            if (panel.style.display === "block") {
+            panel.style.display = "none";
+            localStorage.clear();
+            console.log("Clearing local storage")
+            } else {
+            panel.style.display = "block";
+            }
+        });
+    }
+}
 
 //Add new Notebook
 $(document).on('submit', '.notebook_add_form', function(e){
@@ -338,53 +184,24 @@ $(document).on('submit', '.notebook_add_form', function(e){
             console.log("Added a new notebook");
             $('#mySidenav').html(serverResponse);
             
-            // Toggle open/close accordion elements
-            var list = document.getElementById("notebooks");
-            var acc = list.getElementsByClassName("accordion");
-            var i;
-            for (i = 0; i < acc.length; i++) {
-                acc[i].addEventListener("click", function() {
-                    /* Toggle between adding and removing the "active" class, to highlight the button that controls the panel */
-                    this.classList.toggle("active");
-
-                    /* Toggle between hiding and showing the active panel */
-                    var panel = this.nextElementSibling;
-                    if (panel.style.display === "block") {
-                    panel.style.display = "none";
-                    localStorage.clear();
-                    console.log("Clearing local storage")
-                    } else {
-                    panel.style.display = "block";
-                    }
-                });
-            }
-            
-            // Toggle open/close accordion elements
-            var list = document.getElementById("public_notebooks");
-            var acc = list.getElementsByClassName("accordion");
-            var i;
-            for (i = 0; i < acc.length; i++) {
-                acc[i].addEventListener("click", function() {
-                    /* Toggle between adding and removing the "active" class, to highlight the button that controls the panel */
-                    this.classList.toggle("active");
-
-                    /* Toggle between hiding and showing the active panel */
-                    var panel = this.nextElementSibling;
-                    if (panel.style.display === "block") {
-                    panel.style.display = "none";
-                    localStorage.clear();
-                    console.log("Clearing local storage")
-                    } else {
-                    panel.style.display = "block";
-                    }
-                });
-            }
+            openCloseAccordion("notebooks");
+            openCloseAccordion("public_notebooks")
 
             //Give focus to category input
-            // $('#public_notebook_category_input').focus();
+            $('#add_notebook_input').focus();
         }
     })
 })
+
+//Toggle Edit Notebook
+function edit_notebook(e){
+    var form = e.parentNode.querySelector('.notebook_edit_form');
+    if(form.style.display === "block"){
+        form.style.display = "none";
+    } else {
+        form.style.display = "block"
+    }
+}
 
 //Edit Notebook
 $(document).on('submit', '.notebook_edit_form', function(e){
@@ -399,62 +216,11 @@ $(document).on('submit', '.notebook_edit_form', function(e){
             $('#mySidenav').html(serverResponse);
             console.log("Successfully edited notebook");
 
-            // Toggle open/close accordion elements
-            var list = document.getElementById("notebooks");
-            var acc = list.getElementsByClassName("accordion");
-            var i;
-            for (i = 0; i < acc.length; i++) {
-                acc[i].addEventListener("click", function() {
-                    /* Toggle between adding and removing the "active" class, to highlight the button that controls the panel */
-                    this.classList.toggle("active");
-
-                    /* Toggle between hiding and showing the active panel */
-                    var panel = this.nextElementSibling;
-                    if (panel.style.display === "block") {
-                    panel.style.display = "none";
-                    localStorage.clear();
-                    console.log("Clearing local storage")
-                    } else {
-                    panel.style.display = "block";
-                    }
-                });
-            }
-            
-            // Toggle open/close accordion elements
-            var list = document.getElementById("public_notebooks");
-            var acc = list.getElementsByClassName("accordion");
-            var i;
-            for (i = 0; i < acc.length; i++) {
-                acc[i].addEventListener("click", function() {
-                    /* Toggle between adding and removing the "active" class, to highlight the button that controls the panel */
-                    this.classList.toggle("active");
-
-                    /* Toggle between hiding and showing the active panel */
-                    var panel = this.nextElementSibling;
-                    if (panel.style.display === "block") {
-                    panel.style.display = "none";
-                    localStorage.clear();
-                    console.log("Clearing local storage")
-                    } else {
-                    panel.style.display = "block";
-                    }
-                });
-            }
-
+            openCloseAccordion("notebooks");
+            openCloseAccordion("public_notebooks");
         }
     })
 })
-
-
-//Toggle Edit Notebook
-function edit_notebook(e){
-    var form = e.parentNode.querySelector('.notebook_edit_form');
-    if(form.style.display === "block"){
-        form.style.display = "none";
-    } else {
-        form.style.display = "block"
-    }
-}
 
 //Delete Notebook
 function delete_notebook(e){
@@ -469,52 +235,13 @@ function delete_notebook(e){
             console.log("Added a new notebook");
             $('#mySidenav').html(serverResponse);
             
-            // Toggle open/close accordion elements
-            var list = document.getElementById("notebooks");
-            var acc = list.getElementsByClassName("accordion");
-            var i;
-            for (i = 0; i < acc.length; i++) {
-                acc[i].addEventListener("click", function() {
-                    /* Toggle between adding and removing the "active" class, to highlight the button that controls the panel */
-                    this.classList.toggle("active");
-
-                    /* Toggle between hiding and showing the active panel */
-                    var panel = this.nextElementSibling;
-                    if (panel.style.display === "block") {
-                    panel.style.display = "none";
-                    localStorage.clear();
-                    console.log("Clearing local storage")
-                    } else {
-                    panel.style.display = "block";
-                    }
-                });
-            }
-            
-            // Toggle open/close accordion elements
-            var list = document.getElementById("public_notebooks");
-            var acc = list.getElementsByClassName("accordion");
-            var i;
-            for (i = 0; i < acc.length; i++) {
-                acc[i].addEventListener("click", function() {
-                    /* Toggle between adding and removing the "active" class, to highlight the button that controls the panel */
-                    this.classList.toggle("active");
-
-                    /* Toggle between hiding and showing the active panel */
-                    var panel = this.nextElementSibling;
-                    if (panel.style.display === "block") {
-                    panel.style.display = "none";
-                    localStorage.clear();
-                    console.log("Clearing local storage")
-                    } else {
-                    panel.style.display = "block";
-                    }
-                });
-            }
+            openCloseAccordion("notebooks");
+            openCloseAccordion("public_notebooks");
         }
     })
 }
 
-//Add new category
+//Add Category
 $(document).on('submit', '.category_add_form', function(e){
     e.preventDefault();
 
@@ -522,59 +249,16 @@ $(document).on('submit', '.category_add_form', function(e){
     var container = this.closest('.public_notebooks');
 
     notebook_id = this.closest('.notebook').getAttribute('id');
-    console.log("notebook_id:", notebook_id);
-    console.log("Submitting a new category");
     $.ajax({
         url: `category/add/${notebook_id}`,
         method: 'POST',
         data: $(this).serialize(),
         success: function(serverResponse){
-            console.log("Added a new notebook");
             $('#mySidenav').html(serverResponse);
             
-            // Toggle open/close accordion elements
-            var list = document.getElementById("notebooks");
-            var acc = list.getElementsByClassName("accordion");
-            var i;
-            for (i = 0; i < acc.length; i++) {
-                acc[i].addEventListener("click", function() {
-                    /* Toggle between adding and removing the "active" class, to highlight the button that controls the panel */
-                    this.classList.toggle("active");
+            openCloseAccordion("notebooks");
+            openCloseAccordion("public_notebooks");
 
-                    /* Toggle between hiding and showing the active panel */
-                    var panel = this.nextElementSibling;
-                    if (panel.style.display === "block") {
-                    panel.style.display = "none";
-                    localStorage.clear();
-                    console.log("Clearing local storage")
-                    } else {
-                    panel.style.display = "block";
-                    }
-                });
-            }
-            
-            // Toggle open/close accordion elements
-            var list = document.getElementById("public_notebooks");
-            var acc = list.getElementsByClassName("accordion");
-            var i;
-            for (i = 0; i < acc.length; i++) {
-                acc[i].addEventListener("click", function() {
-                    /* Toggle between adding and removing the "active" class, to highlight the button that controls the panel */
-                    this.classList.toggle("active");
-
-                    /* Toggle between hiding and showing the active panel */
-                    var panel = this.nextElementSibling;
-                    if (panel.style.display === "block") {
-                    panel.style.display = "none";
-                    localStorage.clear();
-                    console.log("Clearing local storage")
-                    } else {
-                    panel.style.display = "block";
-                    }
-                });
-            }
-
-            console.log("notebok:", document.getElementsByClassName(`notebook${notebook_id}`));
             elements = document.getElementsByClassName(`notebook${notebook_id}`);
             for(var i = 0; i < elements.length; i++){
                 elements[i].querySelector('.accordion').classList.toggle('active');
@@ -583,7 +267,6 @@ $(document).on('submit', '.category_add_form', function(e){
             //Toggle acitve elements to be open
             var sidenav = document.getElementById('mySidenav');
             var notebooks = sidenav.querySelectorAll('.active');
-            console.log("notebooks:", notebooks);
 
             if(container != null){
                 notebooks[1].nextElementSibling.style.display = 'block';
@@ -594,390 +277,139 @@ $(document).on('submit', '.category_add_form', function(e){
                 //Grab focus of public notebook input field
                 $(`#public_category_input_${notebook_id}`).focus();
             }
-
-            // for(var i = 0; i < notebooks.length; i++){
-            //     console.log("noteboks[i]", notebooks[i].nextElementSibling);
-            //     if(notebooks[i].nextElementSibling.style.display === 'block'){
-            //         notebooks[i].nextElementSibling.style.display = 'none';
-            //     } else {
-            //         notebooks[i].nextElementSibling.style.display = 'block';
-            //     }
-            // }
-
-            // //Give focus to category input
-            // $('#sidenav_category_input').focus();
         }
     })
 })
 
-//Delete category
+//Delete Category
 function deleteCategory(e){
-    console.log("this:", e.closest('.notebook').getAttribute('id'));
     notebook_id = e.closest('.notebook').getAttribute('id');
     category_id = e.getAttribute('id');
-    // console.log("notebook_id:", notebook_id);
-    console.log("Deleting category");
     $.ajax({
         url: `category/delete/${category_id}`,
         method: 'get',
         data: $(this).serialize(),
         success: function(serverResponse){
-            console.log("deleted a category");
             $('#mySidenav').html(serverResponse);
             
-            // Toggle open/close accordion elements
-            var list = document.getElementById("notebooks");
-            var acc = list.getElementsByClassName("accordion");
-            var i;
-            for (i = 0; i < acc.length; i++) {
-                acc[i].addEventListener("click", function() {
-                    /* Toggle between adding and removing the "active" class, to highlight the button that controls the panel */
-                    this.classList.toggle("active");
+            openCloseAccordion("notebooks");
+            openCloseAccordion("public_notebooks");
 
-                    /* Toggle between hiding and showing the active panel */
-                    var panel = this.nextElementSibling;
-                    if (panel.style.display === "block") {
-                    panel.style.display = "none";
-                    localStorage.clear();
-                    console.log("Clearing local storage")
-                    } else {
-                    panel.style.display = "block";
-                    }
-                });
-            }
-            
-            // Toggle open/close accordion elements
-            var list = document.getElementById("public_notebooks");
-            var acc = list.getElementsByClassName("accordion");
-            console.log("There are " + acc.length + " items to open.")
-            var i;
-            for (i = 0; i < acc.length; i++) {
-                acc[i].addEventListener("click", function() {
-                    /* Toggle between adding and removing the "active" class, to highlight the button that controls the panel */
-                    this.classList.toggle("active");
-
-                    /* Toggle between hiding and showing the active panel */
-                    var panel = this.nextElementSibling;
-                    if (panel.style.display === "block") {
-                    panel.style.display = "none";
-                    localStorage.clear();
-                    console.log("Clearing local storage")
-                    } else {
-                    panel.style.display = "block";
-                    }
-                });
-            }
-
-            console.log("notebok:", document.getElementsByClassName(`notebook${notebook_id}`));
             elements = document.getElementsByClassName(`notebook${notebook_id}`);
             for(var i = 0; i < elements.length; i++){
                 elements[i].querySelector('.accordion').classList.toggle('active');
             }
-            // console.log("Closest button:", e.closest('.notebook').querySelector('.accordion'));
 
-            //Toggle acitve elements to be open
+            //Toggle active elements to be open
             var sidenav = document.getElementById('mySidenav');
             var notebooks = sidenav.querySelectorAll('.active');
-            console.log("notebooks:", notebooks);
 
             notebooks[0].nextElementSibling.style.display = 'block';
-            // for(var i = 0; i < notebooks.length; i++){
-            //     console.log("noteboks[i]", notebooks[i].nextElementSibling);
-            //     if(notebooks[i].nextElementSibling.style.display === 'block'){
-            //         notebooks[i].nextElementSibling.style.display = 'none';
-            //     } else {
-            //         notebooks[i].nextElementSibling.style.display = 'block';
-            //     }
-            // }
-
-            // // //Give focus to category input
-            // $('#sidenav_category_input').focus();
         }
     })
 }
 
 function togglePrivacy(e){
     event.stopPropagation()
-    console.log("this:", e);
-    console.log("this:", e.classList)
     e.classList.toggle('fa-lock-open');
     e.classList.toggle('fa-lock');
-
     notebook_id = e.getAttribute('note_id');
-    console.log("notebook_id:", notebook_id);
 
     $.ajax({
         url:`notebook/${notebook_id}/privacy`,
         method:'get',
         success: function(serverResponse){
-            console.log("Toggled Privacy");
             $('#mySidenav').html(serverResponse);
 
-             // Toggle open/close accordion elements
-             var list = document.getElementById("notebooks");
-             var acc = list.getElementsByClassName("accordion");
-             var i;
-             for (i = 0; i < acc.length; i++) {
-                 acc[i].addEventListener("click", function() {
-                     /* Toggle between adding and removing the "active" class, to highlight the button that controls the panel */
-                     this.classList.toggle("active");
- 
-                     /* Toggle between hiding and showing the active panel */
-                     var panel = this.nextElementSibling;
-                     if (panel.style.display === "block") {
-                     panel.style.display = "none";
-                     localStorage.clear();
-                     console.log("Clearing local storage")
-                     } else {
-                     panel.style.display = "block";
-                     }
-                 });
-             }
-             
-             // Toggle open/close accordion elements
-             var list = document.getElementById("public_notebooks");
-             var acc = list.getElementsByClassName("accordion");
-             var i;
-             for (i = 0; i < acc.length; i++) {
-                 acc[i].addEventListener("click", function() {
-                     /* Toggle between adding and removing the "active" class, to highlight the button that controls the panel */
-                     this.classList.toggle("active");
- 
-                     /* Toggle between hiding and showing the active panel */
-                     var panel = this.nextElementSibling;
-                     if (panel.style.display === "block") {
-                     panel.style.display = "none";
-                     localStorage.clear();
-                     console.log("Clearing local storage")
-                     } else {
-                     panel.style.display = "block";
-                     }
-                 });
-             }
+            openCloseAccordion("notebooks");
+            openCloseAccordion("public_notebooks");
         }
     })
-
 }
 
-// // Toggle Notebook Privacy
-// $(document).on('click', '.fa-lock, .fa-lock-open', function(e){
-//     e.preventDefault();
-//     e.stopPropagation(); //Doesn't seem to work
-//     this.classList.toggle('fa-lock-open');
-//     this.classList.toggle('fa-lock');
-    
-//     notebook_id = this.getAttribute('note_id')
-//     $.ajax({
-//         url:`notebook/${notebook_id}/privacy`,
-//         method: 'get',
-//         success: function(serverResponse){
-//             console.log("success");
-//             // $("#notebooks").html(serverResponse);
-//             // $(".public_notebooks").html(serverResponse);
-//             $("#mySidenav").html(serverResponse);
+// Toggle open/close accordion elements
+function addClickListener(){
+    var list = document.getElementById("notes_component");
+    var acc = list.getElementsByClassName("accordion");
+    for (var i = 0; i < acc.length; i++) {
+        acc[i].addEventListener("click", function() {
+            this.classList.toggle("active");
 
-//             // Toggle open/close accordion elements
-//             var list = document.getElementById("notebooks");
-//             var acc = list.getElementsByClassName("accordion");
-//             var i;
-//             for (i = 0; i < acc.length; i++) {
-//                 acc[i].addEventListener("click", function() {
-//                     /* Toggle between adding and removing the "active" class, to highlight the button that controls the panel */
-//                     this.classList.toggle("active");
+            /* Toggle between hiding and showing the active panel */
+            var panel = this.nextElementSibling;
+            if (panel.style.display === "block") {
+            panel.style.display = "none";
+            localStorage.clear();
+            } else {
+            panel.style.display = "block";
+            }
+        });
+    }
+}
 
-//                     /* Toggle between hiding and showing the active panel */
-//                     var panel = this.nextElementSibling;
-//                     if (panel.style.display === "block") {
-//                     panel.style.display = "none";
-//                     localStorage.clear();
-//                     console.log("Clearing local storage")
-//                     } else {
-//                     panel.style.display = "block";
-//                     }
-//                 });
-//             }
-
-//             // Toggle open/close accordion elements
-//             var list = document.getElementById("public_notebooks");
-//             var acc = list.getElementsByClassName("accordion");
-//             var i;
-//             for (i = 0; i < acc.length; i++) {
-//                 acc[i].addEventListener("click", function() {
-//                     /* Toggle between adding and removing the "active" class, to highlight the button that controls the panel */
-//                     this.classList.toggle("active");
-
-//                     /* Toggle between hiding and showing the active panel */
-//                     var panel = this.nextElementSibling;
-//                     if (panel.style.display === "block") {
-//                     panel.style.display = "none";
-//                     localStorage.clear();
-//                     console.log("Clearing local storage")
-//                     } else {
-//                     panel.style.display = "block";
-//                     }
-//                 });
-//             }
-//         }
-//     })
-
-// })
+//Set this element's active toggle to display the panel
+function togglePanelDisplay(note_id){
+    var note = document.querySelector(`#note${note_id}`);
+    note.querySelector('button').classList.toggle('active');
+    var panel = note.querySelector('.panel')
+    if(panel.style.display === "block"){
+        panel.style.display = "none";
+    } else {
+        panel.style.display = "block";
+    }
+}
 
 // On add new note form submission
 $(document).on('submit', '.new_note_form', function(e){
     e.preventDefault();
-    console.log("add_new_note_form_submitted");
     $.ajax({
         url:'note/add',
         data: $(this).serialize(),
         method: 'POST',
         success: function(serverResponse){
-            console.log("Posted successfully");
             $("#notes_component").html(serverResponse);
-
-            // Toggle open/close accordion elements
-            var list = document.getElementById("notes_component");
-            var acc = list.getElementsByClassName("accordion");
-            var i;
-            for (i = 0; i < acc.length; i++) {
-                acc[i].addEventListener("click", function() {
-                    /* Toggle between adding and removing the "active" class, to highlight the button that controls the panel */
-                    this.classList.toggle("active");
-
-                    /* Toggle between hiding and showing the active panel */
-                    var panel = this.nextElementSibling;
-                    if (panel.style.display === "block") {
-                    panel.style.display = "none";
-                    localStorage.clear();
-                    console.log("Clearing local storage")
-                    } else {
-                    panel.style.display = "block";
-                    }
-                });
-            }
-
-            //Focus new note textarea
-            window.setTimeout(function ()
-            {
-                document.getElementById('title_input').focus();
-            }, 2000);
+            
+            addClickListener();
         }
     })
 })
 
-// On add new comment form submission
+// Add Comment
 $(document).on('submit', '.new_comment_form', function(e){
     e.preventDefault();
-    console.log("this:", this);
     var note_id = this.parentNode.parentNode.getAttribute('note_id');
-    console.log("note_id:", note_id)
-
-
-    console.log("file:", $('.new_comment_form')[0])
-    // var form_data = new FormData($('.new_comment_form').get(0))
-    // form_data.append('file', $('.new_comment_form')[0])
-    // var formData = new FormData();
-    // formData.append('file1', myFile); 
-    // const data_ = JSON.stringify(data)
-    // formData.append('data', data_);
-    // console.log("form_data:", form_data);
     
     $.ajax({
         url:'comment/add/' + note_id,
         data: $(this).serialize(),
-        // data: form_data,
         method: 'POST',
         success: function(serverResponse){
-            console.log("Posted successfully");
             $("#notes_component").html(serverResponse);
 
-            //Set this element's active toggle to display the panel
-            var note = document.querySelector(`#note${note_id}`);
-            // var isActive = note.querySelector('button').classList.contains('active');
-            note.querySelector('button').classList.toggle('active');
-            console.log("note:", note);
-            // console.log("isActive:", isActive);
-            var panel = note.querySelector('.panel')
-            if(panel.style.display === "block"){
-                panel.style.display = "none";
-            } else {
-                panel.style.display = "block";
-            }
+            togglePanelDisplay(note_id);
+            addClickListener();
 
-            // Toggle open/close accordion elements
-            var list = document.getElementById("notes_component");
-            var acc = list.getElementsByClassName("accordion");
-            var i;
-            for (i = 0; i < acc.length; i++) {
-                acc[i].addEventListener("click", function() {
-                    /* Toggle between adding and removing the "active" class, to highlight the button that controls the panel */
-                    this.classList.toggle("active");
-
-                    /* Toggle between hiding and showing the active panel */
-                    var panel = this.nextElementSibling;
-                    if (panel.style.display === "block") {
-                    panel.style.display = "none";
-                    localStorage.clear();
-                    console.log("Clearing local storage")
-                    } else {
-                    panel.style.display = "block";
-                    }
-                });
-
-                //Focus new comment textarea
-                document.getElementById('note' + note_id).querySelector('.note_textarea').focus();
-            }
+            //Focus new comment textarea
+            document.getElementById('note' + note_id).querySelector('.note_textarea').focus();
         }
     })
 })
 
-// On update edited comment form submission
+// Edit Comment
 $(document).on('submit', '.comment_edit_form', function(e){
     e.preventDefault();
     var comment_id = this.parentNode.querySelector('li').getAttribute('comment_id');
     var note_id = this.closest('.note_body').getAttribute('note_id');
-    console.log("note_id:", note_id);
+
     $.ajax({
         url:'comment/edit/' + comment_id,
         data: $(this).serialize(),
         method: 'POST',
         success: function(serverResponse){
-            console.log("Posted successfully");
             $("#notes_component").html(serverResponse);
 
-            //Set this element's active toggle to display the panel
-            var note = document.querySelector(`#note${note_id}`);
-            console.log("note:", note)
-            var isActive = note.querySelector('button').classList.contains('active');
-            note.querySelector('button').classList.toggle('active');
-            console.log("note:", note);
-            console.log("isActive:", isActive);
-            var panel = note.querySelector('.panel')
-            if(panel.style.display === "block"){
-                panel.style.display = "none";
-            } else {
-                panel.style.display = "block";
-            }
-
-            // Toggle open/close accordion elements
-            var list = document.getElementById("notes_component");
-            var acc = list.getElementsByClassName("accordion");
-            var i;
-            for (i = 0; i < acc.length; i++) {
-                acc[i].addEventListener("click", function() {
-                    /* Toggle between adding and removing the "active" class, to highlight the button that controls the panel */
-                    this.classList.toggle("active");
-
-                    /* Toggle between hiding and showing the active panel */
-                    var panel = this.nextElementSibling;
-                    if (panel.style.display === "block") {
-                    panel.style.display = "none";
-                    localStorage.clear();
-                    console.log("Clearing local storage")
-                    } else {
-                    panel.style.display = "block";
-                    }
-                });
-            }
+            togglePanelDisplay(note_id);
+            addClickListener();
         }
     })
 })
@@ -990,29 +422,7 @@ function view_category(category){
         success: function(serverResponse){
             $("#notes_component").html(serverResponse);
 
-            // Toggle open/close accordion elements
-            var list = document.getElementById("notes_component");
-            var acc = list.getElementsByClassName("accordion");
-            var i;
-            for (i = 0; i < acc.length; i++) {
-                acc[i].addEventListener("click", function() {
-                    /* Toggle between adding and removing the "active" class, to highlight the button that controls the panel */
-                    this.classList.toggle("active");
-
-                    /* Toggle between hiding and showing the active panel */
-                    var panel = this.nextElementSibling;
-                    if (panel.style.display === "block") {
-                    panel.style.display = "none";
-                    localStorage.clear();
-                    console.log("Clearing local storage")
-                    } else {
-                    panel.style.display = "block";
-                    }
-                });
-            }
-
-
-
+            addClickListener();
         }
     })
 }
@@ -1025,94 +435,44 @@ function view_public_category(category){
         success: function(serverResponse){
             $("#notes_component").html(serverResponse);
 
-            // Toggle open/close accordion elements
-            var list = document.getElementById("notes_component");
-            var acc = list.getElementsByClassName("accordion");
-            var i;
-            for (i = 0; i < acc.length; i++) {
-                acc[i].addEventListener("click", function() {
-                    /* Toggle between adding and removing the "active" class, to highlight the button that controls the panel */
-                    this.classList.toggle("active");
-
-                    /* Toggle between hiding and showing the active panel */
-                    var panel = this.nextElementSibling;
-                    if (panel.style.display === "block") {
-                    panel.style.display = "none";
-                    localStorage.clear();
-                    console.log("Clearing local storage")
-                    } else {
-                    panel.style.display = "block";
-                    }
-                });
-            }
-
-
-
+            addClickListener();
         }
     })
 }
 
-//Toggle edit form to edit a note
-function edit_note(ele, event){
-    var note = ele.parentNode.parentNode.parentNode.querySelector('#update_form')
+//Toggle edit note form
+function edit_note(event, element){
+    event.stopPropagation();
+    var note = element.closest('.note_body').querySelector('#update_form')
     if(note.style.display == "block"){
         note.style.display = "none";
     } else {
         note.style.display = "block";
     }
-    event.stopPropagation();
 }
 
-// function togglePrivacy(ele, event){
-//     privacy = ele.getAttribute('privacy');
-//     console.log("Privacy:", privacy)
-//     if(privacy){
-//         privacy = false;
-//     } else {
-//         privacy = true;
-//     }
-//     event.stopPropagation();
-// }
-
+//Toggles edit comment form
 function toggleEdit(note_comment_id){
     var parent = document.getElementById('comment_' + note_comment_id);
     if (parent.nextElementSibling.style.display === "none") {
         parent.querySelector('.note_content').style.display = "none";
         parent.nextElementSibling.style.display = "block";
     } else {
-        // parent.style.display = "block";
         parent.querySelector('.note_content').style.display = "block";
         parent.nextElementSibling.style.display = "none";
     }
 }
 
+//Hide edit comment form
 function hideEditForm(note_comment_id){
     var parent = document.getElementById('comment_' + note_comment_id);
     parent.querySelector('.note_content').style.display = "block";
     parent.nextElementSibling.style.display = "none";
 }
 
-// function toggleCodeEdit(note_comment_id){
-//     console.log("Toggle code edit");
-//     var parent = document.getElementById('comment_' + note_comment_id);
-//     console.log("Comment:", parent.parentElement)
-//     var codeEditForm = parent.parentElement.querySelector('form');
-//     console.log("codeEditForm:", codeEditForm)
-
-//     if (codeEditForm.style.display === "none") {
-//         parent.style.display = "none";
-//         codeEditForm.style.display = "block";
-//     } else {
-//         parent.style.display = "block";
-//         codeEditForm.style.display = "none";
-//     }
-// }
-
 // https://hackernoon.com/copying-text-to-clipboard-with-javascript-df4d4988697f
 function copyToClipboard(ele){
     const el = document.createElement('textarea');
-    // console.log("element:", ele.closest('.comment'));
-    // el.value = ele.parentNode.querySelector('li').innerText;
     el.value = ele.closest('.comment').querySelector('.note_content').innerText;
     document.body.appendChild(el);
     el.select();
@@ -1125,11 +485,6 @@ function revealCategoryAddForm(){
 }
 function hideCategoryAddForm(){
     document.querySelector(".category_add_form").style.opacity = 0;
-}
-
-function jump(anchor){
-    window.location.href = "#" + anchor;
-    history.replaceState(null,null,' ');
 }
 
 // Drag and Drop 
@@ -1154,17 +509,13 @@ function drop(event, element) {
 
     //If target element is not a div, climb parents until div is found.
     ending_cell = element.closest('div');
-
-    console.log("starting_element_id:", starting_element.getAttribute('note_position_id'))
-    console.log("ending_element_id:", ending_element.getAttribute('note_position_id'))
-
     starting_element_id = starting_element.getAttribute('note_position_id')
     ending_element_id = ending_element.getAttribute('note_position_id')
 
     $.ajax ({
-        url: 'ajax/drag_and_drop/' + starting_element_id + '/' + ending_element_id,
+        url: `ajax/drag_and_drop/${starting_element_id}/${ending_element_id}`,
         method: 'get',
-        // data: $(this).serialize(),
+        data: $(this).serialize(),
         success: function(serverResponse){
             starting_element.setAttribute('note_position_id', ending_element_id)
             ending_element.setAttribute('note_position_id', starting_element_id)
@@ -1177,12 +528,10 @@ function drop(event, element) {
 
 //-------- Wait for page to load --------
 $(document).ready(function(){
-    getColorScheme();
     toggleLightDark();
     view_category();
 
     if(localStorage.getItem('target_note') != null){
-
         target_id = localStorage.getItem('target_note');
         var element = document.getElementById(target_id);
         var a_tag = document.createElement('a');
@@ -1197,10 +546,8 @@ $(document).ready(function(){
     // Look to see if any notes are active
     var active_notes = document.querySelectorAll('.active');
 
+    // Toggle open or closed if active
     if(active_notes){
-        jump('trigger');
-    
-        // Toggle open or closed if active or not 
         var list_of_accordion_nodes = document.querySelectorAll(".accordion");
         for(i = 0; i < list_of_accordion_nodes.length; i++){
             var panel = list_of_accordion_nodes[i].nextElementSibling;
@@ -1217,90 +564,16 @@ $(document).ready(function(){
     } else {
         console.log("No active notes found")
     }
-
-    $(".add_subnote_button").on('click', function(e){
-        console.log("Adding subnote")
-        var note = this.parentElement.parentElement.parentElement;
-        var note_id = note.getAttribute('id');
-        localStorage.setItem('target_note', note_id);
-        var a_tag = document.createElement('a');
-        a_tag.setAttribute('id', 'trigger');
-        note.insertBefore(a_tag, note.childNodes[0]);
-    });
-
-
-
-    
-
-    // $(".fa-lock-open").on('click', function(e){
-    //     // console.log("lock opened: ", this.parentNode.parentNode.getAttribute('category_id'))
-
-    //     category_id = this.getAttribute('custom_id')
-    //     console.log("category:", category_id)
-    //     $.ajax({
-    //         url: `/notes/notebook/${category_id}/privacy`,
-    //         method: 'get',
-    //         success: function(serverResponse){
-    //             $(".notebooks").html(serverResponse);
-    //             console.log("Success")
-    //             // element.setAttribute('onclick', element.getAttribute('onclick'));
-                
-    //         }
-    //     })
-
-    // })
-
-// element that will be wrapped
-var el = document.querySelectorAll('.code_format');
-var i;
-for (i = 0; i < el.length; i++) {
-
-// create wrapper container
-var wrapper = document.createElement('code');
-wrapper.setAttribute('class', "language-css");
-
-//   el[i].style.backgroundColor = "red";
-
-  // insert wrapper before el in the DOM tree
-  el[i].parentNode.insertBefore(wrapper, el[i]);
-  
-  // move el into wrapper
-  wrapper.appendChild(el[i]);
-
-
-}
-
-// Toggle open/close accordion elements
-    var acc = document.getElementsByClassName("accordion");
-    var i;
-
-    for (i = 0; i < acc.length; i++) {
-    acc[i].addEventListener("click", function() {
-        /* Toggle between adding and removing the "active" class, to highlight the button that controls the panel */
-        this.classList.toggle("active");
-
-        /* Toggle between hiding and showing the active panel */
-        var panel = this.nextElementSibling;
-        if (panel.style.display === "block") {
-        panel.style.display = "none";
-        localStorage.clear();
-        console.log("Clearing local storage")
-        } else {
-        panel.style.display = "block";
-        }
-    });
-}
-});
+}); //End of document.ready();
 
 //Side Nav Script
 var toggle = true;
-
 if(localStorage.getItem('sideNavToggle') === null){
-    localStorage.setItem('sideNavToggle', false)
+    localStorage.setItem('sideNavToggle', false);
 } else if(localStorage.getItem('sideNavToggle') === 'false'){
-    localStorage.setItem('sideNavToggle', 'true')
+    localStorage.setItem('sideNavToggle', 'true');
 } else {
-    localStorage.setItem('sideNavToggle', 'false')
+    localStorage.setItem('sideNavToggle', 'false');
 }
 
 if(localStorage.getItem('sideNavToggle') === 'true'){

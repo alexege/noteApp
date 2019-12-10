@@ -11,10 +11,10 @@
                 <p id="{{note.id}}" title="{{note.title}}" content="{{note.content}}" class="note">
                     {{note.title}} - [<a onclick="view_category('{{note.category}}')" class="category">{{note.category}}</a>] -
                     {{note.content}}
-                    <a href="/notes/note/delete/{{note.id}}">
-                        <i class="fas fa-trash note_trashcan"></i>
-                    </a>
-                    <a onClick="edit_note(this, event)">
+                    <!-- <a href="/notes/note/delete/{{note.id}}"> -->
+                        <i class="fas fa-trash note_trashcan" onclick="delete_note(event, this);"></i>
+                    <!-- </a> -->
+                    <a onclick="edit_note(event, this)">
                         <i class="fas fa-edit"></i>
                     </a>
                     <span class="uploaded_at">
@@ -26,16 +26,17 @@
 
             </button>
 
-            <div class="panel">
+            <div class="panel" draggable="true" ondragstart="event.preventDefault();event.stopPropagation();">
                 <div class="comments_panel">
                     {% for comment in list_of_comments %}
                     {% if comment.parent == note %}
                     <ul>
-                        <li id="comment_{{comment.id}}" comment_id="{{comment.id}}" class='indent{{comment.indentLevel}} comment' onmouseenter="showIndent(this)" onmouseleave="showOutdent(this)">
+                        <li id="comment_{{comment.id}}" comment_id="{{comment.id}}" class='indent{{comment.indentLevel}} comment' onmouseenter="showMenu(this)" onmouseleave="hideMenu(this)">
                         <span class="comment_menu">[ <i class="fas fa-outdent"></i> | <i class="fas fa-indent"></i> 
                             <label class="tooltip"><i class="far fa-copyright" onclick="copyToClipboard(this)"></i>
                                 <input type="checkbox"><span>copied</span></label> 
-                            <i class="fas fa-user-edit" onclick="toggleEdit({{comment.id}})"></i> <i class="fas fa-trash"></i> ]
+                            <i class="fas fa-user-edit" onclick="toggleEdit({{comment.id}})"></i>
+                            <i class="fas fa-trash" onclick="delete_comment(event, this)"></i> ]
                         </span>
                         {% if comment.isCode == True %}
                             <span class="note_content code_format">{{comment.content}}</span>
@@ -79,7 +80,7 @@
                     {% endfor %}
                 </div>
 
-                <form action="/notes/comment/add/{{note.id}}" method="POST" enctype="multipart/form-data" class="new_comment_form">
+                <form action="/notes/comment/add/{{note.id}}" method="POST" enctype="multipart/form-data" class="new_comment_form" draggable="true">
                     {% csrf_token %}
                     <textarea name="content" rows="2" cols="25" class="note_textarea"></textarea>
                     <!-- Simple File Upload --><br>
@@ -88,7 +89,7 @@
                         <option value="False">Text</option>
                         <option value="True">Code</option>
                     </select>
-                    <button class="add_subnote_button add_button" id="{{note.id}}">Add</button>
+                    <button class="add_comment_button add_button" id="{{note.id}}">Add Comment</button>
                 </form>
             </div>
 

@@ -29,7 +29,7 @@
 
         {% for notebook in list_of_notebooks %}
         <div class="notebook notebook{{notebook.id}}" id="{{notebook.id}}">
-            <h5 class="accordion">{{notebook.id}} {{notebook.name}}
+            <h5 class="accordion">{{notebook.name}}
                     
                     <i class="far fa-edit" onclick="edit_notebook(this);event.stopPropagation()" id="notebook{{notebook.id}}"></i>
                     
@@ -71,7 +71,7 @@
 
         <form action="/notes/notebook/add" method="POST" class="notebook_add_form">
             {% csrf_token %}
-            <input type="text" name="name">
+            <input type="text" name="name" id="add_notebook_input">
             <button class="add_button">Add</button>
         </form>
         </div>
@@ -127,8 +127,10 @@
                         <i class="fas fa-chevron-right" id="toggle_button"></i>
                     </div>
                 </a>
-                <a href="#home">Slick Notes</a>
+                <!-- <a href="#home">Slick Notes</a> -->
                 <a href="#all" onclick="view_category('All')">All</a>
+                <a href="#alphabetical" onclick="view_category('alphabetical')">Alphabetical</a>
+                <a href="#dateAdded" onclick="view_category('date_added')">Date Added</a>
 
                 <h2 id="brand">Slick Notes</h2>
 
@@ -172,6 +174,12 @@
               
                     <h1 style="text-align: center;">Settings</h1>
                     <p>Reserved for future settings options.</p>
+                    Welcome to Slick Notes,
+                    To get started, add a new notebook on the left hand side.
+                    Once you have created a notebook, feel free to add notes to it.
+                    You can also add Categories to these notebooks which will allow you to filter based on category alone.
+                    If you wish to see all combined notes, click on "All notes"
+                    If you wish to make one of your notebooks public, click the lock/unlock icon on the right hand side.
                     Total Notes: {{all_notes.count}}
 
                     <div class="w3-container w3-border-top w3-padding-16 modal">

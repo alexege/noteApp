@@ -8,7 +8,7 @@
 
         {% for notebook in list_of_notebooks %}
         <div class="notebook notebook{{notebook.id}}" id="{{notebook.id}}">
-            <h5 class="accordion">{{notebook.id}} {{notebook.name}}
+            <h5 class="accordion">{{notebook.name}}
 
                     <i class="far fa-edit" onclick="edit_notebook(this);event.stopPropagation();" id="notebook{{notebook.id}}"></i>
 
@@ -50,7 +50,7 @@
 
         <form action="/notes/notebook/add" method="POST" class="notebook_add_form">
             {% csrf_token %}
-            <input type="text" name="name">
+            <input type="text" name="name" id="add_notebook_input">
             <button class="add_button">Add</button>
         </form>
         </div>

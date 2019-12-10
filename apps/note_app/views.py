@@ -55,9 +55,13 @@ def note_partial(request, category):
         all_notes = Note.objects.filter(created_by=active_user, privacy=False).order_by('position_id')
     elif category == 'All':
         all_notes = Note.objects.filter(created_by=active_user, privacy=False).order_by('position_id')
+    elif category == 'alphabetical':
+        all_notes = Note.objects.filter(created_by=active_user, privacy=False).order_by('title')
+    elif category == 'date_added':
+        all_notes = Note.objects.filter(created_by=active_user, privacy=False).order_by('created_at')
     else:
         all_notes = Note.objects.filter(created_by=active_user, category=category).order_by('position_id')
-
+    
     print(request.session['selected_category'])
 
     context = {
@@ -274,7 +278,6 @@ def edit_comment(request, note_comment_id):
     return render(request, "note_app/note_partial.html", context)
 
 def delete_comment(request, note_comment_id):
-    print("delete_comment")
     note_comment_to_delete = Comment.objects.get(id=note_comment_id)
     note_comment_to_delete.delete()
     # return redirect('/notes/')
@@ -305,7 +308,6 @@ def delete_comment(request, note_comment_id):
     return render(request, "note_app/note_partial.html", context)
 
 def indent_comment(request, comment_id):
-    print("indenting comment")
     comment = Comment.objects.get(id=comment_id)
     comment.indentLevel += 1
     comment.save()
@@ -336,7 +338,6 @@ def indent_comment(request, comment_id):
     return render(request, "note_app/note_partial.html", context)
 
 def outdent_comment(request, comment_id):
-    print("outdenting comment")
     comment = Comment.objects.get(id=comment_id)
     if comment.indentLevel > 0:
         comment.indentLevel -= 1
