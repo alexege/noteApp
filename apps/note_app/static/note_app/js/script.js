@@ -381,7 +381,7 @@ $(document).on('submit', '.notebook_add_form', function(e){
             }
 
             //Give focus to category input
-            $('#add_notebook_button').focus();
+            $('#public_notebook_category_input').focus();
         }
     })
 })
@@ -517,6 +517,10 @@ function delete_notebook(e){
 //Add new category
 $(document).on('submit', '.category_add_form', function(e){
     e.preventDefault();
+
+    // check if contained within public notebooks or not.
+    var container = this.closest('.public_notebooks');
+
     notebook_id = this.closest('.notebook').getAttribute('id');
     console.log("notebook_id:", notebook_id);
     console.log("Submitting a new category");
@@ -580,14 +584,25 @@ $(document).on('submit', '.category_add_form', function(e){
             var sidenav = document.getElementById('mySidenav');
             var notebooks = sidenav.querySelectorAll('.active');
             console.log("notebooks:", notebooks);
-            for(var i = 0; i < notebooks.length; i++){
-                console.log("noteboks[i]", notebooks[i].nextElementSibling);
-                if(notebooks[i].nextElementSibling.style.display === 'block'){
-                    notebooks[i].nextElementSibling.style.display = 'none';
-                } else {
-                    notebooks[i].nextElementSibling.style.display = 'block';
-                }
+
+            if(container != null){
+                notebooks[1].nextElementSibling.style.display = 'block';
+                //Grab focus of private notebook input field
+                $('#private_notebook_category_form').focus();
+            } else {
+                notebooks[0].nextElementSibling.style.display = 'block';
+                //Grab focus of public notebook input field
+                $('#public_notebook_category_input').focus();
             }
+
+            // for(var i = 0; i < notebooks.length; i++){
+            //     console.log("noteboks[i]", notebooks[i].nextElementSibling);
+            //     if(notebooks[i].nextElementSibling.style.display === 'block'){
+            //         notebooks[i].nextElementSibling.style.display = 'none';
+            //     } else {
+            //         notebooks[i].nextElementSibling.style.display = 'block';
+            //     }
+            // }
 
             // //Give focus to category input
             $('#sidenav_category_input').focus();
@@ -658,19 +673,22 @@ function deleteCategory(e){
             for(var i = 0; i < elements.length; i++){
                 elements[i].querySelector('.accordion').classList.toggle('active');
             }
+            // console.log("Closest button:", e.closest('.notebook').querySelector('.accordion'));
 
             //Toggle acitve elements to be open
             var sidenav = document.getElementById('mySidenav');
             var notebooks = sidenav.querySelectorAll('.active');
             console.log("notebooks:", notebooks);
-            for(var i = 0; i < notebooks.length; i++){
-                console.log("noteboks[i]", notebooks[i].nextElementSibling);
-                if(notebooks[i].nextElementSibling.style.display === 'block'){
-                    notebooks[i].nextElementSibling.style.display = 'none';
-                } else {
-                    notebooks[i].nextElementSibling.style.display = 'block';
-                }
-            }
+
+            notebooks[0].nextElementSibling.style.display = 'block';
+            // for(var i = 0; i < notebooks.length; i++){
+            //     console.log("noteboks[i]", notebooks[i].nextElementSibling);
+            //     if(notebooks[i].nextElementSibling.style.display === 'block'){
+            //         notebooks[i].nextElementSibling.style.display = 'none';
+            //     } else {
+            //         notebooks[i].nextElementSibling.style.display = 'block';
+            //     }
+            // }
 
             // // //Give focus to category input
             // $('#sidenav_category_input').focus();

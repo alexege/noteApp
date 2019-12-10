@@ -12,6 +12,7 @@
     <script src="{% static 'note_app/js/script.js' %}"></script>
     <link href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.0/themes/prism.min.css" /> <!-- Code Snippet Link -->
+    <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
     <title>All Notes</title>
 </head>
 
@@ -60,7 +61,7 @@
                 <form action="/notes/category/add/{{notebook.id}}" method="POST" class="category_add_form">
                     {% csrf_token %}
                     <div class="add_new_category">
-                        <input type="text" name="name" id="sidenav_category_input" placeholder="   Add new category...">
+                        <input type="text" name="name" id="public_notebook_category_input" placeholder="   Add new category...">
                         <button class="add_button">Add</button>
                     </div>
                 </form>
@@ -105,7 +106,7 @@
                 <form action="/notes/category/add/{{notebook.id}}" method="POST" class="category_add_form">
                     {% csrf_token %}
                     <div class="add_new_category">
-                    <input type="text" name="name" id="add_notebook_button">
+                    <input type="text" name="name" id="public_notebook_category_input">
                     <button class="add_button">Add</button>
                     </div>
                 </form>

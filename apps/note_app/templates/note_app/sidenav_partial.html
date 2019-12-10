@@ -40,7 +40,7 @@
                 <form action="/notes/category/add/{{notebook.id}}" method="POST" class="category_add_form">
                     {% csrf_token %}
                     <div class="add_new_category">
-                        <input type="text" name="name" id="sidenav_category_input" placeholder="   Add new category...">
+                        <input type="text" name="name" id="public_notebook_category_input" placeholder="   Add new category...">
                         <button class="add_button">Add</button>
                     </div>
                 </form>
@@ -50,7 +50,7 @@
 
         <form action="/notes/notebook/add" method="POST" class="notebook_add_form">
             {% csrf_token %}
-            <input type="text" name="name" id="add_notebook_button">
+            <input type="text" name="name" id="public_notebook_category_input">
             <button class="add_button">Add</button>
         </form>
         </div>
@@ -85,7 +85,7 @@
                 <form action="/notes/category/add/{{notebook.id}}" method="POST" class="category_add_form">
                     {% csrf_token %}
                     <div class="add_new_category">
-                    <input type="text" name="name">
+                    <input type="text" name="name" id="public_notebook_category_input">
                     <button class="add_button">Add</button>
                     </div>
                 </form>

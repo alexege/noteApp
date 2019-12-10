@@ -750,7 +750,7 @@ input:checked + .slider:before {
     color: var(--font-color);
   }
 
-  #title_input, #privacy_input, #category_input, #content_input, #sidenav_category_input, #file_input, #add_notebook_button, input {
+  #title_input, #privacy_input, #category_input, #content_input, #sidenav_category_input, #file_input, #public_notebook_category_input, input {
     background-color: var(--primary-color);
     background-color: #283231;
     /* color: rgba(7, 252, 215, 0.25); */
@@ -796,7 +796,7 @@ input:checked + .slider:before {
     width: 15%;
   }
 
-  #sidenav_category_input, #add_notebook_button {
+  #sidenav_category_input, #public_notebook_category_input {
     /* width: 70%; */
     display: inline-block;
     border: none;
