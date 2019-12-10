@@ -10,18 +10,18 @@
         <div class="notebook notebook{{notebook.id}}" id="{{notebook.id}}">
             <h5 class="accordion">{{notebook.name}}
 
-                    <i class="far fa-edit" onclick="edit_notebook(this)" id="notebook{{notebook.id}}"></i>
+                    <i class="far fa-edit" onclick="edit_notebook(this);event.stopPropagation();" id="notebook{{notebook.id}}"></i>
 
                     {% if notebook.privacy == False %}
                         <i note_id="{{notebook.id}}" custom_id="{{notebook.id}}" class="fas fa-lock-open" onclick="togglePrivacy(this)" privacy={{notebook.privacy}}></i>
                     {% else %}
                         <i note_id="{{notebook.id}}" custom_id="{{notebook.id}}" class="fas fa-lock" onclick="togglePrivacy(this)" privacy={{notebook.privacy}}></i>
                     {% endif %}
-                    <a onclick="delete_notebook(this)"><i class="fas fa-minus-circle"></i></a>
+                    <a onclick="delete_notebook(this); event.stopPropagation();"><i class="fas fa-minus-circle"></i></a>
 
                     <form action="/notes/notebook/edit/{{notebook.id}}" method="POST" class="notebook_edit_form">
                         {% csrf_token %}
-                        <input type="text" value="{{notebook.name}}" name="name">
+                        <input type="text" value="{{notebook.name}}" onclick="event.stopPropagation();" name="name">
                         <button class="add_button">Update</button>
                     </form>
             </h5>
@@ -40,7 +40,7 @@
                 <form action="/notes/category/add/{{notebook.id}}" method="POST" class="category_add_form">
                     {% csrf_token %}
                     <div class="add_new_category">
-                        <input type="text" name="name" id="public_notebook_category_input" placeholder="   Add new category...">
+                        <input type="text" name="name" id="public_category_input_{{notebook.id}}" placeholder="   Add new category...">
                         <button class="add_button">Add</button>
                     </div>
                 </form>
@@ -50,7 +50,7 @@
 
         <form action="/notes/notebook/add" method="POST" class="notebook_add_form">
             {% csrf_token %}
-            <input type="text" name="name" id="public_notebook_category_input">
+            <input type="text" name="name">
             <button class="add_button">Add</button>
         </form>
         </div>
@@ -64,7 +64,7 @@
                     {% if notebook.privacy == False and notebook.created_by == active_user%}
                         <i note_id="{{notebook.id}}" custom_id="{{notebook.id}}" class="fas fa-lock-open" onclick="togglePrivacy(this)" privacy={{notebook.privacy}}></i>
                     {% if notebook.created_by == current_user %}
-                    <i class="fas fa-minus-circle" onclick="delete_notebook(this)" id="{{notebook.id}}"></i>
+                    <i class="fas fa-minus-circle" onclick="delete_notebook(this); event.stopPropagation();" id="{{notebook.id}}"></i>
                     {% endif %}
                     {% endif %}
                     test
@@ -85,7 +85,7 @@
                 <form action="/notes/category/add/{{notebook.id}}" method="POST" class="category_add_form">
                     {% csrf_token %}
                     <div class="add_new_category">
-                    <input type="text" name="name" id="public_notebook_category_input">
+                    <input type="text" name="name" id="public_category_input_{{notebook.id}}">
                     <button class="add_button">Add</button>
                     </div>
                 </form>

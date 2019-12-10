@@ -381,7 +381,7 @@ $(document).on('submit', '.notebook_add_form', function(e){
             }
 
             //Give focus to category input
-            $('#public_notebook_category_input').focus();
+            // $('#public_notebook_category_input').focus();
         }
     })
 })
@@ -592,7 +592,7 @@ $(document).on('submit', '.category_add_form', function(e){
             } else {
                 notebooks[0].nextElementSibling.style.display = 'block';
                 //Grab focus of public notebook input field
-                $('#public_notebook_category_input').focus();
+                $(`#public_notebook_category_${category_id}`).focus();
             }
 
             // for(var i = 0; i < notebooks.length; i++){
@@ -697,6 +697,7 @@ function deleteCategory(e){
 }
 
 function togglePrivacy(e){
+    event.stopPropagation()
     console.log("this:", e);
     console.log("this:", e.classList)
     e.classList.toggle('fa-lock-open');
