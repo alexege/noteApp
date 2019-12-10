@@ -384,6 +384,23 @@ def add_notebook(request):
     return render(request, "note_app/sidenav_partial.html", context)
     # return redirect('/notes/')
 
+def edit_notebook(request, notebook_id):
+    print("edit_notebook")
+    notebook = Notebook.objects.get(id=notebook_id)
+    notebook.name = request.POST['name']
+    notebook.save()
+
+    active_user = User.objects.get(id=request.session['active_user'])
+
+    context = {
+        'active_user': active_user,
+        'list_of_public_notebooks' : Notebook.objects.filter(privacy=False),
+        'list_of_categories' : Category.objects.all(),
+        'list_of_notebooks' : Notebook.objects.filter(created_by=active_user),
+    }
+    
+    return render(request, "note_app/sidenav_partial.html", context)
+
 def delete_notebook(request, notebook_id):
     print("delete_notebook")
     category_to_delete = Notebook.objects.get(id=notebook_id)
@@ -399,7 +416,6 @@ def delete_notebook(request, notebook_id):
     }
     
     return render(request, "note_app/sidenav_partial.html", context)
-    # return redirect('/notes/')
 
 def togglePrivacy(request, notebook_id):
     print("privacyToggle")
@@ -448,7 +464,7 @@ def delete_category(request, category_id):
         'active_user': active_user,
         'list_of_notebooks' : Notebook.objects.filter(created_by=active_user),
         'list_of_public_notebooks' : Notebook.objects.filter(privacy=False),
-        'list_of_categoriess' : Category.objects.all(),
+        'list_of_categories' : Category.objects.all(),
     }
     return render(request, "note_app/sidenav_partial.html", context)
     

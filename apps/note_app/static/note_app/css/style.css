@@ -616,6 +616,10 @@ input:checked + .slider:before {
   transition: 0.5s ease-in-out;
 }
 
+.notebook_edit_form {
+  display: none;
+}
+
 .add_new_category {
   margin: 5px;
   text-align: center;
@@ -746,7 +750,7 @@ input:checked + .slider:before {
     color: var(--font-color);
   }
 
-  #title_input, #privacy_input, #category_input, #content_input, #sidenav_category_input, #file_input, #add_notebook_button {
+  #title_input, #privacy_input, #category_input, #content_input, #sidenav_category_input, #file_input, #add_notebook_button, input {
     background-color: var(--primary-color);
     background-color: #283231;
     /* color: rgba(7, 252, 215, 0.25); */

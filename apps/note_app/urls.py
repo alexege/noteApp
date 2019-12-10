@@ -19,6 +19,7 @@ urlpatterns = [
     # url(r'^notebook/view/(?P<category>[\w\s]+)$', views.view_notebook),
     url(r'^notebook/view/All$', views.index),
     url(r'^notebook/delete/(?P<notebook_id>\d+)$', views.delete_notebook),
+    url(r'^notebook/edit/(?P<notebook_id>\d+)$', views.edit_notebook),
     url(r'^notebook/(?P<notebook_id>\d+)/privacy$', views.togglePrivacy),
 
     #Category

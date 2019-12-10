@@ -29,12 +29,21 @@
         {% for notebook in list_of_notebooks %}
         <div class="notebook notebook{{notebook.id}}" id="{{notebook.id}}">
             <h5 class="accordion">{{notebook.name}}
+
+                    <i class="far fa-edit" onclick="edit_notebook(this)" id="notebook{{notebook.id}}"></i>
+                    
                     {% if notebook.privacy == False %}
                         <i note_id="{{notebook.id}}" custom_id="{{notebook.id}}" class="fas fa-lock-open" onclick="togglePrivacy(this)" privacy={{notebook.privacy}}></i>
                     {% else %}
                         <i note_id="{{notebook.id}}" custom_id="{{notebook.id}}" class="fas fa-lock" onclick="togglePrivacy(this)" privacy={{notebook.privacy}}></i>
                     {% endif %}
                     <a onclick="delete_notebook(this)"><i class="fas fa-minus-circle"></i></a>
+
+                    <form action="/notes/notebook/edit/{{notebook.id}}" method="POST" class="notebook_edit_form">
+                        {% csrf_token %}
+                        <input type="text" value="{{notebook.name}}" name="name">
+                        <button class="add_button">Update</button>
+                    </form>
             </h5>
             <div class="panel">
                 <ul>
@@ -75,7 +84,7 @@
                     {% if notebook.privacy == False and notebook.created_by == active_user%}
                         <i note_id="{{notebook.id}}" custom_id="{{notebook.id}}" class="fas fa-lock-open" onclick="togglePrivacy(this)" privacy={{notebook.privacy}}></i>
                     {% if notebook.created_by == current_user %}
-                    <!-- <i class="fas fa-minus-circle" onclick="deleteCategory(this)" id="{{notebook.id}}"></i> -->
+                    <i class="fas fa-minus-circle" onclick="delete_notebook(this)" id="{{notebook.id}}"></i>
                     {% endif %}
                     {% endif %}
             </h5>
@@ -86,9 +95,9 @@
                         <li>
                         <a onclick="view_public_category('{{category.name}}')">{{category.name}}</a>
                         <!-- <li><a href="/notes/notebook/view/{{notebook.name}}">{{category.name}}</a> -->
-                        {% if category.created_by == current_user %}
+                        <!-- {% if category.created_by == current_user %}
                         <i class="fas fa-minus-circle" onclick="deleteCategory(this)" id="{{category.id}}"></i></li>
-                        {% endif %}
+                        {% endif %} -->
                         </li>
                         {% endif %}
                     {% endfor %}
