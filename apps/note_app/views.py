@@ -33,7 +33,7 @@ def index(request):
     else:
         context = {
             'all_notes' : all_notes,
-            'list_of_notebooks' : Notebook.objects.filter(created_by=active_user),
+            'list_of_notebooks' : Notebook.objects.filter(created_by=active_user).order_by('position_id'),
             'list_of_public_notebooks' : Notebook.objects.filter(privacy=False),
             'list_of_categories' : Category.objects.all(),
             'list_of_comments': Comment.objects.all(),
@@ -400,16 +400,19 @@ def outdent_comment(request, comment_id):
 
 def add_notebook(request):
     print("add_notebook")
-    category = Notebook.objects.create(name=request.POST['name'], created_by=User.objects.get(id=request.session['active_user']))
-    Category.objects.create(name=request.POST['name'], parent=category, created_by=User.objects.get(id=request.session['active_user']))
+    notebook = Notebook.objects.create(name=request.POST['name'], created_by=User.objects.get(id=request.session['active_user']))
+    Category.objects.create(name=request.POST['name'], parent=notebook, created_by=User.objects.get(id=request.session['active_user']))
     
+    notebook.position_id = notebook.id
+    notebook.save()
+
     active_user = User.objects.get(id=request.session['active_user'])
 
     context = {
         'active_user': active_user,
         'list_of_public_notebooks' : Notebook.objects.filter(privacy=False),
         'list_of_categories' : Category.objects.all(),
-        'list_of_notebooks' : Notebook.objects.filter(created_by=active_user),
+        'list_of_notebooks' : Notebook.objects.filter(created_by=active_user).order_by('position_id'),
         'current_user' : User.objects.get(id=request.session['active_user'])
     }
     
@@ -428,7 +431,7 @@ def edit_notebook(request, notebook_id):
         'active_user': active_user,
         'list_of_public_notebooks' : Notebook.objects.filter(privacy=False),
         'list_of_categories' : Category.objects.all(),
-        'list_of_notebooks' : Notebook.objects.filter(created_by=active_user),
+        'list_of_notebooks' : Notebook.objects.filter(created_by=active_user).order_by('position_id'),
         'current_user' : User.objects.get(id=request.session['active_user'])
     }
     
@@ -445,7 +448,7 @@ def delete_notebook(request, notebook_id):
         'active_user': active_user,
         'list_of_public_notebooks' : Notebook.objects.filter(privacy=False),
         'list_of_categories' : Category.objects.all(),
-        'list_of_notebooks' : Notebook.objects.filter(created_by=active_user),
+        'list_of_notebooks' : Notebook.objects.filter(created_by=active_user).order_by('position_id'),
         'current_user' : User.objects.get(id=request.session['active_user'])
     }
     
@@ -466,7 +469,7 @@ def togglePrivacy(request, notebook_id):
     # return redirect('/notes/')
     context = {
         'active_user': active_user,
-        'list_of_notebooks' : Notebook.objects.filter(created_by=active_user),
+        'list_of_notebooks' : Notebook.objects.filter(created_by=active_user).order_by('position_id'),
         'list_of_public_notebooks' : Notebook.objects.filter(privacy=False),
         'list_of_categories' : Category.objects.all(),
         'current_user' : User.objects.get(id=request.session['active_user'])
@@ -482,7 +485,7 @@ def add_category(request, category_id):
 
     context = {
         'active_user': active_user,
-        'list_of_notebooks' : Notebook.objects.filter(created_by=active_user),
+        'list_of_notebooks' : Notebook.objects.filter(created_by=active_user).order_by('position_id'),
         'list_of_public_notebooks' : Notebook.objects.filter(privacy=False),
         'list_of_categories' : Category.objects.all(),
         'current_user' : User.objects.get(id=request.session['active_user'])
@@ -498,7 +501,7 @@ def delete_category(request, category_id):
 
     context = {
         'active_user': active_user,
-        'list_of_notebooks' : Notebook.objects.filter(created_by=active_user),
+        'list_of_notebooks' : Notebook.objects.filter(created_by=active_user).order_by('position_id'),
         'list_of_public_notebooks' : Notebook.objects.filter(privacy=False),
         'list_of_categories' : Category.objects.all(),
         'current_user' : User.objects.get(id=request.session['active_user'])
@@ -515,4 +518,15 @@ def drag_and_drop(request, starting_note_id, ending_note_id):
 
     starting_note.save()
     ending_note.save()
+    return HttpResponse(200)
+    
+def drag_and_drop_notebook(request, starting_notebook_id, ending_notebook_id):
+    starting_notebook = Notebook.objects.get(position_id=starting_notebook_id)
+    ending_notebook = Notebook.objects.get(position_id=ending_notebook_id)
+
+    starting_notebook.position_id = ending_notebook_id
+    ending_notebook.position_id = starting_notebook_id
+
+    starting_notebook.save()
+    ending_notebook.save()
     return HttpResponse(200)

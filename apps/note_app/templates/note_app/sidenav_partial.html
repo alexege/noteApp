@@ -7,7 +7,8 @@
         </div>
 
         {% for notebook in list_of_notebooks %}
-        <div class="notebook notebook{{notebook.id}}" id="{{notebook.id}}">
+        <div id="notebook{{notebook.id}}_cell" class="notebook_cell" ondrop="notebookDrop(event, this)" ondragover="notebookAllowDrop(event)">
+        <div class="notebook notebook{{notebook.id}}" id="{{notebook.id}}" notebook_position_id="{{notebook.position_id}}" ondragstart="notebookDragStart(event, this);" draggable="true">
             <h5 class="accordion">{{notebook.name}}
 
                     <i class="fas fa-trash" onclick="del_notebook({{notebook.id}}); event.stopPropagation();"></i>
@@ -47,6 +48,7 @@
                 </form>
             </div>
         </div>
+        </div> <!--Notebook Cell-->
         {% endfor %}
 
         <form action="/notes/notebook/add" method="POST" class="notebook_add_form">

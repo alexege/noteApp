@@ -550,7 +550,7 @@ function hideCategoryAddForm(){
     document.querySelector(".category_add_form").style.opacity = 0;
 }
 
-// Drag and Drop
+// Drag and Drop Notes
 //Available functions: ondragstart, ondrag, ondragend, ondragenter, ondragover, ondragleave, ondrop
 var starting_cell = null;
 var starting_element = null;
@@ -589,6 +589,48 @@ function drop(event, element) {
 
     ending_cell.append(starting_element);
     starting_cell.append(ending_element);
+}
+
+// Drag and Drop Notebooks
+//Available functions: ondragstart, ondrag, ondragend, ondragenter, ondragover, ondragleave, ondrop
+var notebook_cell_start = null;
+var notebook_start = null;
+var notebook_cell_end = null;
+var notebook_end = null;
+
+var starting_notebook_id = null;
+var ending_notebook_id = null;
+
+function notebookDragStart(event, element) {
+    notebook_cell_start = element.parentNode;
+    notebook_start = element;
+}
+
+function notebookAllowDrop(event) {
+  event.preventDefault();
+//   event.target.style.border = "2px solid lime";
+}
+
+function notebookDrop(event, element) {
+    notebook_end = element.querySelector('div');
+
+    //If target element is not a div, climb parents until div is found.
+    notebook_cell_end = element.closest('div');
+    notebook_start_id = notebook_start.getAttribute('notebook_position_id')
+    notebook_end_id = notebook_end.getAttribute('notebook_position_id')
+
+    $.ajax ({
+        url: `ajax/drag_and_drop_notebooks/${notebook_start_id}/${notebook_end_id}`,
+        method: 'get',
+        data: $(this).serialize(),
+        success: function(serverResponse){
+            notebook_start.setAttribute('notebook_position_id', notebook_end_id)
+            notebook_end.setAttribute('notebook_position_id', notebook_start_id)
+        }
+    });
+
+    notebook_cell_end.append(notebook_start);
+    notebook_cell_start.append(notebook_end);
 }
 
 //-------- Wait for page to load --------

@@ -4,6 +4,7 @@ from ..login_app.models import *
 import os
 
 class Notebook(models.Model):
+    position_id = models.IntegerField(null=True)
     name = models.CharField(max_length=255)
     privacy = models.BooleanField(default=True)
     created_by = models.ForeignKey(User, related_name="categories")
