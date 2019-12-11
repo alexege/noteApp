@@ -441,11 +441,14 @@ $(document).on('submit', '.note_update_form', function(e){
 $(document).on('submit', '.new_comment_form', function(e){
     e.preventDefault();
     var note_id = this.parentNode.parentNode.getAttribute('note_id');
-    
+    var data = new FormData($('.new_comment_form').get(0));
+
     $.ajax({
         url:'comment/add/' + note_id,
-        data: $(this).serialize(),
         method: 'POST',
+        data: data,
+        processData: false,
+        contentType: false,
         success: function(serverResponse){
             $("#notes_component").html(serverResponse);
 
