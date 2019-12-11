@@ -113,9 +113,7 @@ function toggleLightDark(){
 }
 
 //Delete Note
-function delete_note(event, element){
-    event.stopPropagation();
-    var note_id = element.closest('.note_body').getAttribute('note_id');
+function delete_note(note_id){
     $.ajax({
         url: `note/delete/${note_id}`,
         method: 'get',
@@ -127,11 +125,64 @@ function delete_note(event, element){
     })
 }
 
+function del_comment(comment_id){
+    console.log("Comment ID:", comment_id);
+    document.getElementById('deleteModal').style.display = "block";
+    document.getElementById('modal_confirm').setAttribute('onclick', `confirm_del_comment(${comment_id})`);
+    document.getElementById('modal_message').innerHTML = '';
+    document.getElementById('modal_message').append('Are you sure you wish to delete this comment?');
+}
+
+function confirm_del_comment(comment_id){
+    document.getElementById('deleteModal').style.display = "none";
+    delete_comment(comment_id);
+}
+
+function del_note(note_id){
+    document.getElementById('deleteModal').style.display = "block";
+    document.getElementById('modal_confirm').setAttribute('onclick', `confirm_del_note(${note_id})`);
+    document.getElementById('modal_message').innerHTML = '';
+    document.getElementById('modal_message').append('Are you sure you wish to delete this note?');
+}
+
+function confirm_del_note(comment_id){
+    document.getElementById('deleteModal').style.display = "none";
+    delete_note(comment_id);
+}
+
+function del_notebook(notebook_id){
+    document.getElementById('deleteModal').style.display = "block";
+    document.getElementById('modal_confirm').setAttribute('onclick', `confirm_del_notebook(${notebook_id})`);
+    document.getElementById('modal_message').innerHTML = '';
+    document.getElementById('modal_message').append('Are you sure you wish to delete this note?');
+}
+
+function confirm_del_notebook(notebook_id){
+    document.getElementById('deleteModal').style.display = "none";
+    delete_notebook(notebook_id);
+}
+
+function del_category(category_id){
+    document.getElementById('deleteModal').style.display = "block";
+    document.getElementById('modal_confirm').setAttribute('onclick', `confirm_del_category(${category_id})`);
+    document.getElementById('modal_message').innerHTML = '';
+    document.getElementById('modal_message').append('Are you sure you wish to delete this note?');
+}
+
+function confirm_del_category(category_id){
+    document.getElementById('deleteModal').style.display = "none";
+    delete_category(category_id);
+}
+
+function no(){
+    document.getElementById('deleteModal').style.display = "none";
+}
+
 // Delete Comment
-function delete_comment(event, element){
-    event.stopPropagation();
+function delete_comment(comment_id){
+
+    var element = document.getElementById(`comment_${comment_id}`);
     var note_id = element.closest('.note_body').getAttribute('note_id');
-    var comment_id = element.parentNode.parentNode.getAttribute('comment_id')
     var note = element.closest('.note_body');
 
     if(!comment_id){
@@ -205,7 +256,6 @@ function edit_notebook(e){
 
 //Edit Notebook
 $(document).on('submit', '.notebook_edit_form', function(e){
-    console.log("EDIT NOTEBOOK");
     var notebook_id = this.closest('.notebook').getAttribute('id');
     e.preventDefault();
     $.ajax({
@@ -223,16 +273,12 @@ $(document).on('submit', '.notebook_edit_form', function(e){
 })
 
 //Delete Notebook
-function delete_notebook(e){
-    console.log("element:", e.closest('.notebook').getAttribute('id'));
-    notebook_id = e.closest('.notebook').getAttribute('id');
-    console.log("notebook_id", notebook_id);
+function delete_notebook(notebook_id){
     $.ajax({
         url: `/notes/notebook/delete/${notebook_id}`,
         method: 'get',
         data: $(this).serialize(),
         success: function(serverResponse){
-            console.log("Added a new notebook");
             $('#mySidenav').html(serverResponse);
             
             openCloseAccordion("notebooks");
@@ -282,9 +328,10 @@ $(document).on('submit', '.category_add_form', function(e){
 })
 
 //Delete Category
-function deleteCategory(e){
-    notebook_id = e.closest('.notebook').getAttribute('id');
-    category_id = e.getAttribute('id');
+function delete_category(category_id){
+    event.stopPropagation();
+    var element = document.getElementById(category_id);
+    notebook_id = element.closest('.notebook').getAttribute('id');
     $.ajax({
         url: `category/delete/${category_id}`,
         method: 'get',
@@ -487,7 +534,8 @@ function hideCategoryAddForm(){
     document.querySelector(".category_add_form").style.opacity = 0;
 }
 
-// Drag and Drop 
+// Drag and Drop
+//Available functions: ondragstart, ondrag, ondragend, ondragenter, ondragover, ondragleave, ondrop
 var starting_cell = null;
 var starting_element = null;
 var ending_cell = null;
@@ -502,6 +550,7 @@ function dragStart(event, element) {
 
 function allowDrop(event) {
   event.preventDefault();
+//   event.target.style.border = "2px solid lime";
 }
 
 function drop(event, element) {
@@ -528,6 +577,10 @@ function drop(event, element) {
 
 //-------- Wait for page to load --------
 $(document).ready(function(){
+
+    openCloseAccordion("notebooks");
+    openCloseAccordion("public_notebooks");
+
     toggleLightDark();
     view_category();
 

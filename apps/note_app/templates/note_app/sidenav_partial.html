@@ -10,6 +10,8 @@
         <div class="notebook notebook{{notebook.id}}" id="{{notebook.id}}">
             <h5 class="accordion">{{notebook.name}}
 
+                    <i class="fas fa-trash" onclick="del_notebook({{notebook.id}});"></i>
+
                     <i class="far fa-edit" onclick="edit_notebook(this);event.stopPropagation();" id="notebook{{notebook.id}}"></i>
 
                     {% if notebook.privacy == False %}
@@ -17,7 +19,6 @@
                     {% else %}
                         <i note_id="{{notebook.id}}" custom_id="{{notebook.id}}" class="fas fa-lock" onclick="togglePrivacy(this)" privacy={{notebook.privacy}}></i>
                     {% endif %}
-                    <a onclick="delete_notebook(this); event.stopPropagation();"><i class="fas fa-minus-circle"></i></a>
 
                     <form action="/notes/notebook/edit/{{notebook.id}}" method="POST" class="notebook_edit_form">
                         {% csrf_token %}
@@ -32,7 +33,7 @@
                     <li>
                         <a onclick="view_category('{{category.name}}')">{{category.name}}</a>
                         <!-- <a href="/notes/notebook/view/{{category.name}}/{{category.id}}">{{category.name}}</a> -->
-                        <i class="fas fa-minus-circle" onclick="deleteCategory(this)" id="{{category.id}}"></i>
+                        <i class="fas fa-trash" onclick="del_category({{category.id}})" id="{{category.id}}"></i>
                     </li>
                     {% endif %}
                     {% endfor %}
@@ -64,7 +65,7 @@
                     {% if notebook.privacy == False and notebook.created_by == active_user%}
                         <i note_id="{{notebook.id}}" custom_id="{{notebook.id}}" class="fas fa-lock-open" onclick="togglePrivacy(this)" privacy={{notebook.privacy}}></i>
                     {% if notebook.created_by == current_user %}
-                    <i class="fas fa-minus-circle" onclick="delete_notebook(this); event.stopPropagation();" id="{{notebook.id}}"></i>
+                    <i class="fas fa-trash" onclick="del_notebook(this); event.stopPropagation();" id="{{notebook.id}}"></i>
                     {% endif %}
                     {% endif %}
                     test
@@ -76,7 +77,7 @@
                         <li>
                             <a onclick="view_public_category('{{category.name}}')">{{category.name}}</a>
                             <!-- {% if category.created_by == current_user %}
-                            <i class="fas fa-minus-circle" onclick="deleteCategory(this)" id="{{category.id}}"></i></li>
+                            <i class="fas fa-trash" onclick="delete_category(this)" id="{{category.id}}"></i></li>
                             {% endif %} -->
                         </li>
                         {% endif %}

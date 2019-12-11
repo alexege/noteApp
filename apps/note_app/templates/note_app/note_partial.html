@@ -3,7 +3,7 @@
 <div class="note_container">
         {% for note in all_notes %}
         {% if note.privacy == False or note.created_by == current_user%}
-        <div id="note{{note.id}}_cell" class="note_cell" ondrop="drop(event, this)" ondragover="allowDrop(event)" >
+        <div id="note{{note.id}}_cell" class="note_cell" ondrop="drop(event, this)" ondragover="allowDrop(event)">
         
         
             <div id="note{{note.id}}" note_id="{{note.id}}" note_position_id="{{note.position_id}}" ondragstart="dragStart(event, this);" draggable="true" class="note_body">
@@ -12,7 +12,8 @@
                     {{note.title}} - [<a onclick="view_category('{{note.category}}')" class="category">{{note.category}}</a>] -
                     {{note.content}}
                     <!-- <a href="/notes/note/delete/{{note.id}}"> -->
-                        <i class="fas fa-trash note_trashcan" onclick="delete_note(event, this);"></i>
+                        <!-- <i class="fas fa-trash note_trashcan" onclick="delete_note(event, this);"></i> -->
+                        <i class="fas fa-trash note_trashcan" onclick="del_note({{note.id}}); event.stopPropagation();"></i>
                     <!-- </a> -->
                     <a onclick="edit_note(event, this)">
                         <i class="fas fa-edit"></i>
@@ -37,6 +38,7 @@
                                 <input type="checkbox"><span>copied</span></label> 
                             <i class="fas fa-user-edit" onclick="toggleEdit({{comment.id}})"></i>
                             <i class="fas fa-trash" onclick="delete_comment(event, this)"></i> ]
+                            <i class="fas fa-trash" onclick="del_comment({{comment.id}})"></i> ]
                         </span>
                         {% if comment.isCode == True %}
                             <span class="note_content code_format">{{comment.content}}</span>
