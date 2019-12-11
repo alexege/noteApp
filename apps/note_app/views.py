@@ -106,7 +106,9 @@ def public_note_partial(request, category):
     return render(request, "note_app/note_partial.html", context)
 
 def master_list(request):
+    active_user = request.session['active_user']
     context = {
+        'all_notes' : Note.objects.filter(created_by=active_user),
         'all_public_notes' : Note.objects.filter(privacy=False).order_by('title'),
         'current_user' : User.objects.get(id=request.session['active_user'])
     }
@@ -151,7 +153,35 @@ def edit_note(request, note_id):
     note_to_edit.content = request.POST['content']
     note_to_edit.privacy = request.POST['privacy']
     note_to_edit.save()
-    return redirect('/notes/')
+    # return redirect('/notes/')
+
+    category = request.session['selected_category']
+    active_user = User.objects.get(id=request.session['active_user'])
+    print("Category is: [" + category + "]")
+    if category == 'undefined':
+        category = 'All'
+        request.session['selected_category'] = 'All'
+        all_notes = Note.objects.filter(privacy=False).order_by('position_id')
+        print("-------undefined--------")
+    elif category == 'All':
+        all_notes = Note.objects.filter(privacy=False).order_by('position_id')
+        print("-------All--------")
+    else:
+        print("-------else--------")
+        all_notes = Note.objects.filter(created_by=active_user, category=category).order_by('position_id')
+
+    context = {
+        'all_notes' : all_notes,
+        'list_of_notebooks' : Notebook.objects.filter(created_by=active_user),
+        'list_of_public_categories' : Notebook.objects.filter(privacy=False),
+        'list_of_categories' : Category.objects.all(),
+        'list_of_comments': Comment.objects.all(),
+        'category': category,
+        'form' : DocumentForm(),
+        'all_files' : Document.objects.all(),
+        'current_user' : User.objects.get(id=request.session['active_user'])
+    }
+    return render(request, "note_app/note_partial.html", context)
 
 def delete_note(request, note_id):
     print("delete_note")
@@ -380,6 +410,7 @@ def add_notebook(request):
         'list_of_public_notebooks' : Notebook.objects.filter(privacy=False),
         'list_of_categories' : Category.objects.all(),
         'list_of_notebooks' : Notebook.objects.filter(created_by=active_user),
+        'current_user' : User.objects.get(id=request.session['active_user'])
     }
     
     return render(request, "note_app/sidenav_partial.html", context)
@@ -398,6 +429,7 @@ def edit_notebook(request, notebook_id):
         'list_of_public_notebooks' : Notebook.objects.filter(privacy=False),
         'list_of_categories' : Category.objects.all(),
         'list_of_notebooks' : Notebook.objects.filter(created_by=active_user),
+        'current_user' : User.objects.get(id=request.session['active_user'])
     }
     
     return render(request, "note_app/sidenav_partial.html", context)
@@ -414,6 +446,7 @@ def delete_notebook(request, notebook_id):
         'list_of_public_notebooks' : Notebook.objects.filter(privacy=False),
         'list_of_categories' : Category.objects.all(),
         'list_of_notebooks' : Notebook.objects.filter(created_by=active_user),
+        'current_user' : User.objects.get(id=request.session['active_user'])
     }
     
     return render(request, "note_app/sidenav_partial.html", context)
@@ -436,6 +469,7 @@ def togglePrivacy(request, notebook_id):
         'list_of_notebooks' : Notebook.objects.filter(created_by=active_user),
         'list_of_public_notebooks' : Notebook.objects.filter(privacy=False),
         'list_of_categories' : Category.objects.all(),
+        'current_user' : User.objects.get(id=request.session['active_user'])
     }
     # return render(request, "note_app/notebooks_partial.html", context)
     return render(request, "note_app/sidenav_partial.html", context)
@@ -451,6 +485,7 @@ def add_category(request, category_id):
         'list_of_notebooks' : Notebook.objects.filter(created_by=active_user),
         'list_of_public_notebooks' : Notebook.objects.filter(privacy=False),
         'list_of_categories' : Category.objects.all(),
+        'current_user' : User.objects.get(id=request.session['active_user'])
     }
     return render(request, "note_app/sidenav_partial.html", context)
 
@@ -466,6 +501,7 @@ def delete_category(request, category_id):
         'list_of_notebooks' : Notebook.objects.filter(created_by=active_user),
         'list_of_public_notebooks' : Notebook.objects.filter(privacy=False),
         'list_of_categories' : Category.objects.all(),
+        'current_user' : User.objects.get(id=request.session['active_user'])
     }
     return render(request, "note_app/sidenav_partial.html", context)
     

@@ -241,6 +241,8 @@ a {
 
 .master_wrapper {
   text-align: center;
+  background-color: rgba(0, 0, 0, 0.356);
+  height: 100vh;
 }
 
 #master_list {
@@ -364,7 +366,8 @@ a {
 
 #modal_confirm {
   padding: 5px;
-  background-color: var(--primary-color);
+  /* background-color: var(--primary-color); */
+  background-color: #5cb85c;
   color: var(--font-color);
   border: 0px;
 }
@@ -376,6 +379,13 @@ a {
   border: 0px;
 }
 
+/* ============================================================= */
+/* ------------------Settings-Modal----------------------------- */
+/* ============================================================= */
+
+/* .settings_modal {
+
+} */
 
 /* ============================================================= */
 /* ---------------------------Notes----------------------------- */
@@ -470,7 +480,7 @@ a {
   color: var(--heading-color);
 }
 
-#update_form {
+#note_update_form {
   background-color: var(--bg-color);
 }
 

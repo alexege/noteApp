@@ -95,7 +95,7 @@
                 </form>
             </div>
 
-            <form action="/notes/note/edit/{{note.id}}" method="POST" style="display:none;" id="update_form">
+            <form action="/notes/note/edit/{{note.id}}" method="POST" style="display:none;" id="note_update_form" class="note_update_form">
                 {% csrf_token %}
                 <input type="text" name="title" id="title_input" value="{{note.title}}">
                 <select name="privacy" id="privacy_input" value="{{note.privacy}}">

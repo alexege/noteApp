@@ -421,6 +421,22 @@ $(document).on('submit', '.new_note_form', function(e){
     })
 })
 
+// On update note form submission
+$(document).on('submit', '.note_update_form', function(e){
+    e.preventDefault();
+    var note_id = this.closest('.note_body').getAttribute('note_id');
+    $.ajax({
+        url:`note/edit/${note_id}`,
+        data: $(this).serialize(),
+        method: 'POST',
+        success: function(serverResponse){
+            $("#notes_component").html(serverResponse);
+            
+            addClickListener();
+        }
+    })
+})
+
 // Add Comment
 $(document).on('submit', '.new_comment_form', function(e){
     e.preventDefault();
@@ -490,7 +506,7 @@ function view_public_category(category){
 //Toggle edit note form
 function edit_note(event, element){
     event.stopPropagation();
-    var note = element.closest('.note_body').querySelector('#update_form')
+    var note = element.closest('.note_body').querySelector('#note_update_form')
     if(note.style.display == "block"){
         note.style.display = "none";
     } else {
