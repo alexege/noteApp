@@ -154,7 +154,7 @@ function del_notebook(notebook_id){
     document.getElementById('deleteModal').style.display = "block";
     document.getElementById('modal_confirm').setAttribute('onclick', `confirm_del_notebook(${notebook_id})`);
     document.getElementById('modal_message').innerHTML = '';
-    document.getElementById('modal_message').append('Are you sure you wish to delete this note?');
+    document.getElementById('modal_message').append('Are you sure you wish to delete this notebook?');
 }
 
 function confirm_del_notebook(notebook_id){
@@ -166,7 +166,7 @@ function del_category(category_id){
     document.getElementById('deleteModal').style.display = "block";
     document.getElementById('modal_confirm').setAttribute('onclick', `confirm_del_category(${category_id})`);
     document.getElementById('modal_message').innerHTML = '';
-    document.getElementById('modal_message').append('Are you sure you wish to delete this note?');
+    document.getElementById('modal_message').append('Are you sure you wish to delete this category?');
 }
 
 function confirm_del_category(category_id){
@@ -617,6 +617,19 @@ $(document).ready(function(){
     } else {
         console.log("No active notes found")
     }
+
+    $(document).on('click', '.close', function(event){
+        no();
+    })
+
+    // Get the modal
+    var modal = document.getElementById("deleteModal");
+    $(document).on('click', function(event){
+        if(event.target == modal) {
+            modal.style.display = "none";
+        }
+    })
+
 }); //End of document.ready();
 
 //Side Nav Script

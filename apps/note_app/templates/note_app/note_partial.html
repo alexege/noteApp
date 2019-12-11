@@ -37,7 +37,7 @@
                             <label class="tooltip"><i class="far fa-copyright" onclick="copyToClipboard(this)"></i>
                                 <input type="checkbox"><span>copied</span></label> 
                             <i class="fas fa-user-edit" onclick="toggleEdit({{comment.id}})"></i>
-                            <i class="fas fa-trash" onclick="delete_comment(event, this)"></i> ]
+                            <!-- <i class="fas fa-trash" onclick="delete_comment(event, this)"></i> ] -->
                             <i class="fas fa-trash" onclick="del_comment({{comment.id}})"></i> ]
                         </span>
                         {% if comment.isCode == True %}

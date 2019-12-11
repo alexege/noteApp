@@ -351,6 +351,31 @@ a {
   color: white;
 }
 
+.modal-body {
+  text-align: center;
+  margin: 10px;
+}
+
+.modal-buttons {
+  margin: 10px 0;
+  width: 100%;
+  text-align: center;
+}
+
+#modal_confirm {
+  padding: 5px;
+  background-color: var(--primary-color);
+  color: var(--font-color);
+  border: 0px;
+}
+
+#modal_cancel {
+  padding: 5px;
+  background-color: var(--secondary-color);
+  color: var(--font-color);
+  border: 0px;
+}
+
 
 /* ============================================================= */
 /* ---------------------------Notes----------------------------- */
