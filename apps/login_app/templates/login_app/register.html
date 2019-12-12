@@ -20,10 +20,23 @@
                 <td colspan=2>
                     <h1 class="brand marg_top">Registration</h1>
                 </td>
-            </tr>    
+            </tr>
             <tr>
                 <td>
                     <input class="form-control" type="text" name="first_name" id="first_name" placeholder="First Name">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    {% if messages %}
+                    <ul>
+                        {% for message in messages %}
+                            {% if 'first_name' in message.tags %}
+                            <p{% if message.tags %} class="{{ message.tags }} validation-error"{% endif %}>{{ message }}</p>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
                 </td>
             </tr>
             <tr>
@@ -33,7 +46,33 @@
             </tr>
             <tr>
                 <td>
+                    {% if messages %}
+                    <ul>
+                        {% for message in messages %}
+                            {% if 'last_name' in message.tags %}
+                            <p{% if message.tags %} class="{{ message.tags }} validation-error"{% endif %}>{{ message }}</p>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <td>
                     <input class="form-control" type="email" name="email" id="email" placeholder="Email">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    {% if messages %}
+                    <ul>
+                        {% for message in messages %}
+                            {% if 'email' in message.tags %}
+                            <p{% if message.tags %} class="{{ message.tags }} validation-error"{% endif %}>{{ message }}</p>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
                 </td>
             </tr>
             <tr>
@@ -43,21 +82,33 @@
             </tr>
             <tr>
                 <td>
+                    {% if messages %}
+                    <ul>
+                        {% for message in messages %}
+                            {% if message.tags == 'password error' %}
+                            <p{% if message.tags %} class="{{ message.tags }} validation-error"{% endif %}>{{ message }}</p>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <td>
                     <input class="form-control" type="password" name="confirmation_password" id="confirmation_password" placeholder="Confirmation Password">
                 </td>
             </tr>
             <tr>
-                <td colspan=2>
-                    <!-- Validation Check -->
-                    <div class='small'>
-                        {% if messages %}
-                        <ul>
-                            {% for message in messages %}
+                <td>
+                    {% if messages %}
+                    <ul>
+                        {% for message in messages %}
+                            {% if 'confirmation_password' in message.tags %}
                             <p{% if message.tags %} class="{{ message.tags }} validation-error"{% endif %}>{{ message }}</p>
-                            {% endfor %}
-                        </ul>
-                        {% endif %}
-                    </div>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
                 </td>
             </tr>
             <tr>

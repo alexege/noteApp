@@ -7,7 +7,7 @@ EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
 
 # Createa an errors class to keep track of validation
 class UserManager(models.Manager):
-    def basic_validator(self, postData):
+    def registration_validator(self, postData):
         errors = {}
         if len(postData['first_name']) < 2:
             errors['first_name'] = 'First name should be at least 2 characters'
@@ -17,6 +17,10 @@ class UserManager(models.Manager):
             errors['email'] = 'Email must be of valid format'
         if len(postData['password']) < 8:
             errors['password'] = 'Password should be at least 8 characters'
+        if postData['password'] != postData['confirmation_password']:
+            errors['password'] = 'Passwords do not match'
+        if len(postData['confirmation_password']) < 1:
+            errors['confirmation_password'] = ' Confirmation password required'
         return errors
 
     def login_validator(self, postData):
@@ -24,9 +28,7 @@ class UserManager(models.Manager):
         if not EMAIL_REGEX.match(postData['email']):
             errors['email'] = 'Email must be of valid format'
         if not User.objects.filter(email=postData['email']):
-            errors['email'] = "Email address not recognized."
-        # if not User.objects.filter(password=postData['password']):
-        #     errors['password'] = "Invalid password, please try again."
+            errors['email'] = "Email address not recognized"
         if len(postData['password']) < 8:
             errors['password'] = 'Password should be at least 8 characters'
         return errors

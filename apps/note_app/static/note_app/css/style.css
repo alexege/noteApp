@@ -3,17 +3,10 @@
     padding: 0;
 }
 
-body {
-    background-color: var(--bg-color);
-    background: url(" ../images/bay.jpg") no-repeat center center fixed;
-    background-color: var(--bg-color);
-    color: var(--font-color);
-}
-
 .screen {
   background-color: var(--primary-color);
   background-color: var(--bg-color);
-  opacity: 0.45;
+  opacity: 0.35;
   width: 100vw;
   height: 100vh;
   position: fixed;
@@ -32,7 +25,7 @@ a {
 }
 
 ::placeholder {
-  color: rgba(7, 252, 215, 0.25);
+  color: var(--placeholder-color);
 }
 
 .new_note_form {
@@ -53,14 +46,20 @@ a {
   --bg-color: #383a38;
   --alt-bg-color:black;
   --heading-color: #07fcd7;
+  --placeholder-color: rgba(7, 252, 215, 0.25);
+  background: url(" ../images/ocean.jpg") no-repeat center center fixed;
+  background-size: cover;
 }
  [data-theme="dark"] {
    --primary-color: #09d6ef;
 	 --secondary-color: red;
 	 --font-color: white;
    --bg-color: #383a38;
-   --alt-bg-color:#283231;
-	 --heading-color: #09d6ef;
+   --alt-bg-color:black;
+   --heading-color: #09d6ef;
+   --placeholder-color: rgba(7, 142, 252, 0.25);
+   background: url(" ../images/mountain.png") no-repeat center center fixed;
+   background-size: cover;
 }
 
 h1 {
@@ -786,7 +785,7 @@ input:checked + .slider:before {
 
   .sidenav .active, .sidenav .accordion:hover{
     /* margin-left: 5px; */
-    color: #07fcd7;
+    color: var(--primary-color);
   }
   
   /* Style the accordion panel. Note: hidden by default */
@@ -801,7 +800,7 @@ input:checked + .slider:before {
     overflow: hidden;
     text-align: left;
     /* color: #232331; */
-    color: #08fdd8;
+    color: var(--primary-color);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   }
 
@@ -857,7 +856,7 @@ input:checked + .slider:before {
     background-color: var(--primary-color);
     background-color: #283231;
     /* color: rgba(7, 252, 215, 0.25); */
-    color: #07fcd7;
+    color: var(--primary-color);
     font-weight: bold;
     border: 1px solid var(--primary-color);
   }
@@ -866,7 +865,7 @@ input:checked + .slider:before {
     background-color: var(--primary-color);
     background-color: #283231;
     /* color: rgba(7, 252, 215, 0.25); */
-    color: #07fcd7;
+    color: var(--primary-color);
     font-weight: bold;
     border: 1px solid var(--primary-color);
   }
@@ -875,7 +874,7 @@ input:checked + .slider:before {
     background-color: var(--primary-color);
     background-color: #283231;
     /* color: rgba(7, 252, 215, 0.25); */
-    color: #07fcd7;
+    color: var(--primary-color);
     font-weight: bold;
     border: 1px solid black;
     padding: 5px;
@@ -921,7 +920,7 @@ input:checked + .slider:before {
     padding: 2px;
     /* width: 6%; */
     width: 100%;
-    color: #07fcd7;
+    color: var(--primary-color);
     background-color: #283231;
     border: none;
   }

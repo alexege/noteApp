@@ -29,11 +29,13 @@ function searchFunction() {
 // Display comment configuration menu
 function showMenu(comment){
     comment.parentNode.querySelector('.comment_menu').style.display = "block";
+    // comment.parentNode.style.border = "2px solid #09d6ef";
 }
 
 // Hide comment configuration menu
 function hideMenu(comment){
     comment.parentNode.querySelector('.comment_menu').style.display = "none";
+    // comment.parentNode.style.border = "0px solid #09d6ef";
 }
 
 // Indent comment
@@ -690,6 +692,15 @@ $(document).ready(function(){
             modal.style.display = "none";
         }
     })
+
+    if(document.getElementById('checkbox').checked){
+        localStorage.setItem('darkToggle', 'dark');
+    }
+    if(localStorage.getItem('darkToggle') == 'dark'){
+        document.getElementById('checkbox').checked = true;
+    } else {
+        document.getElementById('checkbox').checked = false;
+    }
 
 }); //End of document.ready();
 

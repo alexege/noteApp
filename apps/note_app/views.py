@@ -474,7 +474,6 @@ def togglePrivacy(request, notebook_id):
         'list_of_categories' : Category.objects.all(),
         'current_user' : User.objects.get(id=request.session['active_user'])
     }
-    # return render(request, "note_app/notebooks_partial.html", context)
     return render(request, "note_app/sidenav_partial.html", context)
 
 def add_category(request, category_id):

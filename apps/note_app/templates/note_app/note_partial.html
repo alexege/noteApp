@@ -113,8 +113,8 @@
                     <option value="All">All</option>
                     {% endif %}
                     {% for category in list_of_notebooks %}
-                    {% if subcategory.name != note.category %}
-                    <option value="{{subcategory.name}}">{{subcategory.name}}</option>
+                    {% if category.name != note.category %}
+                    <option value="{{category.name}}">{{category.name}}</option>
                     {% endif %}
                     {% endfor %}
                 </select>

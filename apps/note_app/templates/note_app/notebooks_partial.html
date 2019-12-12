@@ -16,18 +16,19 @@
     </h5>
     <div class="panel">
         <ul>
-            {% for subcategory in list_of_categories %}
-            {% if subcategory.parent.id == notebook.id %}
+            {% for category in list_of_categories %}
+            {% if category.parent.id == notebook.id %}
             <li>
-                <a onclick="view_category('{{subcategory.name}}')">{{subcategory.name}}</a>
-                <!-- <a href="/notes/notebook/view/{{category.name}}/{{subcategory.id}}">{{subcategory.name}}</a> -->
-                {% if subcategory.created_by == active_user %}
-                <a href="/notes/category/delete/{{subcategory.id}}"><i class="fas fa-trash"></i></a>
+                <a onclick="view_category('{{category.name}}')">{{category.name}}</a>
+                <!-- <a href="/notes/notebook/view/{{category.name}}/{{category.id}}">{{category.name}}</a> -->
+                {% if category.created_by == active_user %}
+                <a href="/notes/category/delete/{{category.id}}"><i class="fas fa-trash"></i></a>
                 {% endif %}
             </li>
             {% endif %}
             {% endfor %}
         </ul>
+        WHERE IS THIS FORM?
         <form action="/notes/subcategory/add/{{notebook.id}}" method="POST">
             {% csrf_token %}
             <input type="text" name="name">

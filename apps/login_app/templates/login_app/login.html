@@ -5,21 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     {% load staticfiles %}
-    <!-- <link rel="stylesheet" href="{% static 'login_app/css/Log.css' %}"> -->
     <link rel="stylesheet" href="{% static 'login_app\css\style.css' %}">
-    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"> -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
     <link href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" rel="stylesheet">
     <title>Slick Notes</title>
 </head>
 <body>
-
-    <!-- <div class="container">
-        <div class="header">
-            <video src="static\notes_app\images\lit_notes.mp4" autoplay="true" loop="true"></video>
-        </div>
-    </div> -->
 <div class="overlay"></div>
 <div class="center-login-box">
     <form action="/login" method="POST">
@@ -41,6 +33,20 @@
             </tr>
             <tr>
                 <td>
+                    <!-- Validation Check -->
+                    {% if messages %}
+                    <ul>
+                        {% for message in messages %}
+                            {% if 'email' in message.tags %}
+                            <p{% if message.tags %} class="{{ message.tags }} validation-error"{% endif %}>{{ message }}</p>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <td>
                     <input type="password" id="password" name="password" placeholder="Password">
                 </td>
             </tr>
@@ -50,7 +56,9 @@
                         {% if messages %}
                         <ul>
                             {% for message in messages %}
-                            <p{% if message.tags %} class="{{ message.tags }} validation-error"{% endif %}>{{ message }}</p>
+                                {% if message.tags == 'password error' %}
+                                <p{% if message.tags %} class="{{ message.tags }} validation-error"{% endif %}>{{ message }}</p>
+                                {% endif %}
                             {% endfor %}
                         </ul>
                         {% endif %}
@@ -62,7 +70,7 @@
                 </td>
             </tr>
             <tr class="new_user">
-                <td colspan=2>New user? <a href="pre_login">Register here</a></td>
+                <td colspan=2>New user? <a href="registration">Register here</a></td>
             </tr>
         </table>
     </form>
