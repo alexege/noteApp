@@ -22,8 +22,10 @@ class Category(models.Model):
 class Note(models.Model):
     position_id = models.IntegerField(null=True)
     title = models.CharField(max_length=255)
-    category = models.CharField(max_length=255)
     content = models.TextField()
+    parent = models.ForeignKey(Notebook, related_name="book_notes")
+    category = models.ForeignKey(Category, related_name="category_notes")
+    # category = models.CharField(max_length=255)
     privacy = models.BooleanField(default=False)
     created_by = models.ForeignKey(User, related_name="notes")
     created_at = models.DateTimeField(auto_now_add=True)

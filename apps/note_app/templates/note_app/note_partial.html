@@ -9,8 +9,8 @@
             <div id="note{{note.id}}" note_id="{{note.id}}" note_position_id="{{note.position_id}}" ondragstart="dragStart(event, this);" draggable="true" class="note_body">
             <button class="accordion" id="note_layout">
                 <p id="{{note.id}}" title="{{note.title}}" content="{{note.content}}" class="note">
-                    {{note.title}} - [<a onclick="view_category('{{note.category}}')" class="category">{{note.category}}</a>] -
-                    {{note.content}}
+                    {{note.title}} - [<a onclick="view_category(`{{note.parent.name}}`,`{{note.category}}`)" class="category">{{note.parent.name}} | {{note.category.name}}</a>] -
+                    {{note.content}} //{{note.parent.name}}
                     <!-- <a href="/notes/note/delete/{{note.id}}"> -->
                         <!-- <i class="fas fa-trash note_trashcan" onclick="delete_note(event, this);"></i> -->
                         <i class="fas fa-trash note_trashcan" onclick="del_note({{note.id}}); event.stopPropagation();"></i>
@@ -82,7 +82,7 @@
                     {% endfor %}
                 </div>
 
-                <form action="/notes/comment/add/{{note.id}}" method="POST" enctype="multipart/form-data" class="new_comment_form" draggable="true">
+                <form action="/notes/comment/add/{{note.id}}" method="POST" enctype="multipart/form-data" class="new_comment_form" id='{{note.id}}' draggable="true">
                     {% csrf_token %}
                     <textarea name="content" rows="2" cols="25" class="note_textarea"></textarea>
                     <!-- Simple File Upload --><br>
@@ -107,8 +107,8 @@
                     <option value="True">public</option>
                     {% endif %}
                 </select>
-                <select name="category" id="category_input" value="{{note.category}}">
-                    <option value="{{note.category}}">{{note.category}}</option>
+                <select name="category" id="category_input" value="{{note.category.name}}">
+                    <option value="{{note.category.name}}">{{note.category.name}}</option>
                     {% if note.category != "All" %}
                     <option value="All">All</option>
                     {% endif %}
@@ -143,7 +143,7 @@
 
     <!-- Add new Note -->
     <h4 class="add_new_note_tag">Add a new note</h4>
-    <form action="/notes/note/add" method="POST" class="new_note_form">
+    <form action="/notes/note/add/{{notebook}}" method="POST" class="new_note_form" notebook_name="{{category}}">
         {% csrf_token %}
         <input type="text" name="title" placeholder="Title" id="title_input">
         <select name="privacy" id="privacy_input">

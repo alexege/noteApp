@@ -32,7 +32,11 @@
                     {% for category in list_of_categories %}
                     {% if category.parent.id == notebook.id %}
                     <li>
-                        <a onclick="view_category('{{category.name}}')">{{category.name}}</a>
+                        {% if category.name == notebook.name %}
+                        <a onclick="view_all_notebook_categories('{{notebook.name}}')">All {{category.name}} notes</a>
+                        {% else %}
+                        <a onclick="view_category('{{category.parent.name}}','{{category.name}}')">{{category.name}}</a>
+                        {% endif %}
                         <!-- <a href="/notes/notebook/view/{{category.name}}/{{category.id}}">{{category.name}}</a> -->
                         <i class="fas fa-trash" onclick="del_category({{category.id}})" id="{{category.id}}"></i>
                     </li>

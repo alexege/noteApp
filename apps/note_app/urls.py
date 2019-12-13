@@ -16,7 +16,7 @@ urlpatterns = [
     url(r'^category/delete/(?P<category_id>\d+)$', views.delete_category),
 
     #Notes
-    url(r'^note/add$', views.add_note),
+    url(r'^note/add/(?P<notebook_name>[\w\s]+)$', views.add_note),
     url(r'^note/edit/(?P<note_id>\d+)$', views.edit_note),
     url(r'^note/delete/(?P<note_id>\d+)$', views.delete_note),
     
@@ -28,7 +28,10 @@ urlpatterns = [
     #Ajax
     url(r'^ajax/drag_and_drop/(?P<starting_note_id>\d+)/(?P<ending_note_id>\d+)$', views.drag_and_drop),
     url(r'^ajax/drag_and_drop_notebooks/(?P<starting_notebook_id>\d+)/(?P<ending_notebook_id>\d+)$', views.drag_and_drop_notebook),
-    url(r'^(?P<category>[\w\s]+)$', views.note_partial),
+    # url(r'^(?P<notebook>[\w\s]+)/(?P<category>[\w\s]+)$', views.note_partial),
+    url(r'^selected_notes/(?P<notebook>[\w\s]+)/(?P<category>[\w\s]+)$', views.note_partial),
+    # url(r'^sidenav$', views.view_sidenav),
+    url(r'^view/(?P<notebook_name>[\w\s]+)$', views.all_notebook_categories),
     url(r'^public/(?P<category>[\w\s]+)$', views.public_note_partial),
     url(r'^comment/(?P<comment_id>\d+)/indent$', views.indent_comment),
     url(r'^comment/(?P<comment_id>\d+)/outdent$', views.outdent_comment),

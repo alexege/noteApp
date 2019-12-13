@@ -410,9 +410,11 @@ function togglePanelDisplay(note_id){
 
 // On add new note form submission
 $(document).on('submit', '.new_note_form', function(e){
+    var notebook_name = this.getAttribute('notebook_name');
+    console.log("Notebook:", notebook_name);
     e.preventDefault();
     $.ajax({
-        url:'note/add',
+        url:`note/add/${notebook_name}`,
         data: $(this).serialize(),
         method: 'POST',
         success: function(serverResponse){
@@ -442,15 +444,18 @@ $(document).on('submit', '.note_update_form', function(e){
 // Add Comment
 $(document).on('submit', '.new_comment_form', function(e){
     e.preventDefault();
+    var formNumber = this.getAttribute('id');
     var note_id = this.parentNode.parentNode.getAttribute('note_id');
     var data = new FormData($('.new_comment_form').get(0));
 
     $.ajax({
         url:'comment/add/' + note_id,
         method: 'POST',
+        headers: { "X-CSRFToken": '{{csrf_token}}' },
         data: data,
-        processData: false,
-        contentType: false,
+        data: $(this).serialize(),
+        // processData: false,
+        // contentType: false,
         success: function(serverResponse){
             $("#notes_component").html(serverResponse);
 
@@ -483,9 +488,36 @@ $(document).on('submit', '.comment_edit_form', function(e){
 })
 
 //Dynamically view notes of a specific category
-function view_category(category){
+function view_category(notebook, category){
     $.ajax({
-        url: `/notes/${category}`,
+        url: `/notes/selected_notes/${notebook}/${category}`,
+        method: 'get',
+        success: function(serverResponse){
+            $("#notes_component").html(serverResponse);
+
+            addClickListener();
+        }
+    })
+}
+
+function view_sidenav(){
+    $.ajax({
+        url: `/notes/sidenav`,
+        method: 'get',
+        success: function(serverResponse){
+            $('#mySidenav').html(serverResponse);
+            openCloseAccordion("notebooks");
+            openCloseAccordion("public_notebooks");
+        }
+    })
+}
+
+//Dynamically view notes of a specific category
+
+function view_all_notebook_categories(notebook){
+    console.log("Notebook: ", notebook);
+    $.ajax({
+        url: `/notes/view/${notebook}`,
         method: 'get',
         success: function(serverResponse){
             $("#notes_component").html(serverResponse);
@@ -640,12 +672,11 @@ function notebookDrop(event, element) {
 
 //-------- Wait for page to load --------
 $(document).ready(function(){
-
-    openCloseAccordion("notebooks");
-    openCloseAccordion("public_notebooks");
+    // view_sidenav();
 
     toggleLightDark();
-    view_category();
+    view_category('All', 'All');
+
 
     if(localStorage.getItem('target_note') != null){
         target_id = localStorage.getItem('target_note');

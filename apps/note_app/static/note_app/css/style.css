@@ -355,6 +355,7 @@ a {
 .modal-body {
   text-align: center;
   margin: 10px;
+  color: var(--font-color);
 }
 
 .modal-buttons {
