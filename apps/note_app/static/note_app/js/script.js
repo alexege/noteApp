@@ -691,7 +691,7 @@ $(document).ready(function(){
     openCloseAccordion("public_notebooks");
 
     toggleLightDark();
-    view_category('All', 'All');
+    view_category('default', 'default');
 
 
     if(localStorage.getItem('target_note') != null){

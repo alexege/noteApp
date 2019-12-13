@@ -915,7 +915,16 @@ input:checked + .slider:before {
     /* border-radius: 4px; */
   }
 
+.all_notes_button {
+  color: var(--font-color);
+  cursor: pointer;
+}
 
+.all_notes_button:hover {
+  color: var(--primary-color);
+  border-left: 1px solid var(--primary-color);
+  border-right: 1px solid var(--primary-color);
+}
 
   .add_note_button {
     vertical-align: top;

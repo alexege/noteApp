@@ -6,6 +6,9 @@ from django.core.files.storage import FileSystemStorage
 
 def index(request):
 
+    print("Notebook_", request.session['selected_notebook'])
+    print("Category_", request.session['selected_category'])
+
     if 'active_user' not in request.session:
         return redirect('/')
 
@@ -32,7 +35,14 @@ def index(request):
     notebook = Notebook.objects.get(name=request.session['selected_notebook'])
     category = Category.objects.get(name=request.session['selected_category'], parent=notebook)
 
-    all_notes = Note.objects.filter(created_by=active_user, parent=notebook, category=category).order_by('position_id')
+    print("Notebook:", notebook.name)
+    print("Category:", category.name)
+
+    if notebook.name == 'All' and category.name == 'All':
+        print("Displaying everything")
+        all_notes = Note.objects.filter(created_by=active_user).order_by('position_id')
+    else:
+        all_notes = Note.objects.filter(created_by=active_user, parent=notebook, category=category).order_by('position_id')
 
     if request.method == 'POST':
         print("Uploading a file...")
@@ -57,6 +67,10 @@ def index(request):
 
 def note_partial(request, notebook, category):
 
+    if notebook == 'default' and category == 'default':
+        notebook = request.session['selected_notebook']
+        category = request.session['selected_category']
+
     if 'active_user' not in request.session:
         request.session['active_user'] = User.objects.get(id=request.session['active_user'])
         return redirect('/')
@@ -79,8 +93,10 @@ def note_partial(request, notebook, category):
     category = Category.objects.get(name=request.session['selected_category'], parent=notebook)
     active_user = User.objects.get(id=request.session['active_user'])
 
-    all_notes = Note.objects.filter(created_by=active_user, parent=notebook, category=category).order_by('position_id')
-    print("all_notes", all_notes)
+    if notebook.name == 'All' and category.name == 'All':
+        all_notes = Note.objects.filter(created_by=active_user).order_by('position_id')
+    else:
+        all_notes = Note.objects.filter(created_by=active_user, parent=notebook, category=category).order_by('position_id')
     
     context = {
         'all_notes' : all_notes,
@@ -238,7 +254,13 @@ def add_note(request, notebook_name):
     category = Category.objects.get(name=request.session['selected_category'], parent=notebook)
     active_user = User.objects.get(id=request.session['active_user'])
 
-    all_notes = Note.objects.filter(created_by=active_user, parent=notebook, category=category).order_by('position_id')
+    print("Notebook:", notebook.name)
+    print("Category:", category.name)
+
+    if notebook.name == 'All' and category.name == 'All':
+        all_notes = Note.objects.filter(created_by=active_user).order_by('position_id')
+    else:
+        all_notes = Note.objects.filter(created_by=active_user, parent=notebook, category=category).order_by('position_id')
 
     new_note = Note.objects.create(title=request.POST['title'] ,parent=notebook, category=category, created_by=active_user, content=request.POST['content'], privacy=request.POST['privacy'])
     new_note.position_id = new_note.id
@@ -266,7 +288,6 @@ def edit_note(request, note_id):
     note_to_edit.content = request.POST['content']
     note_to_edit.privacy = request.POST['privacy']
     note_to_edit.save()
-    # return redirect('/notes/')
 
     if 'active_user' not in request.session:
         return redirect('/')

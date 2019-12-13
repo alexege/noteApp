@@ -9,8 +9,8 @@
             <div id="note{{note.id}}" note_id="{{note.id}}" note_position_id="{{note.position_id}}" ondragstart="dragStart(event, this);" draggable="true" class="note_body">
             <button class="accordion" id="note_layout">
                 <p id="{{note.id}}" title="{{note.title}}" content="{{note.content}}" class="note">
-                    {{note.title}} - [<a onclick="view_category(`{{note.parent.name}}`,`{{note.category.name}}`)" class="category">{{note.parent.name}} | {{note.category.name}}</a>] -
-                    {{note.content}} //{{note.parent.name}} //{{note.category.name}}
+                    {{note.title}} - [<a onclick="view_category(`{{note.parent.name}}`,`{{note.category.name}}`)" class="category">{{note.parent.name}}/{{note.category.name}}</a>] -
+                    {{note.content}}
                     <!-- <a href="/notes/note/delete/{{note.id}}"> -->
                         <!-- <i class="fas fa-trash note_trashcan" onclick="delete_note(event, this);"></i> -->
                         <i class="fas fa-trash note_trashcan" onclick="del_note({{note.id}}); event.stopPropagation();"></i>

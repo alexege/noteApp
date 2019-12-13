@@ -13,7 +13,7 @@
     <link href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.0/themes/prism.min.css" /> <!-- Code Snippet Link -->
     <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
-    <title>Slick Notes - {{category}}</title>
+    <title>Slick Notes - {{request.session.selected_notebook}}/{{request.session.selected_category}}</title>
 </head>
 
 <body>
@@ -30,7 +30,7 @@
     
             {% for notebook in list_of_notebooks %}
                 {% if notebook.name == 'All' %}
-                    <div class="notebook" onclick="showAllNotes();">All Notes</div>
+                    <div class="notebook all_notes_button" onclick="showAllNotes();">All Notes</div>
                 {% else %}
             <div id="notebook{{notebook.id}}_cell" class="notebook_cell" ondrop="notebookDrop(event, this)" ondragover="notebookAllowDrop(event)">
             <div class="notebook notebook{{notebook.id}}" id="{{notebook.id}}" notebook_position_id="{{notebook.position_id}}" ondragstart="notebookDragStart(event, this);" draggable="true">
