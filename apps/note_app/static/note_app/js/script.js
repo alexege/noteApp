@@ -454,6 +454,7 @@ $(document).on('submit', '.new_comment_form', function(e){
         headers: { "X-CSRFToken": '{{csrf_token}}' },
         data: data,
         data: $(this).serialize(),
+        cache: false,
         // processData: false,
         // contentType: false,
         success: function(serverResponse){
@@ -673,6 +674,9 @@ function notebookDrop(event, element) {
 //-------- Wait for page to load --------
 $(document).ready(function(){
     // view_sidenav();
+
+    openCloseAccordion("notebooks");
+    openCloseAccordion("public_notebooks");
 
     toggleLightDark();
     view_category('All', 'All');
