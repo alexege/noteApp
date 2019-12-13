@@ -553,6 +553,40 @@ input:checked + .slider:before {
  border: none;
 }
 
+/* Dipslay show/none */
+.settings-modal {
+  color: red;
+  background-color: #09d4ef7c;
+  z-index: 10;
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  transition: all 1s linear;
+  display: block;
+}
+
+.w3-modal-content p {
+  color: var(--font-color);
+  margin: 10px;
+}
+
+.w3-modal-content {
+  background-color: var(--bg-color);
+  padding: 10px;
+}
+
+.hidden {
+  display: none;
+}
+
+.visuallyhidden {
+  opacity: 0;
+}
+
+
+
+
+
 .nav-right-item {
  float: left;
  margin-left: 5px;
@@ -566,6 +600,11 @@ input:checked + .slider:before {
  left: calc(50% - 132px);
  margin: 0; 
  color: var(--font-color);
+}
+
+#brand:hover {
+  color: var(--primary-color);
+  cursor: pointer;
 }
 
 .searchbar {
@@ -704,14 +743,22 @@ input:checked + .slider:before {
   color: var(--font-color);
 }
 
-.sidenav .fa-trash {
+.sidenav .panel .fa-trash {
   float: right;
+  padding-top: 5px;
 }
 
 .sidenav div {
   /* background-color: rgb(37, 37, 37); */
   /* background-color: #232331; */
   /* background-color: rgb(60, 92, 143); */
+}
+
+.categories:hover {
+  cursor: pointer;
+  padding-left: 5px;
+  background-color: #09d4ef3f;
+  color: var(--font-color);
 }
 
 .notebook {
@@ -721,6 +768,7 @@ input:checked + .slider:before {
 
 .notebooks {
   /* border: 1px solid red; */
+  display: inline-block;
 }
 
 .category_add_form {

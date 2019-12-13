@@ -1,4 +1,4 @@
-<h1 id="title">{{category}} Notes</h1>
+<h1 id="title">{{request.session.selected_notebook}}/{{request.session.selected_category}} Notes</h1>
 
 <div class="note_container">
         {% for note in all_notes %}
@@ -90,6 +90,12 @@
                     <select name="isCode" class="isCode">
                         <option value="False">Text</option>
                         <option value="True">Code</option>
+                        <option value="h1">H1</option>
+                        <option value="h2">H2</option>
+                        <option value="h3">H3</option>
+                        <option value="h4">H4</option>
+                        <option value="h5">H5</option>
+                        <option value="h6">H6</option>
                     </select>
                     <button class="add_comment_button add_button">Add Comment</button>
                 </form>

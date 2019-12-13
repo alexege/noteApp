@@ -732,6 +732,15 @@ $(document).ready(function(){
         no();
     })
 
+    // Get the settings modal
+    var settingsModal = document.getElementById("settingsModal");
+    $(document).on('click', function(event){
+        console.log("Clicking");
+        if(event.target == settingsModal) {
+            settingsModal.style.display = "none";
+        }
+    })
+
     // Get the modal
     var modal = document.getElementById("deleteModal");
     $(document).on('click', function(event){
@@ -748,7 +757,7 @@ $(document).ready(function(){
     } else {
         document.getElementById('checkbox').checked = false;
     }
-
+    
 }); //End of document.ready();
 
 //Side Nav Script

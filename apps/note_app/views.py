@@ -6,9 +6,6 @@ from django.core.files.storage import FileSystemStorage
 
 def index(request):
 
-    print("Notebook_", request.session['selected_notebook'])
-    print("Category_", request.session['selected_category'])
-
     if 'active_user' not in request.session:
         return redirect('/')
 
@@ -643,6 +640,10 @@ def delete_category(request, category_id):
     print("delete_category")
     category_to_delete = Category.objects.get(id=category_id)
     category_to_delete.delete()
+
+    #If a category is deleted, reset default view
+    request.session['selected_notebook'] = 'All'
+    request.session['selected_category'] = 'All'
     
     active_user = User.objects.get(id=request.session['active_user'])
 

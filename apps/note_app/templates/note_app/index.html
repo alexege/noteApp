@@ -13,7 +13,7 @@
     <link href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.0/themes/prism.min.css" /> <!-- Code Snippet Link -->
     <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
-    <title>Slick Notes - {{request.session.selected_notebook}}/{{request.session.selected_category}}</title>
+    <title>Slick Notes</title>
 </head>
 
 <body>
@@ -23,10 +23,6 @@
             <h1>My Notebooks</h1>
 
             <div class="notebooks" id="notebooks">
-            
-            <!-- <div class="notebook">
-                <a href="/notes/">All Notebooks</a>
-            </div> -->
     
             {% for notebook in list_of_notebooks %}
                 {% if notebook.name == 'All' %}
@@ -56,15 +52,24 @@
                     <ul>
                         {% for category in list_of_categories %}
                         {% if category.parent.id == notebook.id %}
-                        <li>
                             {% if category.name == notebook.name %}
-                            <a onclick="view_all_notebook_categories('{{notebook.name}}')">All</a>
-                            {% else %}
-                            <a onclick="view_category('{{category.parent.name}}','{{category.name}}')">{{category.name}}</a>
+                                <a onclick="view_all_notebook_categories('{{notebook.name}}')">
+                                {% else %}
+                                <a onclick="view_category('{{category.parent.name}}','{{category.name}}')">
                             {% endif %}
-                            <!-- <a href="/notes/notebook/view/{{category.name}}/{{category.id}}">{{category.name}}</a> -->
-                            <i class="fas fa-trash" onclick="del_category({{category.id}})" id="{{category.id}}"></i>
-                        </li>
+                        <div class="categories">
+                            <li>
+                                {% if category.name == notebook.name %}
+                                All
+                                {% else %}
+                                {{category.name}}
+                                {% endif %}
+                                <i class="fas fa-trash" onclick="del_category({{category.id}})" id="{{category.id}}"></i>
+                            </li>
+                        </div>
+                        </a>
+
+
                         {% endif %}
                         {% endfor %}
                     </ul>
@@ -166,7 +171,7 @@
                 <a href="#alphabetical" onclick="view_category('alphabetical')">Alphabetical</a>
                 <a href="#dateAdded" onclick="view_category('date_added')">Date Added</a> -->
 
-                <h2 id="brand">Slick Notes</h2>
+                <h2 id="brand" onclick="showAllNotes()">Slick Notes</h2>
 
                 <div style="float: right!important;">
                     <div class="nav-right-item">
@@ -192,7 +197,7 @@
                         </div>
                     </div>
                     <div class="nav-right-item">
-                        <button onclick="document.getElementById('id01').style.display='block'" class="settings_cog"><i class="fas fa-cog"></i></button>
+                        <button onclick="document.getElementById('settingsModal').style.display='block'" class="settings_cog"><i class="fas fa-cog"></i></button>
                     </div>
                     <div class="nav-right-item">
                         <a href="/login/logout"><i class="fas fa-door-open"></i></a>
@@ -201,22 +206,22 @@
               </div>
 
         <div class="w3-container">
-                <div id="id01" class="w3-modal">
+                <div id="settingsModal" class="w3-modal">
                   <div class="w3-modal-content w3-card-4 w3-animate-zoom settingsModal" style="max-width:600px">
               
                     <h1 style="text-align: center;">Settings</h1>
-                    <p>Reserved for future settings options.</p>
-                    Welcome to Slick Notes,
-                    To get started, add a new notebook on the left hand side.
-                    Once you have created a notebook, feel free to add notes to it.
-                    You can also add Categories to these notebooks which will allow you to filter based on category alone.
-                    If you wish to see all combined notes, click on "All notes"
-                    If you wish to make one of your notebooks public, click the lock/unlock icon on the right hand side.
-                    Total Notes: {{all_notes.count}}
+                    <p>
+                        Welcome to Slick Notes,
+                        To get started, add a new notebook on the left hand side.
+                        Once you have created a notebook, feel free to add notes to it.
+                        You can also add Categories to these notebooks which will allow you to filter based on category alone.
+                        If you wish to see all combined notes, click on "All notes"
+                        If you wish to make one of your notebooks public, click the lock/unlock icon on the right hand side.
+                        Total Notes: {{all_notes.count}}
+                    </p>
 
-                    <div class="w3-container w3-border-top w3-padding-16 settingsModal">
-                        <button onclick="document.getElementById('id01').style.display='none'" type="button" class="w3-button w3-red">Cancel</button>
-                        <span class="w3-right w3-padding w3-hide-small">Forgot <a href="#">password?</a></span>
+                    <div class="w3-container w3-border-top w3-padding-16 w3-center settingsModal">
+                        <button onclick="document.getElementById('settingsModal').style.display='none'" type="button" class="w3-button w3-red">Cancel</button>
                     </div>
 
                   </div>
