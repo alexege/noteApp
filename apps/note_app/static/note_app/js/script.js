@@ -528,10 +528,9 @@ function view_all_notebook_categories(notebook){
     })
 }
 
-//Dynamically view notes of a specific category
-function view_public_category(category){
+function showAllNotes(){
     $.ajax({
-        url: `/notes/public/${category}`,
+        url: `/notes/all_notes`,
         method: 'get',
         success: function(serverResponse){
             $("#notes_component").html(serverResponse);
@@ -541,10 +540,23 @@ function view_public_category(category){
     })
 }
 
+// //Dynamically view notes of a specific category
+// function view_public_category(category){
+//     $.ajax({
+//         url: `/notes/public/${category}`,
+//         method: 'get',
+//         success: function(serverResponse){
+//             $("#notes_component").html(serverResponse);
+
+//             addClickListener();
+//         }
+//     })
+// }
+
 //Toggle edit note form
 function edit_note(event, element){
     event.stopPropagation();
-    var note = element.closest('.note_body').querySelector('#note_update_form')
+    var note = element.closest('.note_body').querySelector('.note_update_form')
     if(note.style.display == "block"){
         note.style.display = "none";
     } else {

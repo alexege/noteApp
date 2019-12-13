@@ -30,7 +30,7 @@ def index(request):
         print('{} => {}'.format(key, value))
 
     notebook = Notebook.objects.get(name=request.session['selected_notebook'])
-    category = Category.objects.get(name=request.session['selected_category'])
+    category = Category.objects.get(name=request.session['selected_category'], parent=notebook)
 
     all_notes = Note.objects.filter(created_by=active_user, parent=notebook, category=category).order_by('position_id')
 
@@ -76,7 +76,7 @@ def note_partial(request, notebook, category):
     request.session['selected_category'] = category
 
     notebook = Notebook.objects.get(name=request.session['selected_notebook'])
-    category = Category.objects.get(name=request.session['selected_category'])
+    category = Category.objects.get(name=request.session['selected_category'], parent=notebook)
     active_user = User.objects.get(id=request.session['active_user'])
 
     all_notes = Note.objects.filter(created_by=active_user, parent=notebook, category=category).order_by('position_id')
@@ -121,31 +121,21 @@ def note_partial(request, notebook, category):
 #     return render(request, 'note_app/sidenav_partial.html', context)
 
 def all_notebook_categories(request, notebook_name):
-    print("All_notebook_categories")
-    # request.session['selected_category'] = category
+    if 'active_user' not in request.session:
+        request.session['active_user'] = User.objects.get(id=request.session['active_user'])
+        return redirect('/')
+
+    if 'selected_notebook' not in request.session:
+        request.session['selected_notebook'] = 'All'
+    
+    if 'selected_category' not in request.session:
+        request.session['selected_category'] = 'All'
+
+    notebook = Notebook.objects.get(name=request.session['selected_notebook'])
+    category = Category.objects.get(name=request.session['selected_category'], parent=notebook)
     active_user = User.objects.get(id=request.session['active_user'])
 
-    # if category == 'undefined':
-    #     category = 'All'
-    #     request.session['selected_category'] = 'All'
-    #     all_notes = Note.objects.filter(created_by=active_user, privacy=False).order_by('position_id')
-    # elif category == 'All':
-    #     all_notes = Note.objects.filter(created_by=active_user, privacy=False).order_by('position_id')
-    # elif category == 'alphabetical':
-    #     all_notes = Note.objects.filter(created_by=active_user, privacy=False).order_by('title')
-    # elif category == 'date_added':
-    #     all_notes = Note.objects.filter(created_by=active_user, privacy=False).order_by('created_at')
-    # else:
-    #     all_notes = Note.objects.filter(created_by=active_user, category=category).order_by('position_id')
-    # notebook = Notebook.objects.get(name=notebook_name)
-    # print("notebook:", notebook.name)
-    # categories = Category.objects.filter(parent=notebook)
-    # print("categories:", categories)
-    # all_notes = Category.objects.get(name=notebook_name)
-    # for category in categories:
-    #     all_notes |= Note.objects.filter(category=category)
-    #     print("category:", category)
-
+    all_notes = Note.objects.filter(created_by=active_user, parent=notebook).order_by('position_id')
 
     print(request.session['selected_category'])
 
@@ -162,20 +152,25 @@ def all_notebook_categories(request, notebook_name):
     }
     return render(request, "note_app/note_partial.html", context)
 
-def public_note_partial(request, category):
-    request.session['selected_category'] = category
+def all_my_notes(request):
+
+    if 'active_user' not in request.session:
+        request.session['active_user'] = User.objects.get(id=request.session['active_user'])
+        return redirect('/')
+
+    if 'selected_notebook' not in request.session:
+        request.session['selected_notebook'] = 'All'
+    
+    if 'selected_category' not in request.session:
+        request.session['selected_category'] = 'All'
+
+    notebook = Notebook.objects.get(name=request.session['selected_notebook'])
+    category = Category.objects.get(name=request.session['selected_category'], parent=notebook)
     active_user = User.objects.get(id=request.session['active_user'])
 
-    # if category == 'undefined':
-    #     category = 'All'
-    #     request.session['selected_category'] = 'All'
-    #     all_notes = Note.objects.filter(privacy=False).order_by('position_id')
-    # elif category == 'All':
-    #     all_notes = Note.objects.filter(privacy=False).order_by('position_id')
-    # else:
-    #     all_notes = Note.objects.filter(category=category).order_by('position_id')
+    all_notes = Note.objects.filter(created_by=active_user).order_by('position_id')
 
-    # print(request.session['selected_category'])
+    print(request.session['selected_category'])
 
     context = {
         'all_notes' : all_notes,
@@ -183,12 +178,40 @@ def public_note_partial(request, category):
         'list_of_public_categories' : Notebook.objects.filter(privacy=False),
         'list_of_categories' : Category.objects.all(),
         'list_of_comments': Comment.objects.all(),
-        'category': 'public_note_partial',
+        'category': 'all_my_notes',
         'form' : DocumentForm(),
         'all_files' : Document.objects.all(),
         'current_user' : User.objects.get(id=request.session['active_user'])
     }
     return render(request, "note_app/note_partial.html", context)
+
+# def public_note_partial(request, category):
+#     request.session['selected_category'] = category
+#     active_user = User.objects.get(id=request.session['active_user'])
+
+#     # if category == 'undefined':
+#     #     category = 'All'
+#     #     request.session['selected_category'] = 'All'
+#     #     all_notes = Note.objects.filter(privacy=False).order_by('position_id')
+#     # elif category == 'All':
+#     #     all_notes = Note.objects.filter(privacy=False).order_by('position_id')
+#     # else:
+#     #     all_notes = Note.objects.filter(category=category).order_by('position_id')
+
+#     # print(request.session['selected_category'])
+
+#     context = {
+#         'all_notes' : all_notes,
+#         'list_of_notebooks' : Notebook.objects.filter(created_by=active_user),
+#         'list_of_public_categories' : Notebook.objects.filter(privacy=False),
+#         'list_of_categories' : Category.objects.all(),
+#         'list_of_comments': Comment.objects.all(),
+#         'category': 'public_note_partial',
+#         'form' : DocumentForm(),
+#         'all_files' : Document.objects.all(),
+#         'current_user' : User.objects.get(id=request.session['active_user'])
+#     }
+#     return render(request, "note_app/note_partial.html", context)
 
 def master_list(request):
     active_user = request.session['active_user']
@@ -212,7 +235,7 @@ def add_note(request, notebook_name):
         request.session['selected_category'] = 'All'
 
     notebook = Notebook.objects.get(name=request.session['selected_notebook'])
-    category = Category.objects.get(name=request.session['selected_category'])
+    category = Category.objects.get(name=request.session['selected_category'], parent=notebook)
     active_user = User.objects.get(id=request.session['active_user'])
 
     all_notes = Note.objects.filter(created_by=active_user, parent=notebook, category=category).order_by('position_id')
@@ -324,7 +347,7 @@ def add_comment(request, note_id):
             request.session['selected_category'] = 'All'
 
         notebook = Notebook.objects.get(name=request.session['selected_notebook'])
-        category = Category.objects.get(name=request.session['selected_category'])
+        category = Category.objects.get(name=request.session['selected_category'], parent=notebook)
         active_user = User.objects.get(id=request.session['active_user'])
 
         all_notes = Note.objects.filter(created_by=active_user, parent=notebook, category=category).order_by('position_id')
@@ -385,7 +408,7 @@ def edit_comment(request, note_comment_id):
         request.session['selected_category'] = 'All'
 
     notebook = Notebook.objects.get(name=request.session['selected_notebook'])
-    category = Category.objects.get(name=request.session['selected_category'])
+    category = Category.objects.get(name=request.session['selected_category'], parent=notebook)
     active_user = User.objects.get(id=request.session['active_user'])
 
     all_notes = Note.objects.filter(created_by=active_user, parent=notebook, category=category).order_by('position_id')
@@ -417,7 +440,7 @@ def delete_comment(request, note_comment_id):
         request.session['selected_category'] = 'All'
 
     notebook = Notebook.objects.get(name=request.session['selected_notebook'])
-    category = Category.objects.get(name=request.session['selected_category'])
+    category = Category.objects.get(name=request.session['selected_category'], parent=notebook)
     active_user = User.objects.get(id=request.session['active_user'])
 
     all_notes = Note.objects.filter(created_by=active_user, parent=notebook, category=category).order_by('position_id')
@@ -450,7 +473,7 @@ def indent_comment(request, comment_id):
         request.session['selected_category'] = 'All'
 
     notebook = Notebook.objects.get(name=request.session['selected_notebook'])
-    category = Category.objects.get(name=request.session['selected_category'])
+    category = Category.objects.get(name=request.session['selected_category'], parent=notebook)
     active_user = User.objects.get(id=request.session['active_user'])
 
     all_notes = Note.objects.filter(created_by=active_user, parent=notebook, category=category).order_by('position_id')
@@ -474,17 +497,20 @@ def outdent_comment(request, comment_id):
         comment.indentLevel -= 1
     comment.save()
     
-    category = request.session['selected_category']
+    if 'active_user' not in request.session:
+        return redirect('/')
+
+    if 'selected_notebook' not in request.session:
+        request.session['selected_notebook'] = 'All'
+    
+    if 'selected_category' not in request.session:
+        request.session['selected_category'] = 'All'
+
+    notebook = Notebook.objects.get(name=request.session['selected_notebook'])
+    category = Category.objects.get(name=request.session['selected_category'], parent=notebook)
     active_user = User.objects.get(id=request.session['active_user'])
 
-    if category == 'undefined':
-        category = 'All'
-        request.session['selected_category'] = 'All'
-        all_notes = Note.objects.filter(privacy=False).order_by('position_id')
-    elif category == 'All':
-        all_notes = Note.objects.filter(privacy=False).order_by('position_id')
-    else:
-        all_notes = Note.objects.filter(created_by=active_user, category=category).order_by('position_id')
+    all_notes = Note.objects.filter(created_by=active_user, parent=notebook, category=category).order_by('position_id')
 
     context = {
         'all_notes' : all_notes,

@@ -480,7 +480,7 @@ a {
   color: var(--heading-color);
 }
 
-#note_update_form {
+.note_update_form {
   background-color: var(--bg-color);
 }
 
@@ -704,6 +704,10 @@ input:checked + .slider:before {
   color: var(--font-color);
 }
 
+.sidenav .fa-trash {
+  float: right;
+}
+
 .sidenav div {
   /* background-color: rgb(37, 37, 37); */
   /* background-color: #232331; */
@@ -853,7 +857,7 @@ input:checked + .slider:before {
     color: var(--font-color);
   }
 
-  #title_input, #privacy_input, #category_input, #content_input, #sidenav_category_input, #file_input, #public_notebook_category_input, input {
+  input, select {
     background-color: var(--primary-color);
     background-color: #283231;
     /* color: rgba(7, 252, 215, 0.25); */
@@ -871,13 +875,17 @@ input:checked + .slider:before {
     border: 1px solid var(--primary-color);
   }
 
-  .content_input {
+  textarea {
     background-color: var(--primary-color);
     background-color: #283231;
     /* color: rgba(7, 252, 215, 0.25); */
     color: var(--primary-color);
     font-weight: bold;
     border: 1px solid black;
+    padding: 5px;
+
+    width: 100%;
+    height: 100px;
     padding: 5px;
   }
 
@@ -887,13 +895,13 @@ input:checked + .slider:before {
     vertical-align: top;
   }
 
-  #privacy_input {
+  .privacy_input {
     vertical-align: top;
     height: 24px;
     width: 10%;
   }
 
-  #category_input {
+  .category_input {
     vertical-align: top;
     height: 24px;
     width: 15%;
@@ -907,16 +915,9 @@ input:checked + .slider:before {
     /* border-radius: 4px; */
   }
 
-  #content_input {
-    /* height: 22px; */
-    /* width: 50%; */
-    height: 100px;
-    width: 100%;
-    /* width: auto; */
-    padding: 5px;
-  }
 
-  #add_note_button {
+
+  .add_note_button {
     vertical-align: top;
     padding: 2px;
     /* width: 6%; */
@@ -926,7 +927,7 @@ input:checked + .slider:before {
     border: none;
   }
 
-  #add_note_button:hover {
+  .add_note_button:hover {
     background-color: #07fcd7;
     color: #283231;
   }
@@ -970,7 +971,7 @@ input:checked + .slider:before {
   /* On the note  */
 
   .note_textarea {
-    width: 50%;
+    width: 70%;
     /* height: 24px; */
     margin-top: 10px;
   }

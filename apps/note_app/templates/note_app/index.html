@@ -24,11 +24,14 @@
 
             <div class="notebooks" id="notebooks">
             
-            <div class="notebook">
+            <!-- <div class="notebook">
                 <a href="/notes/">All Notebooks</a>
-            </div>
+            </div> -->
     
             {% for notebook in list_of_notebooks %}
+                {% if notebook.name == 'All' %}
+                    <div class="notebook" onclick="showAllNotes();">All Notes</div>
+                {% else %}
             <div id="notebook{{notebook.id}}_cell" class="notebook_cell" ondrop="notebookDrop(event, this)" ondragover="notebookAllowDrop(event)">
             <div class="notebook notebook{{notebook.id}}" id="{{notebook.id}}" notebook_position_id="{{notebook.position_id}}" ondragstart="notebookDragStart(event, this);" draggable="true">
                 <h5 class="accordion">{{notebook.name}}
@@ -55,7 +58,7 @@
                         {% if category.parent.id == notebook.id %}
                         <li>
                             {% if category.name == notebook.name %}
-                            <a onclick="view_all_notebook_categories('{{notebook.name}}')">All {{category.name}} notes</a>
+                            <a onclick="view_all_notebook_categories('{{notebook.name}}')">All</a>
                             {% else %}
                             <a onclick="view_category('{{category.parent.name}}','{{category.name}}')">{{category.name}}</a>
                             {% endif %}
@@ -75,6 +78,7 @@
                 </div>
             </div>
             </div> <!--Notebook Cell-->
+            {% endif %}
             {% endfor %}
     
             <form action="/notes/notebook/add" method="POST" class="notebook_add_form">
@@ -121,7 +125,7 @@
             </div>
                 {% endfor %}
             </div>
-            <a href="/notes/master_list" id="master_list">Master List</a>
+            <!-- <a href="/notes/master_list" id="master_list">Master List</a> -->
         </div>
 
     </div>
@@ -158,9 +162,9 @@
                     </div>
                 </a>
                 <!-- <a href="#home">Slick Notes</a> -->
-                <a href="#all" onclick="view_category('All')">All</a>
+                <!-- <a href="#all" onclick="view_category('All')">All</a>
                 <a href="#alphabetical" onclick="view_category('alphabetical')">Alphabetical</a>
-                <a href="#dateAdded" onclick="view_category('date_added')">Date Added</a>
+                <a href="#dateAdded" onclick="view_category('date_added')">Date Added</a> -->
 
                 <h2 id="brand">Slick Notes</h2>
 

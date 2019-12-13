@@ -2,11 +2,14 @@
 
         <div class="notebooks" id="notebooks">
         
-        <div class="notebook">
+        <!-- <div class="notebook">
             <a href="/notes/">All Notebooks</a>
-        </div>
+        </div> -->
 
         {% for notebook in list_of_notebooks %}
+            {% if notebook.name == 'All' %}
+                <div class="notebook" onclick="showAllNotes();">All Notes</div>
+            {% else %}
         <div id="notebook{{notebook.id}}_cell" class="notebook_cell" ondrop="notebookDrop(event, this)" ondragover="notebookAllowDrop(event)">
         <div class="notebook notebook{{notebook.id}}" id="{{notebook.id}}" notebook_position_id="{{notebook.position_id}}" ondragstart="notebookDragStart(event, this);" draggable="true">
             <h5 class="accordion">{{notebook.name}}
@@ -33,7 +36,7 @@
                     {% if category.parent.id == notebook.id %}
                     <li>
                         {% if category.name == notebook.name %}
-                        <a onclick="view_all_notebook_categories('{{notebook.name}}')">All {{category.name}} notes</a>
+                        <a onclick="view_all_notebook_categories('{{notebook.name}}')">All</a>
                         {% else %}
                         <a onclick="view_category('{{category.parent.name}}','{{category.name}}')">{{category.name}}</a>
                         {% endif %}
@@ -53,6 +56,7 @@
             </div>
         </div>
         </div> <!--Notebook Cell-->
+        {% endif %}
         {% endfor %}
 
         <form action="/notes/notebook/add" method="POST" class="notebook_add_form">

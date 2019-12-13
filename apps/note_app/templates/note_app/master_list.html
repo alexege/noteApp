@@ -79,7 +79,7 @@
     
                             <form action="/notes/comment/edit/{{comment.id}}" method="POST" style="display:none;" class="comment_edit_form">
                                 {% csrf_token %}
-                                <textarea name="content" style="width: 100%;" class="content_input" rows="5">{{comment.content}}</textarea>
+                                <textarea name="content" style="width: 100%;" rows="5">{{comment.content}}</textarea>
                                 <select name="isCode" class="isCode">
                                     {% if comment.isCode %}
                                     <option value="True">Code</option>
@@ -89,7 +89,7 @@
                                     <option value="True">Code</option>
                                     {% endif %}
                                 </select>
-                                <button class="update_subnote_button add_button" id="{{note.id}}">Update</button>
+                                <button class="add_button">Update</button>
                                 <button type="button" class="cancel_button" onclick="hideEditForm({{comment.id}})">Cancel</button>
                             </form>
     
@@ -111,10 +111,10 @@
                     </form>
                 </div>
     
-                <form action="/notes/note/edit/{{note.id}}" method="POST" style="display:none;" id="note_update_form" class="note_update_form">
+                <form action="/notes/note/edit/{{note.id}}" method="POST" style="display:none;" class="note_update_form">
                     {% csrf_token %}
-                    <input type="text" name="title" id="title_input" value="{{note.title}}">
-                    <select name="privacy" id="privacy_input" value="{{note.privacy}}">
+                    <input type="text" name="title" value="{{note.title}}">
+                    <select name="privacy" value="{{note.privacy}}">
                         {% if note.privacy == True %}
                         <option value="True">public</option>
                         <option value="False">private</option>
@@ -123,7 +123,7 @@
                         <option value="True">public</option>
                         {% endif %}
                     </select>
-                    <select name="category" id="category_input" value="{{note.category}}">
+                    <select name="category" value="{{note.category}}">
                         <option value="{{note.category}}">{{note.category}}</option>
                         {% if note.category != "All" %}
                         <option value="All">All</option>
@@ -134,23 +134,11 @@
                         {% endif %}
                         {% endfor %}
                     </select>
-                    <textarea name="content" id="content_input" value="{{note.content}}">{{note.content}}</textarea>
-                    <button id="add_note_button" class="add_button">Update</button>
+                    <textarea name="content" value="{{note.content}}">{{note.content}}</textarea>
+                    <button class="add_note_button" class="add_button">Update</button>
                 </form>
     
                 </p>
-                <form action="/notes/note/update" method="POST" id="edit_form">
-                    {% csrf_token %}
-                    <input type="text" name="title" placeholder="Title" value="{{note.title}}">
-                    <select name="category" value="{{note.category}}">
-                        <option value="All">All</option>
-                        {% for notebook in list_of_notebooks %}
-                        <option value="{{category.name}}">{{category.name}}</option>
-                        {% endfor %}
-                    </select>
-                    <textarea name="content" value="{{note.content}}">{{note.content}}</textarea>
-                    <button>Update</button>
-                </form>
             </div>
             </div>
             {% endif %}

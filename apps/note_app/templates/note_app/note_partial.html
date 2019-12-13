@@ -9,8 +9,8 @@
             <div id="note{{note.id}}" note_id="{{note.id}}" note_position_id="{{note.position_id}}" ondragstart="dragStart(event, this);" draggable="true" class="note_body">
             <button class="accordion" id="note_layout">
                 <p id="{{note.id}}" title="{{note.title}}" content="{{note.content}}" class="note">
-                    {{note.title}} - [<a onclick="view_category(`{{note.parent.name}}`,`{{note.category}}`)" class="category">{{note.parent.name}} | {{note.category.name}}</a>] -
-                    {{note.content}} //{{note.parent.name}}
+                    {{note.title}} - [<a onclick="view_category(`{{note.parent.name}}`,`{{note.category.name}}`)" class="category">{{note.parent.name}} | {{note.category.name}}</a>] -
+                    {{note.content}} //{{note.parent.name}} //{{note.category.name}}
                     <!-- <a href="/notes/note/delete/{{note.id}}"> -->
                         <!-- <i class="fas fa-trash note_trashcan" onclick="delete_note(event, this);"></i> -->
                         <i class="fas fa-trash note_trashcan" onclick="del_note({{note.id}}); event.stopPropagation();"></i>
@@ -63,7 +63,7 @@
 
                         <form action="/notes/comment/edit/{{comment.id}}" method="POST" style="display:none;" class="comment_edit_form">
                             {% csrf_token %}
-                            <textarea name="content" style="width: 100%;" class="content_input" rows="5">{{comment.content}}</textarea>
+                            <textarea name="content" style="width: 100%;" rows="5">{{comment.content}}</textarea>
                             <select name="isCode" class="isCode">
                                 {% if comment.isCode %}
                                 <option value="True">Code</option>
@@ -73,7 +73,7 @@
                                 <option value="True">Code</option>
                                 {% endif %}
                             </select>
-                            <button class="update_subnote_button add_button" id="{{note.id}}">Update</button>
+                            <button class="add_button">Update</button>
                             <button type="button" class="cancel_button" onclick="hideEditForm({{comment.id}})">Cancel</button>
                         </form>
 
@@ -91,14 +91,14 @@
                         <option value="False">Text</option>
                         <option value="True">Code</option>
                     </select>
-                    <button class="add_comment_button add_button" id="{{note.id}}">Add Comment</button>
+                    <button class="add_comment_button add_button">Add Comment</button>
                 </form>
             </div>
 
-            <form action="/notes/note/edit/{{note.id}}" method="POST" style="display:none;" id="note_update_form" class="note_update_form">
+            <form action="/notes/note/edit/{{note.id}}" method="POST" style="display:none;" class="note_update_form">
                 {% csrf_token %}
-                <input type="text" name="title" id="title_input" value="{{note.title}}">
-                <select name="privacy" id="privacy_input" value="{{note.privacy}}">
+                <input type="text" name="title"value="{{note.title}}">
+                <select name="privacy" value="{{note.privacy}}">
                     {% if note.privacy == True %}
                     <option value="True">public</option>
                     <option value="False">private</option>
@@ -107,7 +107,7 @@
                     <option value="True">public</option>
                     {% endif %}
                 </select>
-                <select name="category" id="category_input" value="{{note.category.name}}">
+                <select name="category" value="{{note.category.name}}">
                     <option value="{{note.category.name}}">{{note.category.name}}</option>
                     {% if note.category != "All" %}
                     <option value="All">All</option>
@@ -118,23 +118,10 @@
                     {% endif %}
                     {% endfor %}
                 </select>
-                <textarea name="content" id="content_input" value="{{note.content}}">{{note.content}}</textarea>
-                <button id="add_note_button" class="add_button">Update</button>
-            </form>
-
-            </p>
-            <form action="/notes/note/update" method="POST" id="edit_form">
-                {% csrf_token %}
-                <input type="text" name="title" placeholder="Title" value="{{note.title}}">
-                <select name="category" value="{{note.category}}">
-                    <option value="All">All</option>
-                    {% for notebook in list_of_notebooks %}
-                    <option value="{{category.name}}">{{category.name}}</option>
-                    {% endfor %}
-                </select>
                 <textarea name="content" value="{{note.content}}">{{note.content}}</textarea>
-                <button>Update</button>
+                <button class="add_note_button" class="add_button">Update</button>
             </form>
+            </p>
         </div>
         </div>
         {% endif %}
@@ -145,18 +132,18 @@
     <h4 class="add_new_note_tag">Add a new note</h4>
     <form action="/notes/note/add/{{notebook}}" method="POST" class="new_note_form" notebook_name="{{category}}">
         {% csrf_token %}
-        <input type="text" name="title" placeholder="Title" id="title_input">
-        <select name="privacy" id="privacy_input">
+        <input type="text" name="title" placeholder="Title">
+        <select name="privacy">
             <option value="False">public</option>
             <option value="True">private</option>
         </select>
-        <select name="category" id="category_input">
+        <select name="category">
             <option value="{{category}}">{{category}}</option>
             <option value="All">All</option>
             {% for notebook in list_of_notebooks %}
             <option value="{{notebook.name}}">{{notebook.name}}</option>
             {% endfor %}
         </select>
-        <textarea name="content" id="content_input" placeholder="Description"></textarea>
-        <button id="add_note_button">Add</button>
+        <textarea name="content" placeholder="Description"></textarea>
+        <button class="add_note_button">Add</button>
     </form>
