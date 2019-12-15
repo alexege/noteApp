@@ -56,10 +56,12 @@
                                 <!-- <i class="fas fa-trash" onclick="delete_comment(event, this)"></i> ] -->
                                 <i class="fas fa-trash" onclick="del_comment({{comment.id}})"></i> ]
                             </span>
-                            {% if comment.isCode == True %}
+                            {% if comment.container == 'text' %}
+                                <span class="note_content">{{comment.content}}</span>
+                            {% elif comment.container == 'code' %}
                                 <span class="note_content code_format">{{comment.content}}</span>
                                 {% else %}
-                                <span class="note_content">{{comment.content}}</span>
+                                <span class="note_content code_format">{{comment.content}}</span>
                             {% endif %}
                             </li>
     

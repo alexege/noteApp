@@ -1,7 +1,7 @@
         <h1>My Notebooks</h1>
 
         <div class="notebooks" id="notebooks">
-
+            <div class="books">
         {% for notebook in list_of_notebooks %}
             {% if notebook.name == 'All' %}
                 <div class="notebook all_notes_button" onclick="showAllNotes();">All Notes</div>
@@ -66,7 +66,7 @@
         </div> <!--Notebook Cell-->
         {% endif %}
         {% endfor %}
-
+        </div>
         <form action="/notes/notebook/add" method="POST" class="notebook_add_form">
             {% csrf_token %}
             <input type="text" name="name" id="add_notebook_input">
@@ -111,5 +111,5 @@
         </div>
             {% endfor %}
         </div>
-        <a href="/notes/master_list" id="master_list">Master List</a>
+        <!-- <a href="/notes/master_list" id="master_list">Master List</a> -->
     </div>

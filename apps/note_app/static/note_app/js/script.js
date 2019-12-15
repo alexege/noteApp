@@ -1,3 +1,19 @@
+function toggleBullet(bullet_style, element){
+    var comment_id = element.closest('.comment').getAttribute('comment_id');
+    var note_id = element.closest('.note_body').getAttribute('note_id');
+
+    $.ajax({
+        url:`comment/toggleBullet/${comment_id}/${bullet_style}`,
+        // data: $(this).serialize(),
+        method: 'get',
+        success: function(serverResponse){
+            $("#notes_component").html(serverResponse);
+            togglePanelDisplay(note_id);
+            addClickListener();
+        }
+    })
+}
+
 //Prevent elements from propagating
 function StopEventPropagation(event) { 
     if (event.stopPropagation) { 
@@ -28,13 +44,16 @@ function searchFunction() {
 
 // Display comment configuration menu
 function showMenu(comment){
-    comment.parentNode.querySelector('.comment_menu').style.display = "block";
+    console.log("ParentNode:", comment.parentNode);
+    // comment.parentNode.querySelector('.comment_menu').style.display = "block";
+    comment.querySelector('.comment_menu').style.display = "block";
     // comment.parentNode.style.border = "2px solid #09d6ef";
 }
 
 // Hide comment configuration menu
 function hideMenu(comment){
-    comment.parentNode.querySelector('.comment_menu').style.display = "none";
+    // comment.parentNode.querySelector('.comment_menu').style.display = "none";
+    comment.querySelector('.comment_menu').style.display = "none";
     // comment.parentNode.style.border = "0px solid #09d6ef";
 }
 
@@ -472,7 +491,8 @@ $(document).on('submit', '.new_comment_form', function(e){
 // Edit Comment
 $(document).on('submit', '.comment_edit_form', function(e){
     e.preventDefault();
-    var comment_id = this.parentNode.querySelector('li').getAttribute('comment_id');
+    console.log("parent:", this.closest('.comment').getAttribute('comment_id'));
+    var comment_id = this.closest('.comment').getAttribute('comment_id');
     var note_id = this.closest('.note_body').getAttribute('note_id');
 
     $.ajax({
@@ -567,20 +587,23 @@ function edit_note(event, element){
 //Toggles edit comment form
 function toggleEdit(note_comment_id){
     var parent = document.getElementById('comment_' + note_comment_id);
-    if (parent.nextElementSibling.style.display === "none") {
+    console.log("parent:", parent.querySelector('.comment_edit_form'));
+    var comment_form = parent.querySelector('.comment_edit_form');
+    if (comment_form.style.display === "none") {
         parent.querySelector('.note_content').style.display = "none";
-        parent.nextElementSibling.style.display = "block";
+        comment_form.style.display = "block";
     } else {
         parent.querySelector('.note_content').style.display = "block";
-        parent.nextElementSibling.style.display = "none";
+        comment_form.style.display = "none";
     }
 }
 
 //Hide edit comment form
 function hideEditForm(note_comment_id){
     var parent = document.getElementById('comment_' + note_comment_id);
+    var comment_form = parent.querySelector('.comment_edit_form');
     parent.querySelector('.note_content').style.display = "block";
-    parent.nextElementSibling.style.display = "none";
+    comment_form.style.display = "none";
 }
 
 // https://hackernoon.com/copying-text-to-clipboard-with-javascript-df4d4988697f
@@ -591,13 +614,6 @@ function copyToClipboard(ele){
     el.select();
     document.execCommand('copy');
     document.body.removeChild(el);
-}
-
-function revealCategoryAddForm(){    
-    document.querySelector(".category_add_form").style.opacity = 1;
-}
-function hideCategoryAddForm(){
-    document.querySelector(".category_add_form").style.opacity = 0;
 }
 
 // Drag and Drop Notes
@@ -747,6 +763,7 @@ $(document).ready(function(){
         if(event.target == modal) {
             modal.style.display = "none";
         }
+        document.getElementById('modal_confirm').focus();
     })
 
     if(document.getElementById('checkbox').checked){

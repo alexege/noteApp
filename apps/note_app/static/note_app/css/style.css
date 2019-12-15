@@ -62,21 +62,21 @@ a {
    background-size: cover;
 }
 
-h1 {
+.sidenav h1 {
 	 color: var(--heading-color);
 	 font-family: 'Courier New', Courier, monospace;
 	 font-size: 1.5rem;
 	 margin-bottom: 1vh;
 }
 
-h2 {
+.sidenav h2 {
 	 color: var(--font-color);
 	 font-family: "Sansita One", serif;
 	 font-size: 1rem;
 	 margin-bottom: 1vh;
 }
 
-h5 {
+.sidenav h5 {
   margin: 0;
 }
 
@@ -105,6 +105,10 @@ a {
 /* ============================================================= */
 /* ------------------------Indent Level------------------------- */
 /* ============================================================= */
+/* .indent0 {
+  margin-left: 40px !important;
+} */
+
 .indent1 {
   margin-left: 80px !important;
 }
@@ -147,6 +151,7 @@ a {
 .comment_menu {
   display: none;
   font-size: 12px;
+  margin-left: 40px;
 }
 
 .comment_menu i {
@@ -484,6 +489,10 @@ a {
   background-color: var(--bg-color);
 }
 
+.header {
+  list-style: none;
+}
+
 /* ============================================================= */
 /* -------------------------TopNavbar--------------------------- */
 /* ============================================================= */
@@ -771,6 +780,11 @@ input:checked + .slider:before {
   display: inline-block;
 }
 
+.books {
+  max-height: 40vh;
+  overflow: auto;
+}
+
 .category_add_form {
   /* opacity: 0; */
   transition: 0.5s ease-in-out;
@@ -861,7 +875,7 @@ input:checked + .slider:before {
       /* display: none; */
   }
 
-  .panel ul li {
+  .panel ul li, .panel ol li {
       position: relative;
       /* white-space: pre-wrap; */
       /* border-top: 2px solid black; */
@@ -1033,7 +1047,7 @@ input:checked + .slider:before {
     margin-top: 10px;
   }
 
-  .isCode {
+  .container {
     vertical-align: top;
     background-color:var(--bg-color);
     color:var(--primary-color);

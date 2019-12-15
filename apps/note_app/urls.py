@@ -22,8 +22,9 @@ urlpatterns = [
     
     #Comments
     url(r'^comment/add/(?P<note_id>\d+)$', views.add_comment),
-    url(r'^comment/edit/(?P<note_comment_id>\d+)$', views.edit_comment),
+    url(r'^comment/edit/(?P<comment_id>\d+)$', views.edit_comment),
     url(r'^comment/delete/(?P<note_comment_id>\d+)$', views.delete_comment),
+    url(r'^comment/toggleBullet/(?P<comment_id>\d+)/(?P<bullet_style>[\w\s]+)$', views.toggle_comment_bullet),
 
     #Ajax
     url(r'^ajax/drag_and_drop/(?P<starting_note_id>\d+)/(?P<ending_note_id>\d+)$', views.drag_and_drop),

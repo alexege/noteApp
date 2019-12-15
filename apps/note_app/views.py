@@ -350,10 +350,7 @@ def delete_note(request, note_id):
 
 
 def add_comment(request, note_id):
-    print("=--------------:", request.POST['content'])
-    print("add_note_comment")
-    print("Session:", request.session['active_user'])
-    print("request.FILES:", request.FILES)
+
     if request.method == 'POST':
         if 'active_user' not in request.session:
             return redirect('/')
@@ -374,47 +371,69 @@ def add_comment(request, note_id):
             print("File provided!")
             parent = Note.objects.get(id=note_id)
             image = request.FILES['myfile']
-            Comment.objects.create(content=request.POST['content'], parent=parent, isCode=request.POST['isCode'], image=image)
-            # return redirect('/notes/')
-            context = {
-                'all_notes' : all_notes,
-                'list_of_notebooks' : Notebook.objects.filter(created_by=active_user),
-                'list_of_public_categories' : Notebook.objects.filter(privacy=False),
-                'list_of_categories' : Category.objects.all(),
-                'list_of_comments': Comment.objects.all(),
-                'category': 'add_comment_with_file',
-                'form' : DocumentForm(),
-                'all_files' : Document.objects.all(),
-                'current_user' : User.objects.get(id=request.session['active_user'])
-            }
-            return render(request, "note_app/note_partial.html", context)
+            Comment.objects.create(content=request.POST['content'], parent=parent, container=request.POST['container'], image=image, bullet=request.POST['bullet'])
         else:
             print("No file provided!")
             parent = Note.objects.get(id=note_id)
-            comment = Comment.objects.create(content=request.POST['content'], parent=parent, isCode=request.POST['isCode'])
-            print("comment:", comment.content)
+            comment = Comment.objects.create(content=request.POST['content'], parent=parent, container=request.POST['container'], bullet=request.POST['bullet'])
 
-            context = {
-                'all_notes' : all_notes,
-                'list_of_notebooks' : Notebook.objects.filter(created_by=active_user),
-                'list_of_public_categories' : Notebook.objects.filter(privacy=False),
-                'list_of_categories' : Category.objects.all(),
-                'list_of_comments': Comment.objects.all(),
-                'category': 'add_comment_without_file',
-                'form' : DocumentForm(),
-                'all_files' : Document.objects.all(),
-                'current_user' : User.objects.get(id=request.session['active_user'])
-            }
-            return render(request, "note_app/note_partial.html", context)
+        context = {
+            'all_notes' : all_notes,
+            'list_of_notebooks' : Notebook.objects.filter(created_by=active_user),
+            'list_of_public_categories' : Notebook.objects.filter(privacy=False),
+            'list_of_categories' : Category.objects.all(),
+            'list_of_comments': Comment.objects.all(),
+            'category': 'adding_comment_with_or_without_file',
+            'form' : DocumentForm(),
+            'all_files' : Document.objects.all(),
+            'current_user' : User.objects.get(id=request.session['active_user'])
+        }
+        return render(request, "note_app/note_partial.html", context)
 
 
-def edit_comment(request, note_comment_id):
+def edit_comment(request, comment_id):
     print("edit_comment")
-    note_comment_to_edit = Comment.objects.get(id=note_comment_id)
+    note_comment_to_edit = Comment.objects.get(id=comment_id)
     note_comment_to_edit.content = request.POST['content']
-    note_comment_to_edit.isCode = request.POST['isCode']
+    note_comment_to_edit.container = request.POST['container']
     note_comment_to_edit.save()
     # return redirect('/notes/')
+
+    if 'active_user' not in request.session:
+        return redirect('/')
+
+    if 'selected_notebook' not in request.session:
+        request.session['selected_notebook'] = 'All'
+    
+    if 'selected_category' not in request.session:
+        request.session['selected_category'] = 'All'
+
+    notebook = Notebook.objects.get(name=request.session['selected_notebook'])
+    category = Category.objects.get(name=request.session['selected_category'], parent=notebook)
+    active_user = User.objects.get(id=request.session['active_user'])
+
+    all_notes = Note.objects.filter(created_by=active_user, parent=notebook, category=category).order_by('position_id')
+
+    context = {
+        'all_notes' : all_notes,
+        'list_of_notebooks' : Notebook.objects.filter(created_by=active_user),
+        'list_of_public_categories' : Notebook.objects.filter(privacy=False),
+        'list_of_categories' : Category.objects.all(),
+        'list_of_comments': Comment.objects.all(),
+        'category': 'edit_comment',
+        'form' : DocumentForm(),
+        'all_files' : Document.objects.all(),
+        'current_user' : User.objects.get(id=request.session['active_user'])
+    }
+    return render(request, "note_app/note_partial.html", context)
+
+def toggle_comment_bullet(request, comment_id, bullet_style):
+    print("toggling bullet")
+
+    comment_to_edit = Comment.objects.get(id=comment_id)
+    comment_to_edit.bullet = bullet_style
+    comment_to_edit.save()
+    print("Comment to edit:", comment_to_edit.bullet)
 
     if 'active_user' not in request.session:
         return redirect('/')

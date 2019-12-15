@@ -38,8 +38,10 @@ class Comment(models.Model):
     image = models.FileField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    isCode = models.BooleanField(default=False)
+    # isCode = models.BooleanField(default=False)
+    container = models.CharField(default="text", max_length=255)
     indentLevel = models.IntegerField(default=0)
+    bullet = models.CharField(default="bullet", max_length=255)
     
     def extension(self):
         name, extension = os.path.splitext(self.image.name)
