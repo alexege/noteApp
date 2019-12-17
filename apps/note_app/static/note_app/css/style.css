@@ -777,7 +777,7 @@ input:checked + .slider:before {
 
 .notebooks {
   /* border: 1px solid red; */
-  display: inline-block;
+  /* display: inline-block; */
 }
 
 .books {
@@ -834,6 +834,7 @@ input:checked + .slider:before {
     border: none;
     outline: none;
     transition: 0.7s;
+    overflow: auto;
   }
 
   .sidenav h5 {

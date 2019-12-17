@@ -33,7 +33,7 @@ urlpatterns = [
     url(r'^selected_notes/(?P<notebook>[\w\s]+)/(?P<category>[\w\s]+)$', views.note_partial),
     # url(r'^sidenav$', views.view_sidenav),
     url(r'^view/(?P<notebook_name>[\w\s]+)$', views.all_notebook_categories),
-    # url(r'^public/(?P<category>[\w\s]+)$', views.public_note_partial),
+    url(r'^public/(?P<notebook>[\w\s]+)/(?P<category>[\w\s]+)$', views.public_note_partial),
     url(r'^all_notes/', views.all_my_notes),
     url(r'^comment/(?P<comment_id>\d+)/indent$', views.indent_comment),
     url(r'^comment/(?P<comment_id>\d+)/outdent$', views.outdent_comment),

@@ -1,6 +1,14 @@
 function toggleBullet(bullet_style, element){
+    console.log("bullet_style:", bullet_style);
     var comment_id = element.closest('.comment').getAttribute('comment_id');
     var note_id = element.closest('.note_body').getAttribute('note_id');
+    if(bullet_style == 'none'){
+        bullet_style = 'bullet';
+    } else if(bullet_style == 'bullet'){
+        bullet_style = 'number';
+    } else {
+        bullet_style = 'none';
+    }
 
     $.ajax({
         url:`comment/toggleBullet/${comment_id}/${bullet_style}`,
@@ -477,6 +485,7 @@ $(document).on('submit', '.new_comment_form', function(e){
         // processData: false,
         // contentType: false,
         success: function(serverResponse){
+            // console.log("Server Response:", serverResponse);
             $("#notes_component").html(serverResponse);
 
             togglePanelDisplay(note_id);
@@ -485,7 +494,8 @@ $(document).on('submit', '.new_comment_form', function(e){
             //Focus new comment textarea
             document.getElementById('note' + note_id).querySelector('.note_textarea').focus();
         }
-    })
+    });
+    return false;
 })
 
 // Edit Comment
@@ -561,17 +571,17 @@ function showAllNotes(){
 }
 
 // //Dynamically view notes of a specific category
-// function view_public_category(category){
-//     $.ajax({
-//         url: `/notes/public/${category}`,
-//         method: 'get',
-//         success: function(serverResponse){
-//             $("#notes_component").html(serverResponse);
+function view_public_category(notebook, category){
+    $.ajax({
+        url: `/notes/public/${notebook}/${category}`,
+        method: 'get',
+        success: function(serverResponse){
+            $("#notes_component").html(serverResponse);
 
-//             addClickListener();
-//         }
-//     })
-// }
+            addClickListener();
+        }
+    })
+}
 
 //Toggle edit note form
 function edit_note(event, element){

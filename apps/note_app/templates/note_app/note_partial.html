@@ -33,14 +33,12 @@
 
                         <div id="comment_{{comment.id}}" comment_id="{{comment.id}}" class="indent{{comment.indentLevel}} comment" onmouseenter="showMenu(this)" onmouseleave="hideMenu(this)">
                         <!-- Comment Menu -->
-                        <span class="comment_menu">[ {{comment.indentLevel}} <i class="fas fa-outdent"></i> | <i class="fas fa-indent"></i> 
+                        <span class="comment_menu">[ <i class="fas fa-outdent"></i> | <i class="fas fa-indent"></i> 
                             <label class="tooltip"><i class="far fa-copyright" onclick="copyToClipboard(this)"></i>
                                 <input type="checkbox"><span>copied</span></label> 
                             <i class="fas fa-user-edit" onclick="toggleEdit({{comment.id}})"></i>
-                            <i class="fas fa-trash" onclick="del_comment({{comment.id}})"></i>
-                            <i class="fas fa-list-ul" onclick="toggleBullet('bullet', this)"></i>
-                            <i class="fas fa-list-ol" onclick="toggleBullet('number', this)"></i> ]
-                            <i class="fas fa-list-ol" onclick="toggleBullet('none', this)"></i> ]
+                            <i class="fas fa-list-ul" onclick="toggleBullet('{{comment.bullet}}', this)"></i>
+                            <i class="fas fa-trash" onclick="del_comment({{comment.id}})"></i> ]
                         </span>
 
                         {% if comment.bullet == 'bullet' %}
@@ -163,7 +161,7 @@
             <form action="/notes/note/edit/{{note.id}}" method="POST" style="display:none;" class="note_update_form">
                 {% csrf_token %}
                 <input type="text" name="title"value="{{note.title}}">
-                <select name="privacy" value="{{note.privacy}}">
+                <!-- <select name="privacy" value="{{note.privacy}}">
                     {% if note.privacy == True %}
                     <option value="True">public</option>
                     <option value="False">private</option>
@@ -171,7 +169,7 @@
                     <option value="False">private</option>
                     <option value="True">public</option>
                     {% endif %}
-                </select>
+                </select> -->
                 <select name="category" value="{{note.category.name}}">
                     <option value="{{note.category.name}}">{{note.category.name}}</option>
                     {% if note.category != "All" %}

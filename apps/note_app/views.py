@@ -198,33 +198,37 @@ def all_my_notes(request):
     }
     return render(request, "note_app/note_partial.html", context)
 
-# def public_note_partial(request, category):
-#     request.session['selected_category'] = category
-#     active_user = User.objects.get(id=request.session['active_user'])
+def public_note_partial(request, notebook, category):
+    request.session['selected_notebook'] = notebook
+    request.session['selected_category'] = category
 
-#     # if category == 'undefined':
-#     #     category = 'All'
-#     #     request.session['selected_category'] = 'All'
-#     #     all_notes = Note.objects.filter(privacy=False).order_by('position_id')
-#     # elif category == 'All':
-#     #     all_notes = Note.objects.filter(privacy=False).order_by('position_id')
-#     # else:
-#     #     all_notes = Note.objects.filter(category=category).order_by('position_id')
+    if 'active_user' not in request.session:
+        request.session['active_user'] = User.objects.get(id=request.session['active_user'])
+        return redirect('/')
 
-#     # print(request.session['selected_category'])
+    if 'selected_notebook' not in request.session:
+        request.session['selected_notebook'] = 'All'
+    
+    if 'selected_category' not in request.session:
+        request.session['selected_category'] = 'All'
 
-#     context = {
-#         'all_notes' : all_notes,
-#         'list_of_notebooks' : Notebook.objects.filter(created_by=active_user),
-#         'list_of_public_categories' : Notebook.objects.filter(privacy=False),
-#         'list_of_categories' : Category.objects.all(),
-#         'list_of_comments': Comment.objects.all(),
-#         'category': 'public_note_partial',
-#         'form' : DocumentForm(),
-#         'all_files' : Document.objects.all(),
-#         'current_user' : User.objects.get(id=request.session['active_user'])
-#     }
-#     return render(request, "note_app/note_partial.html", context)
+    notebook = Notebook.objects.get(name=request.session['selected_notebook'])
+    category = Category.objects.get(name=request.session['selected_category'], parent=notebook)
+    active_user = User.objects.get(id=request.session['active_user'])
+
+    all_notes = Note.objects.filter(parent=notebook, category=category).order_by('position_id')
+    context = {
+        'all_notes' : all_notes,
+        'list_of_notebooks' : Notebook.objects.filter(created_by=active_user),
+        'list_of_public_categories' : Notebook.objects.filter(privacy=False),
+        'list_of_categories' : Category.objects.all(),
+        'list_of_comments': Comment.objects.all(),
+        'category': 'public_note_partial',
+        'form' : DocumentForm(),
+        'all_files' : Document.objects.all(),
+        'current_user' : User.objects.get(id=request.session['active_user'])
+    }
+    return render(request, "note_app/note_partial.html", context)
 
 def master_list(request):
     active_user = request.session['active_user']
@@ -348,7 +352,8 @@ def delete_note(request, note_id):
     }
     return render(request, "note_app/note_partial.html", context)
 
-
+from django.views.decorators.csrf import csrf_exempt
+@csrf_exempt
 def add_comment(request, note_id):
 
     if request.method == 'POST':
@@ -366,6 +371,8 @@ def add_comment(request, note_id):
         active_user = User.objects.get(id=request.session['active_user'])
 
         all_notes = Note.objects.filter(created_by=active_user, parent=notebook, category=category).order_by('position_id')
+
+        # print("Content:", request.POST['content'])
 
         if len(request.FILES) > 0:
             print("File provided!")

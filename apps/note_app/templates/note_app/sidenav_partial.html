@@ -41,7 +41,7 @@
                     <div class="categories">
                     <li>
                             {% if category.name == notebook.name %}
-                            All
+                            All  {{notebook.name}} Notes
                             {% else %}
                             {{category.name}}
                             {% endif %}
@@ -92,7 +92,7 @@
                     {% for category in list_of_categories %}
                         {% if category.parent.name == notebook.name %}
                         <li>
-                            <a onclick="view_public_category('{{category.name}}')">{{category.name}}</a>
+                            <a onclick="view_public_category('{{notebook.name}}','{{category.name}}')">{{category.name}}</a>
                             <!-- {% if category.created_by == current_user %}
                             <i class="fas fa-trash" onclick="delete_category(this)" id="{{category.id}}"></i></li>
                             {% endif %} -->

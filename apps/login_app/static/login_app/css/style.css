@@ -5,7 +5,7 @@
     font-family: 'Raleway', sans-serif;
 }
 
-:root {
+/* :root {
   --primary-color: rgb(52,58,64,0.5);
   --secondary-color: white;
   --font-color: white;
@@ -13,7 +13,7 @@
   --heading-color: red;
   --hover-color: white;
   --subcategory-color: orange;
-}
+} */
 
 @media(max-width:960px){
   .container{
@@ -205,4 +205,15 @@ input.middle:focus {
 
 .marg_top {
   margin-top: 28px;
+}
+
+.link {
+  color: #09d6ef;
+}
+
+.guest_login{
+  text-align: center;
+  border: 1px solid white;
+  padding: 10px;
+  margin-top: 5rem;
 }

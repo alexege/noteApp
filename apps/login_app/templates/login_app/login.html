@@ -9,6 +9,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
     <link href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" rel="stylesheet">
+    <script src="{% static 'login_app/js/script.js' %}"></script>
     <title>Slick Notes</title>
 </head>
 <body>
@@ -70,7 +71,7 @@
                 </td>
             </tr>
             <tr class="new_user">
-                <td colspan=2>New user? <a href="registration">Register here</a></td>
+                <td colspan=2>New user? <a href="registration">Register <span class="link">here</span></a></td>
             </tr>
         </table>
     </form>
@@ -78,17 +79,14 @@
     <div class="corner corner-top-right"></div>
     <div class="corner corner-bottom-left"></div>
     <div class="corner corner-bottom-right"></div>
-</div>    
 
-<script>
-
-// Hover
-$(".center-login-box").hover(function(){
-  $(".corner").stop().animate({height: "250px", width: "250px"});
-}, function(){
-  $(".corner").stop().animate({height: "50px", width: "50px"});
-});
-
-</script>
+    <div class="guest_login">
+        <h3>Guest Account:</h3>
+        <ul style="list-style: none;">
+            <li>Username: guest@ege.com</li>
+            <li>Password: password</li>
+        </ul>
+    </div>
+</div>
 </body>
 </html>
