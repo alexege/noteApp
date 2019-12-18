@@ -68,6 +68,18 @@ def login(request):
             return redirect('/')
     return redirect('/dashboard')
 
+def login_as_guest(request):
+    found_guest = User.objects.filter(first_name="Guest")
+    if(len(found_guest) > 0):
+        print("Guest account found.")
+        request.session['active_user'] = found_guest[0].id
+    else:
+        print("New Guest account created.")
+        new_user = User.objects.create(first_name='Guest', last_name='User', email='GuestUser@Ege.com', password='password')
+        request.session['active_user'] = new_user.id
+
+    return redirect('/dashboard')
+
 def dashboard(request):
 
     #If an attempt is made to get to dashboard without logging in, redirect to landing page.

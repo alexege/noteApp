@@ -287,7 +287,7 @@ def edit_note(request, note_id):
     note_to_edit.title = request.POST['title']
     note_to_edit.category = Category.objects.get(name=request.POST['category'])
     note_to_edit.content = request.POST['content']
-    note_to_edit.privacy = request.POST['privacy']
+    # note_to_edit.privacy = request.POST['privacy']
     note_to_edit.save()
 
     if 'active_user' not in request.session:
