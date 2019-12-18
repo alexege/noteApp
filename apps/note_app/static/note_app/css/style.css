@@ -343,6 +343,11 @@ a {
   cursor: pointer;
 }
 
+#modal-title {
+  color: #09d6ef;
+  text-align: center;
+}
+
 .modal-header {
   padding: 2px 16px;
   background-color: #5cb85c;
