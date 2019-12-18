@@ -6,7 +6,7 @@ colorama==0.4.1
 decorator==4.4.0
 defusedxml==0.6.0
 diff-match-patch==20181111
-Django==1.10.3
+Django==1.11.23
 django-crispy-forms==1.7.2
 django-extensions==2.1.9
 django-import-export==1.2.0
