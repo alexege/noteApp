@@ -52,7 +52,7 @@ function searchFunction() {
 
 // Display comment configuration menu
 function showMenu(comment){
-    console.log("ParentNode:", comment.parentNode);
+    // console.log("ParentNode:", comment.parentNode);
     // comment.parentNode.querySelector('.comment_menu').style.display = "block";
     comment.querySelector('.comment_menu').style.display = "block";
     // comment.parentNode.style.border = "2px solid #09d6ef";
@@ -471,19 +471,25 @@ $(document).on('submit', '.note_update_form', function(e){
 // Add Comment
 $(document).on('submit', '.new_comment_form', function(e){
     e.preventDefault();
+    console.log("This:", this);
+    console.log("Event:", e.currentTarget);
+    console.log("Event:", e.currentTarget.elements.myfile);
     var formNumber = this.getAttribute('id');
     var note_id = this.parentNode.parentNode.getAttribute('note_id');
-    var data = new FormData($('.new_comment_form').get(0));
+    // console.log("Form data:", $('.new_comment_form').get(0));
+    // var data = new FormData($('.new_comment_form').get(0));
+    var data = new FormData(e.currentTarget);
+    console.log("Data:", data);
 
     $.ajax({
         url:'comment/add/' + note_id,
         method: 'POST',
         headers: { "X-CSRFToken": '{{csrf_token}}' },
         data: data,
-        data: $(this).serialize(),
+        // data: $(this).serialize(),
         cache: false,
-        // processData: false,
-        // contentType: false,
+        processData: false,
+        contentType: false,
         success: function(serverResponse){
             // console.log("Server Response:", serverResponse);
             $("#notes_component").html(serverResponse);
