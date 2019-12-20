@@ -52,17 +52,12 @@ function searchFunction() {
 
 // Display comment configuration menu
 function showMenu(comment){
-    // console.log("ParentNode:", comment.parentNode);
-    // comment.parentNode.querySelector('.comment_menu').style.display = "block";
     comment.querySelector('.comment_menu').style.display = "block";
-    // comment.parentNode.style.border = "2px solid #09d6ef";
 }
 
 // Hide comment configuration menu
 function hideMenu(comment){
-    // comment.parentNode.querySelector('.comment_menu').style.display = "none";
     comment.querySelector('.comment_menu').style.display = "none";
-    // comment.parentNode.style.border = "0px solid #09d6ef";
 }
 
 // Indent comment
@@ -100,7 +95,6 @@ $(document).on('click', '.fa-outdent', function(e){
         }
     })
 })
-
 
 // Show/Hide Navbar Dropdown
 function myFunction() {
@@ -471,22 +465,18 @@ $(document).on('submit', '.note_update_form', function(e){
 // Add Comment
 $(document).on('submit', '.new_comment_form', function(e){
     e.preventDefault();
-    console.log("This:", this);
-    console.log("Event:", e.currentTarget);
-    console.log("Event:", e.currentTarget.elements.myfile);
-    var formNumber = this.getAttribute('id');
     var note_id = this.parentNode.parentNode.getAttribute('note_id');
-    // console.log("Form data:", $('.new_comment_form').get(0));
-    // var data = new FormData($('.new_comment_form').get(0));
+    var notebook = this.getAttribute('notebook');
+    var category = this.getAttribute('category');
+    console.log("notebook:", notebook);
+    console.log("category:", category);
     var data = new FormData(e.currentTarget);
-    console.log("Data:", data);
 
     $.ajax({
-        url:'comment/add/' + note_id,
+        url:`comment/add/${note_id}/${notebook}/${category}`,
         method: 'POST',
         headers: { "X-CSRFToken": '{{csrf_token}}' },
         data: data,
-        // data: $(this).serialize(),
         cache: false,
         processData: false,
         contentType: false,

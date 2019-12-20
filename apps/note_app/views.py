@@ -134,6 +134,10 @@ def note_partial(request, notebook, category):
 #     return render(request, 'note_app/sidenav_partial.html', context)
 
 def all_notebook_categories(request, notebook_name):
+
+    request.session['selected_notebook'] = notebook_name
+    # request.session['selected_category'] = 'default'
+
     if 'active_user' not in request.session:
         request.session['active_user'] = User.objects.get(id=request.session['active_user'])
         return redirect('/')
@@ -145,7 +149,7 @@ def all_notebook_categories(request, notebook_name):
         request.session['selected_category'] = 'All'
 
     notebook = Notebook.objects.get(name=request.session['selected_notebook'])
-    category = Category.objects.get(name=request.session['selected_category'], parent=notebook)
+    # category = Category.objects.get(name=request.session['selected_category'], parent=notebook)
     active_user = User.objects.get(id=request.session['active_user'])
 
     all_notes = Note.objects.filter(created_by=active_user, parent=notebook).order_by('position_id')
@@ -166,6 +170,9 @@ def all_notebook_categories(request, notebook_name):
     return render(request, "note_app/note_partial.html", context)
 
 def all_my_notes(request):
+
+    request.session['selected_notebook'] = 'All'
+    request.session['selected_category'] = 'All'
 
     if 'active_user' not in request.session:
         request.session['active_user'] = User.objects.get(id=request.session['active_user'])
@@ -352,9 +359,10 @@ def delete_note(request, note_id):
     }
     return render(request, "note_app/note_partial.html", context)
 
-from django.views.decorators.csrf import csrf_exempt
-@csrf_exempt
-def add_comment(request, note_id):
+def add_comment(request, note_id, notebook, category):
+
+    request.session['selected_notebook'] = notebook
+    request.session['selected_category'] = category
 
     if request.method == 'POST':
         if 'active_user' not in request.session:
@@ -371,8 +379,6 @@ def add_comment(request, note_id):
         active_user = User.objects.get(id=request.session['active_user'])
 
         all_notes = Note.objects.filter(created_by=active_user, parent=notebook, category=category).order_by('position_id')
-
-        # print("Content:", request.POST['content'])
 
         if len(request.FILES) > 0:
             print("File provided!")

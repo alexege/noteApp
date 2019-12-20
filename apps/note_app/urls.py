@@ -21,7 +21,7 @@ urlpatterns = [
     url(r'^note/delete/(?P<note_id>\d+)$', views.delete_note),
     
     #Comments
-    url(r'^comment/add/(?P<note_id>\d+)$', views.add_comment),
+    url(r'^comment/add/(?P<note_id>\d+)/(?P<notebook>[\w\s]+)/(?P<category>[\w\s]+)$', views.add_comment),
     url(r'^comment/edit/(?P<comment_id>\d+)$', views.edit_comment),
     url(r'^comment/delete/(?P<note_comment_id>\d+)$', views.delete_comment),
     url(r'^comment/toggleBullet/(?P<comment_id>\d+)/(?P<bullet_style>[\w\s]+)$', views.toggle_comment_bullet),

@@ -11,10 +11,10 @@
                 <p id="{{note.id}}" title="{{note.title}}" content="{{note.content}}" class="note">
                     {{note.title}} - [<a onclick="view_category(`{{note.parent.name}}`,`{{note.category.name}}`)" class="category">{{note.parent.name}}/{{note.category.name}}</a>] -
                     {{note.content}}
-                    <!-- <a href="/notes/note/delete/{{note.id}}"> -->
-                        <!-- <i class="fas fa-trash note_trashcan" onclick="delete_note(event, this);"></i> -->
+                    {% if note.privacy %}
+                        <i class="fas fa-lock"></i>
+                    {% endif %}
                         <i class="fas fa-trash note_trashcan" onclick="del_note({{note.id}}); event.stopPropagation();"></i>
-                    <!-- </a> -->
                     <a onclick="edit_note(event, this)">
                         <i class="fas fa-edit"></i>
                     </a>
@@ -34,9 +34,9 @@
                         <div id="comment_{{comment.id}}" comment_id="{{comment.id}}" class="indent{{comment.indentLevel}} comment" onmouseenter="showMenu(this)" onmouseleave="hideMenu(this)">
                         <!-- Comment Menu -->
                         <span class="comment_menu">[ <i class="fas fa-outdent"></i> | <i class="fas fa-indent"></i> 
-                            <label class="tooltip"><i class="far fa-copyright" onclick="copyToClipboard(this)"></i>
+                            <label class="tooltip"><i class="fas fa-copy" onclick="copyToClipboard(this)"></i>
                                 <input type="checkbox"><span>copied</span></label> 
-                            <i class="fas fa-user-edit" onclick="toggleEdit({{comment.id}})"></i>
+                            <i class="fas fa-edit" onclick="toggleEdit({{comment.id}})"></i>
                             <i class="fas fa-list-ul" onclick="toggleBullet('{{comment.bullet}}', this)"></i>
                             <i class="fas fa-trash" onclick="del_comment({{comment.id}})"></i> ]
                         </span>
@@ -134,7 +134,7 @@
 
                 </div>
 
-                <form action="/notes/comment/add/{{note.id}}" method="POST" enctype="multipart/form-data" class="new_comment_form" id='{{note.id}}' draggable="true">
+                <form action="/notes/comment/add/{{note.id}}" method="POST" enctype="multipart/form-data" class="new_comment_form" id='{{note.id}}' notebook="{{note.parent.name}}" category="{{note.category.name}}" draggable="true">
                     {% csrf_token %}
                     <textarea name="content" rows="2" cols="25" class="note_textarea"></textarea>
                     <!-- Simple File Upload --><br>
