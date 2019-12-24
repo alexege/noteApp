@@ -3,6 +3,7 @@ from .models import *
 from apps.login_app.models import User
 from .forms import DocumentForm
 from django.core.files.storage import FileSystemStorage
+from django.contrib import messages
 
 def index(request):
 
@@ -655,9 +656,14 @@ def togglePrivacy(request, notebook_id):
 
 def add_category(request, category_id):
     print("add_category")
-    Category.objects.create(name=request.POST['name'], parent=Notebook.objects.get(id=category_id), created_by=User.objects.get(id=request.session['active_user']))
-    # return redirect('/notes/')
     active_user = User.objects.get(id=request.session['active_user'])
+
+    category_exists = Category.objects.filter(parent=Notebook.objects.get(id=category_id) ,name=request.POST['name'])
+    if len(category_exists) > 0:
+        print("Match found. Name not unique")
+        messages.error(request, "Category already exists!", extra_tags="category")
+    else:
+        Category.objects.create(name=request.POST['name'], parent=Notebook.objects.get(id=category_id), created_by=User.objects.get(id=request.session['active_user']))
 
     context = {
         'active_user': active_user,

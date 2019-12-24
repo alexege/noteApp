@@ -28,7 +28,6 @@
             {% endif %}
             {% endfor %}
         </ul>
-        WHERE IS THIS FORM?
         <form action="/notes/subcategory/add/{{notebook.id}}" method="POST">
             {% csrf_token %}
             <input type="text" name="name">

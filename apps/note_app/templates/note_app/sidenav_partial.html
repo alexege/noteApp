@@ -1,5 +1,16 @@
         <h1>My Notebooks</h1>
 
+        <!-- Validation Check -->
+        {% if messages %}
+        <ul>
+            {% for message in messages %}
+                {% if message.tags == 'category error' %}
+                <p{% if message.tags %} class="{{ message.tags }} validation-error"{% endif %}>{{ message }}</p>
+                {% endif %}
+            {% endfor %}
+        </ul>
+        {% endif %}
+
         <div class="notebooks" id="notebooks">
             <div class="books">
         {% for notebook in list_of_notebooks %}
