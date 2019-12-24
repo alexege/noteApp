@@ -1,16 +1,5 @@
         <h1>My Notebooks</h1>
 
-        <!-- Validation Check -->
-        {% if messages %}
-        <ul>
-            {% for message in messages %}
-                {% if message.tags == 'category error' %}
-                <p{% if message.tags %} class="{{ message.tags }} validation-error"{% endif %}>{{ message }}</p>
-                {% endif %}
-            {% endfor %}
-        </ul>
-        {% endif %}
-
         <div class="notebooks" id="notebooks">
             <div class="books">
         {% for notebook in list_of_notebooks %}
@@ -78,6 +67,29 @@
         {% endif %}
         {% endfor %}
         </div>
+
+        <!-- Validation for unique category -->
+        {% if messages %}
+        <ul>
+            {% for message in messages %}
+                {% if message.tags == 'category_exists error' %}
+                <p{% if message.tags %} class="{{ message.tags }} validation-error"{% endif %}>{{ message }}</p>
+                {% endif %}
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        <!-- Validation for unique notebook -->
+        {% if messages %}
+        <ul>
+            {% for message in messages %}
+                {% if message.tags == 'notebook_exists error' %}
+                <p{% if message.tags %} class="{{ message.tags }} validation-error"{% endif %}>{{ message }}</p>
+                {% endif %}
+            {% endfor %}
+        </ul>
+        {% endif %}
+
         <form action="/notes/notebook/add" method="POST" class="notebook_add_form">
             {% csrf_token %}
             <input type="text" name="name" id="add_notebook_input">

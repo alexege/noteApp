@@ -578,11 +578,16 @@ def outdent_comment(request, comment_id):
 
 def add_notebook(request):
     print("add_notebook")
-    notebook = Notebook.objects.create(name=request.POST['name'], created_by=User.objects.get(id=request.session['active_user']))
-    Category.objects.create(name=request.POST['name'], parent=notebook, created_by=User.objects.get(id=request.session['active_user']))
     
-    notebook.position_id = notebook.id
-    notebook.save()
+    notebook_exists = Notebook.objects.filter(name=request.POST['name'])
+    if len(notebook_exists) > 0:
+        messages.error(request, "Notebook already exists!", extra_tags="notebook_exists")
+    else:
+        notebook = Notebook.objects.create(name=request.POST['name'], created_by=User.objects.get(id=request.session['active_user']))
+        Category.objects.create(name=request.POST['name'], parent=notebook, created_by=User.objects.get(id=request.session['active_user']))
+        
+        notebook.position_id = notebook.id
+        notebook.save()
 
     active_user = User.objects.get(id=request.session['active_user'])
 
@@ -660,8 +665,7 @@ def add_category(request, category_id):
 
     category_exists = Category.objects.filter(parent=Notebook.objects.get(id=category_id) ,name=request.POST['name'])
     if len(category_exists) > 0:
-        print("Match found. Name not unique")
-        messages.error(request, "Category already exists!", extra_tags="category")
+        messages.error(request, "Category already exists!", extra_tags="category_exists")
     else:
         Category.objects.create(name=request.POST['name'], parent=Notebook.objects.get(id=category_id), created_by=User.objects.get(id=request.session['active_user']))
 
