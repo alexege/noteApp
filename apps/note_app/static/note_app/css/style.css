@@ -569,6 +569,13 @@ input:checked + .slider:before {
   border-radius: 50%;
 }
 
+.fa-question-circle {
+  color: var(--font-color);
+  background-color: transparent;
+  padding: 0.8rem;
+  font-size: 26px;
+}
+
 .settings_cog i{
  color: var(--font-color);
  background-color: transparent;
@@ -944,7 +951,7 @@ input:checked + .slider:before {
     background-color: var(--primary-color);
     background-color: #283231;
     /* color: rgba(7, 252, 215, 0.25); */
-    color: var(--primary-color);
+    color: var(--font-color);
     font-weight: bold;
     border: 1px solid var(--primary-color);
     padding: 2px 4px;
@@ -1022,7 +1029,7 @@ input:checked + .slider:before {
 
   .add_note_button:hover {
     background-color: var(--primary-color);
-    color: #283231;
+    color: var(--font-color);
   }
 
   .add_button {
@@ -1059,7 +1066,8 @@ input:checked + .slider:before {
   }
 
   .add_button:focus {
-    border: 2px solid rgba(0, 255, 0, 0.335);
+    background-color: var(--primary-color);
+    color: var(--font-color);
   }
 
   /* On the note  */

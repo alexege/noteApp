@@ -211,14 +211,40 @@
                         <button onclick="document.getElementById('settingsModal').style.display='block'" class="settings_cog"><i class="fas fa-cog"></i></button>
                     </div>
                     <div class="nav-right-item">
+                        <button onclick="document.getElementById('helpModal').style.display='block'"><i class="far fa-question-circle"></i></button>
+                    </div>
+                    <div class="nav-right-item">
                         <a href="/login/logout"><i class="fas fa-door-open"></i></a>
                     </div>
                 </div>
               </div>
 
         <div class="w3-container">
-                <div id="settingsModal" class="w3-modal">
-                  <div class="w3-modal-content w3-card-4 w3-animate-zoom settingsModal" style="max-width:600px">
+            <div id="helpModal" class="w3-modal">
+                <div class="w3-modal-content w3-card-4 w3-animate-zoom helpModal" style="max-width:600px">
+              
+                    <h1 id="modal-title">Help</h1>
+                    <p>
+                        Welcome to Slick Notes,
+                        To get started, add a new notebook on the left hand side.
+                        Once you have created a notebook, feel free to add notes to it.
+                        You can also add Categories to these notebooks which will allow you to filter based on category alone.
+                        If you wish to see all combined notes, click on "All notes"
+                        If you wish to make one of your notebooks public, click the lock/unlock icon on the right hand side.
+                        Total Notes: {{all_notes.count}}
+                    </p>
+
+                    <div class="w3-container w3-border-top w3-padding-16 w3-center helpModal">
+                        <button onclick="document.getElementById('helpModal').style.display='none'" type="button" class="w3-button w3-red">Cancel</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-container">
+            <div id="settingsModal" class="w3-modal">
+                <div class="w3-modal-content w3-card-4 w3-animate-zoom settingsModal" style="max-width:600px">
               
                     <h1 id="modal-title">Settings</h1>
                     <p>
@@ -235,9 +261,9 @@
                         <button onclick="document.getElementById('settingsModal').style.display='none'" type="button" class="w3-button w3-red">Cancel</button>
                     </div>
 
-                  </div>
                 </div>
-              </div>
+            </div>
+        </div>
 
         <div class="wrapper">
 

@@ -756,10 +756,17 @@ $(document).ready(function(){
         no();
     })
 
+    // Get the help modal
+    var helpModal = document.getElementById("helpModal");
+    $(document).on('click', function(event){
+        if(event.target == helpModal) {
+            helpModal.style.display = "none";
+        }
+    })
+
     // Get the settings modal
     var settingsModal = document.getElementById("settingsModal");
     $(document).on('click', function(event){
-        console.log("Clicking");
         if(event.target == settingsModal) {
             settingsModal.style.display = "none";
         }
