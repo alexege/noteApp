@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'note_app/css/style.css' %}">
+    <title>Profile</title>
+</head>
+<body>
+
+    <h1>
+        {{active_user.first_name}} {{active_user.last_name}}
+    </h1>
+
+
+    {{request.post.active_user}}
+    <h3>Total Public Notebooks: {{number_of_public_notebooks}}</h3>
+    <h3>Total Private Notebooks: {{number_of_private_notebooks}}</h3>
+    <h3>Total Public categories: {{number_of_categories}}</h3>
+    <h3>Total Private categories: {{number_of_categories}}</h3>
+    <h3>Total Public Notes: {{number_of_public_notes}}</h3>
+    <h3>Total Private Notes: {{number_of_private_notes}}</h3>
+    <h3>Total Public Comments: {{number_of_public_comments}}</h3>
+    <h3>Total Private Comments: {{number_of_private_comments}}</h3>
+</body>
+</html>

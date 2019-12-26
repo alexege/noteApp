@@ -259,7 +259,7 @@ $(document).on('submit', '.notebook_add_form', function(e){
             $('#mySidenav').html(serverResponse);
             
             openCloseAccordion("notebooks");
-            openCloseAccordion("public_notebooks")
+            openCloseAccordion("public_notebooks");
 
             //Give focus to category input
             $('#add_notebook_input').focus();
@@ -442,6 +442,8 @@ $(document).on('submit', '.new_note_form', function(e){
             $("#notes_component").html(serverResponse);
             
             addClickListener();
+
+            $('#add_note_input').focus();
         }
     })
 })

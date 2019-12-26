@@ -139,11 +139,11 @@
                     <textarea name="content" rows="2" cols="25" class="note_textarea"></textarea>
                     <!-- Simple File Upload --><br>
                     <input type="file" name="myfile" class="input">
-                    <select name="bullet" class="container">
+                    <!-- <select name="bullet" class="container">
                         <option value="none">none</option>
                         <option value="bullet">bullet</option>
                         <option value="number">number</option>
-                    </select>
+                    </select> -->
                     <select name="container" class="container">
                         <option value="text">Text</option>
                         <option value="code">Code</option>
@@ -170,12 +170,23 @@
                     <option value="True">public</option>
                     {% endif %}
                 </select> -->
+
+                <select name="notebook" value="{{note.parent.name}}">
+                    <option value="{{note.parent.name}}">{{note.parent.name}}</option>
+                    {% for notebook in list_of_notebooks %}
+                    {% if notebook.name != note.parent.name %}
+                    <option value="{{notebook.name}}">{{notebook.name}}</option>
+                    {% endif %}
+                    {% endfor %}
+                </select>
+
                 <select name="category" value="{{note.category.name}}">
                     <option value="{{note.category.name}}">{{note.category.name}}</option>
-                    {% if note.category != "All" %}
+                    <!-- {% if note.category != "All" %}
                     <option value="All">All</option>
-                    {% endif %}
-                    {% for category in list_of_notebooks %}
+                    {% endif %} -->
+                
+                    {% for category in list_of_categories %}
                     {% if category.name != note.category %}
                     <option value="{{category.name}}">{{category.name}}</option>
                     {% endif %}
@@ -195,7 +206,7 @@
     <h4 class="add_new_note_tag">Add a new note</h4>
     <form action="/notes/note/add/{{notebook}}" method="POST" class="new_note_form" notebook_name="{{category}}">
         {% csrf_token %}
-        <input type="text" name="title" placeholder="Title">
+        <input type="text" name="title" placeholder="Title" id="add_note_input">
         <select name="privacy">
             <option value="False">public</option>
             <option value="True">private</option>

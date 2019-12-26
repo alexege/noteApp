@@ -785,7 +785,8 @@ input:checked + .slider:before {
 .categories:hover {
   cursor: pointer;
   padding-left: 5px;
-  background-color: #09d4ef3f;
+  background-color: var(--alt-bg-color);
+  /* background-color: #09d4ef3f; */
   color: var(--font-color);
 }
 
@@ -1020,7 +1021,7 @@ input:checked + .slider:before {
   }
 
   .add_note_button:hover {
-    background-color: #07fcd7;
+    background-color: var(--primary-color);
     color: #283231;
   }
 

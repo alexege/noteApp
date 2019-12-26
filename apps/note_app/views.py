@@ -153,7 +153,8 @@ def all_notebook_categories(request, notebook_name):
     # category = Category.objects.get(name=request.session['selected_category'], parent=notebook)
     active_user = User.objects.get(id=request.session['active_user'])
 
-    all_notes = Note.objects.filter(created_by=active_user, parent=notebook).order_by('position_id')
+    # all_notes = Note.objects.filter(created_by=active_user, parent=notebook).order_by('position_id')
+    all_notes = Note.objects.filter(parent=notebook).order_by('position_id')
 
     print(request.session['selected_category'])
 
@@ -293,10 +294,14 @@ def edit_note(request, note_id):
     print("edit_note")
     note_to_edit = Note.objects.get(id=note_id)
     note_to_edit.title = request.POST['title']
+    note_to_edit.notebook = Notebook.objects.get(name=request.POST['notebook'])
     note_to_edit.category = Category.objects.get(name=request.POST['category'])
     note_to_edit.content = request.POST['content']
     # note_to_edit.privacy = request.POST['privacy']
     note_to_edit.save()
+
+    print("NoteToEdit_Notebook:", note_to_edit.notebook.name)
+    print("NoteToEdit_Category:", note_to_edit.category.name)
 
     if 'active_user' not in request.session:
         return redirect('/')
@@ -385,11 +390,11 @@ def add_comment(request, note_id, notebook, category):
             print("File provided!")
             parent = Note.objects.get(id=note_id)
             image = request.FILES['myfile']
-            Comment.objects.create(content=request.POST['content'], parent=parent, container=request.POST['container'], image=image, bullet=request.POST['bullet'])
+            Comment.objects.create(content=request.POST['content'], parent=parent, container=request.POST['container'], image=image, created_by=active_user)
         else:
             print("No file provided!")
             parent = Note.objects.get(id=note_id)
-            comment = Comment.objects.create(content=request.POST['content'], parent=parent, container=request.POST['container'], bullet=request.POST['bullet'])
+            comment = Comment.objects.create(content=request.POST['content'], parent=parent, container=request.POST['container'], created_by=active_user)
 
         context = {
             'all_notes' : all_notes,
@@ -649,7 +654,7 @@ def togglePrivacy(request, notebook_id):
         print("True")
         category.privacy = True
         category.save()
-    # return redirect('/notes/')
+
     context = {
         'active_user': active_user,
         'list_of_notebooks' : Notebook.objects.filter(created_by=active_user).order_by('position_id'),
@@ -720,3 +725,17 @@ def drag_and_drop_notebook(request, starting_notebook_id, ending_notebook_id):
     starting_notebook.save()
     ending_notebook.save()
     return HttpResponse(200)
+
+def profile(request):
+    active_user = User.objects.get(id=request.session['active_user'])
+    context = {
+        'active_user' : active_user,
+        'number_of_public_notebooks' : Notebook.objects.filter(created_by=active_user, privacy='False').count,
+        'number_of_private_notebooks' : Notebook.objects.filter(created_by=active_user, privacy='True').count,
+        'number_of_categories' : Category.objects.filter(created_by=active_user).count,
+        'number_of_public_notes' : Note.objects.filter(created_by=active_user, privacy='False').count,
+        'number_of_private_notes' : Note.objects.filter(created_by=active_user, privacy='True').count,
+        'number_of_public_comments' : Comment.objects.filter(created_by=active_user, privacy='False').count,
+        'number_of_private_comments' : Comment.objects.filter(created_by=active_user, privacy='True').count,
+    }
+    return render(request, "note_app/profile.html", context)

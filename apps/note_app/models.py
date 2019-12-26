@@ -36,6 +36,7 @@ class Comment(models.Model):
     parent = models.ForeignKey(Note, related_name="subcontents")
     privacy = models.BooleanField(default=False)
     image = models.FileField(null=True, blank=True)
+    created_by = models.ForeignKey(User, related_name="comments")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     # isCode = models.BooleanField(default=False)
