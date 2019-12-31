@@ -3,6 +3,10 @@
     padding: 0;
 }
 
+button {
+  cursor: pointer;
+}
+
 .screen {
   background-color: var(--primary-color);
   background-color: var(--bg-color);
@@ -160,6 +164,7 @@ a {
 .comment_menu i {
   margin: 0 5px;
   color: var(--font-color);
+  cursor: pointer;
 }
 
 .comment_menu i:hover {
@@ -576,16 +581,20 @@ input:checked + .slider:before {
   font-size: 26px;
 }
 
-.settings_cog i{
+.settings_cog i, .help_icon i{
  color: var(--font-color);
  background-color: transparent;
  padding: 0.8rem;
  font-size: 26px;
 }
 
-.settings_cog {
+.settings_cog, .help_icon {
  background: none;
  border: none;
+}
+
+.settings_cog i:hover, .help_icon i:hover {
+  color: var(--primary-color);
 }
 
 /* Dipslay show/none */
@@ -970,7 +979,7 @@ input:checked + .slider:before {
     background-color: var(--primary-color);
     background-color: #283231;
     /* color: rgba(7, 252, 215, 0.25); */
-    color: var(--primary-color);
+    color: var(--font-color);
     font-weight: bold;
     border: 1px solid black;
     padding: 5px;

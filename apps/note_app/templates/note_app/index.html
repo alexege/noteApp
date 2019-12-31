@@ -88,7 +88,7 @@
             </div>
             <form action="/notes/notebook/add" method="POST" class="notebook_add_form">
                 {% csrf_token %}
-                <input type="text" name="name" id="add_notebook_input">
+                <input type="text" name="name" id="add_notebook_input" placeholder="   Add new notebook...">
                 <button class="add_button">Add</button>
             </form>
             </div>
@@ -211,7 +211,7 @@
                         <button onclick="document.getElementById('settingsModal').style.display='block'" class="settings_cog"><i class="fas fa-cog"></i></button>
                     </div>
                     <div class="nav-right-item">
-                        <button onclick="document.getElementById('helpModal').style.display='block'"><i class="far fa-question-circle"></i></button>
+                        <button onclick="document.getElementById('helpModal').style.display='block'" class="help_icon"><i class="far fa-question-circle"></i></button>
                     </div>
                     <div class="nav-right-item">
                         <a href="/login/logout"><i class="fas fa-door-open"></i></a>
@@ -224,7 +224,10 @@
                 <div class="w3-modal-content w3-card-4 w3-animate-zoom helpModal" style="max-width:600px">
               
                     <h1 id="modal-title">Help</h1>
-                    <p>
+                    <p>To get started, open the sidenav to display your current notebooks.</p>
+                    <img src="{% static '/apps/note_app/static/note_app/images/help01.png' %}" alt="Navigation Arrow">
+                    <p>Clicking on a notebook will show a dropdown menu with that notebook's categories</p>
+                    <img src="/apps/note_app/static/note_app/images/help02.png" alt="navArrow">
                         Welcome to Slick Notes,
                         To get started, add a new notebook on the left hand side.
                         Once you have created a notebook, feel free to add notes to it.
