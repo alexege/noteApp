@@ -584,7 +584,7 @@ def outdent_comment(request, comment_id):
 def add_notebook(request):
     print("add_notebook")
     
-    notebook_exists = Notebook.objects.filter(name=request.POST['name'])
+    notebook_exists = Notebook.objects.filter(name=request.POST['name'], created_by=request.session['active_user'])
     if len(notebook_exists) > 0:
         messages.error(request, "Notebook already exists!", extra_tags="notebook_exists")
     else:
