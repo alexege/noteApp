@@ -90,5 +90,6 @@ def dashboard(request):
     return redirect("/notes")
 
 def logout(request):
-    del request.session['active_user']
+    request.session.clear()
+    # del request.session['active_user']
     return redirect('/')

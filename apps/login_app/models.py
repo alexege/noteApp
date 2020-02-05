@@ -42,5 +42,5 @@ class User(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     objects = UserManager()
 
-    def __repr__(self):
-        return f"{self.id} {self.first_name}"
+    # def __repr__(self):
+    #     return f"{self.id} {self.first_name}"
