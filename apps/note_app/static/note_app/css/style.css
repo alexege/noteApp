@@ -270,7 +270,7 @@ a {
   padding: 10px;
 }
 
-#title {
+.title {
   text-align: center;
   color: var(--heading-color);
   font-size: 40px;
@@ -1111,3 +1111,30 @@ input:checked + .slider:before {
   .comment:hover {
     background-color: #5c5b5b;
   }
+
+/* Admin Page */
+.admin-page {
+  color: white;
+}
+
+.admin-page td {
+  border: 1px solid white;
+  padding: 1rem;
+}
+
+.admin-page table {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.align-text-center {
+  text-align: center;
+}
+
+.center-card {
+  width: 80vw;
+  height: 80vh;
+  margin: 2rem auto;
+  background-color: rgba(56, 58, 56, 0.75);
+  padding: 2rem;
+}

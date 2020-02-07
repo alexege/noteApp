@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% load static %}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'note_app/css/style.css' %}">
+    <title>Document</title>
+</head>
+<body>
+    <div class="admin-page">
+
+    <div class="center-card align-text-center">
+    
+    <h1 class="title">Admin Overview Page</h1>
+
+    <table>
+        <tr>
+            <th>Notebooks</th>
+        </tr>
+        {% for notebook in all_notebooks %}
+        <tr>
+            <td>
+                {{notebook.name}}
+            </td>
+            {% endfor %}
+        </tr>
+    </table>
+
+    <table>
+        <tr>
+            <th>Categories</th>
+        </tr>
+        {% for category in all_categories %}
+        <tr>
+            <td>
+                {{category.name}}
+            </td>
+            {% endfor %}
+        </tr>
+    </table>
+    
+    <table>
+        <tr>
+            <th>Notes</th>
+        </tr>
+        {% for note in all_notes %}
+        <tr>
+            <td>
+                {{note.title}}
+            </td>
+            {% endfor %}
+        </tr>
+    </table>
+    </div>
+
+    </div>
+</body>
+</html>

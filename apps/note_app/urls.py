@@ -40,4 +40,7 @@ urlpatterns = [
     url(r'^all_notes/', views.all_my_notes),
     url(r'^comment/(?P<comment_id>\d+)/indent$', views.indent_comment),
     url(r'^comment/(?P<comment_id>\d+)/outdent$', views.outdent_comment),
+
+    #Admin
+    url(r'^admin/', views.admin_page)
 ]

@@ -6,7 +6,8 @@ from django.core.files.storage import FileSystemStorage
 from django.contrib import messages
 
 def index(request):
-
+    
+    #Redirect use back to homepage if not logged in
     if 'active_user' not in request.session:
         return redirect('/')
 
@@ -30,7 +31,12 @@ def index(request):
     for key, value in request.session.items():
         print('{} => {}'.format(key, value))
 
-    notebook = Notebook.objects.get(name=request.session['selected_notebook'])
+    notebooks = Notebook.objects.filter(name=request.session['selected_notebook'])
+    print("Notebooks returned :", len(notebooks))
+    if len(notebooks) > 1:
+        notebook = notebooks[0]
+    else:
+        notebook = Notebook.objects.get(name=request.session['selected_notebook'])
     category = Category.objects.get(name=request.session['selected_category'], parent=notebook)
 
     print("Notebook:", notebook.name)
@@ -739,3 +745,11 @@ def profile(request):
         'number_of_private_comments' : Comment.objects.filter(created_by=active_user, privacy='True').count,
     }
     return render(request, "note_app/profile.html", context)
+
+def admin_page(request):
+    context = {
+        'all_notebooks': Notebook.objects.all(),
+        'all_categories': Category.objects.all(),
+        'all_notes': Note.objects.all()
+    }
+    return render(request, "note_app/admin_page.html", context)
