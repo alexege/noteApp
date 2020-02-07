@@ -16,7 +16,7 @@
 
     <table>
         <tr>
-            <th>Notebooks</th>
+            <th>Notebooks: {{all_notebooks.count}}</th>
         </tr>
         {% for notebook in all_notebooks %}
         <tr>
@@ -29,7 +29,7 @@
 
     <table>
         <tr>
-            <th>Categories</th>
+            <th>Categories: {{all_categories.count}}</th>
         </tr>
         {% for category in all_categories %}
         <tr>
@@ -42,7 +42,7 @@
     
     <table>
         <tr>
-            <th>Notes</th>
+            <th>Notes: {{all_notes.count}}</th>
         </tr>
         {% for note in all_notes %}
         <tr>
